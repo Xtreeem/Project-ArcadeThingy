@@ -38,9 +38,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ContentManager.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Particle System\Particle.cs" />
+    <Compile Include="Particle System\ParticleEmitter.cs" />
+    <Compile Include="Particle System\ParticleSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
