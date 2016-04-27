@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AABBRectangle.cs" />
+    <Compile Include="Core\AABBRectangle.cs" />
     <Compile Include="Core\Character.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="Core\QuadTree\IQuadTreeElement.cs" />
@@ -47,6 +47,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Core\GameObj.cs" />
     <Compile Include="Core\MovingObj.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="Particle System\Particle.cs" />
     <Compile Include="Particle System\ParticleEmitter.cs" />
     <Compile Include="Particle System\ParticleSystem.cs" />

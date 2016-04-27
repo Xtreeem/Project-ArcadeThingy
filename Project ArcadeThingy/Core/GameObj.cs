@@ -10,17 +10,21 @@ namespace Project_ArcadeThingy
 {
     class GameObj
     {
-        public Vector2 mPos { get; protected set; } = Vector2.Zero;
-        public Texture2D mTex { get; protected set; } = null;
-        public AABBRectangle mBounds { get; protected set; } = null;
-        public Rectangle mDestRec { get; protected set; }
-        public Rectangle? mSourceRec { get; protected set; } = null;
-        public Vector2 mOrigin { get; protected set; } = Vector2.Zero;
-        public float mRot { get; protected set; } = 0.0f;
-        public Color mColor { get; protected set; } = Color.White;
-        public SpriteEffects mSpriteEffect { get; protected set; } = SpriteEffects.None;
-        public float mLayerDepth { get; protected set; } = 0.5f;
-        public bool mHasCollision { get; protected set; } = true;
+        public Vector2 Pos { get { return mPos; } }
+        protected Vector2 mPos = Vector2.Zero;
+        protected Texture2D mTex = null;
+        public AABBRectangle Bounds { get { return mBounds; } }
+        protected AABBRectangle mBounds = null;
+
+        protected Rectangle mDestRec;
+        protected Rectangle? mSourceRec = null;
+        protected Vector2 mOrigin = Vector2.Zero;
+        protected float mRot = 0.0f;
+        protected Color mColor = Color.White;
+        protected SpriteEffects mSpriteEffect = SpriteEffects.None;
+        protected float mLayerDepth = 0.5f;
+        public bool HasCollision { get { return (mBounds != null); } }
+        protected bool mHasCollision = true;
 
         public GameObj(Vector2 _Pos, Texture2D _Tex, bool _HasCollision = true) : this(_Pos, _Tex, new Vector2(_Tex.Width, _Tex.Height), _HasCollision) { }
 
@@ -29,12 +33,14 @@ namespace Project_ArcadeThingy
             mPos = _Pos;
             mTex = _Tex;
             mHasCollision = _HasCollision;
+            mDestRec = new Rectangle((int)_Pos.X, (int)_Pos.Y, (int)_Size.X, (int)_Size.Y);
             Set_Size((int)_Size.X, (int)_Size.Y);
         }
 
         public void Set_Size(int _Height, int _Width)
         {
-            mDestRec = new Rectangle((int)mPos.X, (int)mPos.Y, _Width, _Height);
+            mDestRec.Height = _Height;
+            mDestRec.Width = _Width ;
             if (mHasCollision)
                 mBounds = new AABBRectangle(mDestRec, mRot);
         }

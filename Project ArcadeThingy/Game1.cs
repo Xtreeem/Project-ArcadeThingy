@@ -8,7 +8,7 @@ namespace Project_ArcadeThingy
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GameObj Tester;
+        MovingObj Tester;
 
         public Game1()
         {
@@ -26,7 +26,7 @@ namespace Project_ArcadeThingy
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentManager.Load(Content);
-            Tester = new GameObj(new Vector2(150, 150), ContentManager.Particles[0], true);
+            Tester = new MovingObj(new Vector2(150, 150), ContentManager.Particles[0], true, true);
         }
 
         protected override void UnloadContent()
@@ -35,6 +35,7 @@ namespace Project_ArcadeThingy
 
         protected override void Update(GameTime gameTime)
         {
+            Tester.Update(gameTime);
             base.Update(gameTime);
         }
 

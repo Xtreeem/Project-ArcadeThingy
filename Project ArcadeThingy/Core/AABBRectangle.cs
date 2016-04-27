@@ -32,6 +32,13 @@ namespace Project_ArcadeThingy
             CollisionRectangle.X += theXPositionAdjustment;
             CollisionRectangle.Y += theYPositionAdjustment;
         }
+        public void Set_Position(int newX, int newY)
+        {
+            CollisionRectangle.X = newX;
+            CollisionRectangle.Y = newY;
+        }
+
+
 
         /// <summary>
         /// This intersects method can be used to check a standard XNA framework Rectangle
