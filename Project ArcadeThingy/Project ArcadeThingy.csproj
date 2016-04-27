@@ -38,14 +38,23 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AABBRectangle.cs" />
+    <Compile Include="Core\Character.cs" />
     <Compile Include="ContentManager.cs" />
+    <Compile Include="Core\QuadTree\IQuadTreeElement.cs" />
+    <Compile Include="Core\QuadTree\QuadTree.cs" />
+    <Compile Include="Core\QuadTree\QuadTreeNode.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Core\GameObj.cs" />
+    <Compile Include="Core\MovingObj.cs" />
     <Compile Include="Particle System\Particle.cs" />
     <Compile Include="Particle System\ParticleEmitter.cs" />
     <Compile Include="Particle System\ParticleSystem.cs" />
+    <Compile Include="Core\PlatformCharacter.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Core\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Core\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

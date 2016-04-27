@@ -10,7 +10,7 @@ namespace Project_ArcadeThingy
     public static class ContentManager
     {
         public static List<Texture2D> Particles { get; private set; }
-        
+        public static Texture2D Point { get; private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -18,6 +18,8 @@ namespace Project_ArcadeThingy
             Particles.Add(_Content.Load<Texture2D>("Particles\\Fire1"));
             Particles.Add(_Content.Load<Texture2D>("Particles\\Fire2"));
             Particles.Add(_Content.Load<Texture2D>("Particles\\Fire3"));
+
+            Point = _Content.Load<Texture2D>("Point");
         } 
     }
 }

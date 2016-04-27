@@ -8,6 +8,7 @@ namespace Project_ArcadeThingy
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameObj Tester;
 
         public Game1()
         {
@@ -25,6 +26,7 @@ namespace Project_ArcadeThingy
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentManager.Load(Content);
+            Tester = new GameObj(new Vector2(150, 150), ContentManager.Particles[0], true);
         }
 
         protected override void UnloadContent()
@@ -39,6 +41,9 @@ namespace Project_ArcadeThingy
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            Tester.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
