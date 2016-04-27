@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
-    class GameObj
+    public class GameObj : IQuadTreeElement
     {
+        public bool DebugFlag { get; set; } = false;
         public Vector2 Pos { get { return mPos; } }
         protected Vector2 mPos = Vector2.Zero;
         protected Texture2D mTex = null;
@@ -24,6 +25,12 @@ namespace Project_ArcadeThingy
         protected SpriteEffects mSpriteEffect = SpriteEffects.None;
         protected float mLayerDepth = 0.5f;
         public bool HasCollision { get { return (mBounds != null); } }
+
+        public AABBRectangle Hitbox
+        { get { return mBounds; } }
+
+        public QuadTreeNode<IQuadTreeElement> Node
+        { get; set; }
         protected bool mHasCollision = true;
 
         public GameObj(Vector2 _Pos, Texture2D _Tex, bool _HasCollision = true) : this(_Pos, _Tex, new Vector2(_Tex.Width, _Tex.Height), _HasCollision) { }
@@ -40,7 +47,7 @@ namespace Project_ArcadeThingy
         public void Set_Size(int _Height, int _Width)
         {
             mDestRec.Height = _Height;
-            mDestRec.Width = _Width ;
+            mDestRec.Width = _Width;
             if (mHasCollision)
                 mBounds = new AABBRectangle(mDestRec, mRot);
         }
@@ -57,5 +64,11 @@ namespace Project_ArcadeThingy
             _SB.Draw(mTex, mDestRec, mSourceRec, mColor, mRot, mOrigin, mSpriteEffect, mLayerDepth);
         }
 
+        public void DEBUG()
+        {
+            mBounds = null;
+            if (this is MovingObj)
+                (this as MovingObj).StopMove(true, true);
+        }
     }
 }

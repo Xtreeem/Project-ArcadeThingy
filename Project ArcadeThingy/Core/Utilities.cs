@@ -10,7 +10,7 @@ namespace Project_ArcadeThingy
 {
     public static class Utilities
     {
-        public const float Gravity = 0.98f;
+        public const float Gravity = 650.0f;
         public static Random Random = new Random();
         public static float NextFloat(float min, float max)
         {

@@ -12,7 +12,7 @@ namespace Project_ArcadeThingy
     {
         public bool AffectedByGravity { get; protected set; } = false;
         public bool Grounded { get; protected set; } = false;
-        protected float mGravityScale = 650.0f;
+        protected float mGravityScale = 1.0f;
         protected Vector2 mVelocity;
         private float mMaxPositiveYVelocity = 500;
         private float mMaxNegativeYVelocity = -500;
@@ -24,6 +24,8 @@ namespace Project_ArcadeThingy
 
         public void Update(GameTime _GT)
         {
+            if (InputManager.PlayerOneButtonMoveJump)
+                mVelocity.Y = -500; 
             GravitationalPull(_GT);
             Move(_GT);
             Update_Rectangles();
@@ -63,6 +65,13 @@ namespace Project_ArcadeThingy
             mVelocity.Y = MathHelper.Clamp(mVelocity.Y + t, mMaxNegativeYVelocity, mMaxPositiveYVelocity);
         }
 
+        public void StopMove(bool _X, bool _Y)
+        {
+            if (_X)
+                mVelocity.X = 0;
+            if (_Y)
+                mVelocity.Y = 0;
+        }
 
     }
 }
