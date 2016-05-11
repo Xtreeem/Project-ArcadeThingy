@@ -8,7 +8,7 @@ namespace Project_ArcadeThingy
 {
     public interface IQuadTreeElement
     {
-        AABBRectangle Hitbox { get; }
-        QuadTreeNode<IQuadTreeElement> Node { get; set; }
+        AABBRectangle QuadBox { get; }
+        QuadTreeNode<GameObj> Node { get; set; }
     }
 }

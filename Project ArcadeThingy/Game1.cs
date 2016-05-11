@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Project_ArcadeThingy
 {
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        MovingObj Tester;
+        SpriteBatch SB;
 
+        MiniGame TestGame;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -19,15 +20,21 @@ namespace Project_ArcadeThingy
 
         protected override void Initialize()
         {
+
+            this.Window.Position = new Point(-7, -40);
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
+            SB = new SpriteBatch(GraphicsDevice);
             ContentManager.Load(Content);
-            Tester = new MovingObj(new Vector2(150, 150), ContentManager.Particles[0], true, true);
-            Tester.DebugFlag = true;
+            TestGame = new MiniGame(new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         protected override void UnloadContent()
@@ -37,16 +44,17 @@ namespace Project_ArcadeThingy
         protected override void Update(GameTime gameTime)
         {
             InputManager.Update();
-            Tester.Update(gameTime);
+            TestGame.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            Tester.Draw(spriteBatch);
-            spriteBatch.End();
+            SB.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, null);
+            TestGame.Draw(SB);
+            //SB.DrawLine(Tester.LastBounds.Center, TestPlat.LastBounds.Center, 1.0f, Color.Red);
+            SB.End();
             base.Draw(gameTime);
         }
     }

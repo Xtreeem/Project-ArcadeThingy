@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FarseerPhysics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,22 @@ using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
+    public enum MovementInput
+    {
+        Left,
+        Right,
+        Up,
+        Down,
+        None
+    }
+
+
+    public enum ObjectType
+    {
+        Platform, 
+        Player
+    }
+
     public static class Utilities
     {
         public const float Gravity = 650.0f;
@@ -27,5 +44,30 @@ namespace Project_ArcadeThingy
             if (_Begin.Y > _End.Y) angle = MathHelper.TwoPi - angle;
             _SB.Draw(ContentManager.Point, r, null, _Color, angle, Vector2.Zero, SpriteEffects.None, _DepthLayer);
         }
+        public static float PixelToUnit(this float _Input)
+        {
+            return ConvertUnits.ToSimUnits(_Input);
+        }
+
+        public static float UnitToPixels(this float _Input)
+        {
+            return ConvertUnits.ToDisplayUnits(_Input);
+        }
+
+        public static Vector2 PixelsToUnits(this Vector2 _Input)
+        {
+            return ConvertUnits.ToSimUnits(_Input);
+        }
+
+        public static Vector2 UnitToPixels(this Vector2 _Input)
+        {
+            return ConvertUnits.ToDisplayUnits(_Input);
+        }
+
+        public static Point ToPoint(this Vector2 _Input)
+        {
+            return new Point((int)_Input.X, (int)_Input.Y);
+        }
+
     }
 }

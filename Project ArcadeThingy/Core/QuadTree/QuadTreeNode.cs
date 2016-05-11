@@ -105,7 +105,7 @@ namespace Project_ArcadeThingy
             // to see if they intersect.
             foreach (T item in this.Contents)
             {
-                if (queryArea.Intersects(item.Hitbox))
+                if (queryArea.Intersects(item.QuadBox))
                     results.Add(item);
             }
 
@@ -154,7 +154,7 @@ namespace Project_ArcadeThingy
         public int Insert(T item)
         {
             // if the item is not contained in this quad, there's a problem
-            if (!m_bounds.Contains(item.Hitbox))
+            if (!m_bounds.Contains(item.QuadBox))
             {
                 Trace.TraceWarning("feature is out of the bounds of this quadtree node");
                 return 0;
@@ -170,7 +170,7 @@ namespace Project_ArcadeThingy
             // this recurses into the node that is just large enough to fit this item
             foreach (QuadTreeNode<T> node in m_nodes)
             {
-                if (node.Bounds.Contains(item.Hitbox))
+                if (node.Bounds.Contains(item.QuadBox))
                 {
                     node.Insert(item);
                     return 1;
@@ -182,7 +182,7 @@ namespace Project_ArcadeThingy
             // 2) we're at the smallest subnode size allowed 
             // add the item to this node's contents.
             this.Contents.Add(item);
-            item.Node = this as QuadTreeNode<IQuadTreeElement>;
+            item.Node = (this as QuadTreeNode<GameObj>);
             return 2;
         }
 
