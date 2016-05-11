@@ -59,10 +59,18 @@ namespace Project_ArcadeThingy
         private static bool mPlayerTwoButtonSpawnThree;
         #endregion
 
+        #region Both
+        public static bool EitherJoystickUp { get { return mPlayerOneJoystickUp || mPlayerTwoJoystickUp; } }
+        public static bool EitherJoystickDown { get { return mPlayerOneJoystickDown || mPlayerTwoJoystickDown; } }
+        public static bool EitherJoystickLeft { get { return mPlayerOneJoystickLeft || mPlayerTwoJoystickLeft; } }
+        public static bool EitherJoystickRight { get { return mPlayerOneJoystickRight || mPlayerTwoJoystickRight; } }
+        #endregion
+
         private static KeyboardState mOldState, mKeyboardState;
 
         public static void Update()
         {
+            mOldState = mKeyboardState;
             mKeyboardState = Keyboard.GetState();
 
             mPlayerOneButtonMoveJump = IsKeyPressed(Keys.NumPad2);
@@ -86,20 +94,16 @@ namespace Project_ArcadeThingy
             mPlayerTwoJoystickDown = IsKeyPressed(Keys.S);
             mPlayerTwoJoystickLeft = IsKeyPressed(Keys.A);
             mPlayerTwoJoystickRight = IsKeyPressed(Keys.D);
-
-            mOldState = mKeyboardState;
         }
 
-        private static bool IsKeyClicked(Keys _Key)
+        public static bool IsKeyClicked(Keys _Key)
         {
             return (mKeyboardState.IsKeyDown(_Key) && mOldState.IsKeyUp(_Key)) ;
         }
 
-        private static bool IsKeyPressed(Keys _Key)
+        public static bool IsKeyPressed(Keys _Key)
         {
             return mKeyboardState.IsKeyDown(_Key);
         }
-
-
     }
 }

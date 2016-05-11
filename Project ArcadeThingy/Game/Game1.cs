@@ -10,18 +10,15 @@ namespace Project_ArcadeThingy
         GraphicsDeviceManager graphics;
         SpriteBatch SB;
 
-        MiniGame TestGame;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
-
         protected override void Initialize()
         {
-
-            this.Window.Position = new Point(-7, -40);
+            Window.Position = new Point(-7, -40);
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -30,21 +27,19 @@ namespace Project_ArcadeThingy
 
         protected override void LoadContent()
         {
-
-
             SB = new SpriteBatch(GraphicsDevice);
             ContentManager.Load(Content);
-            TestGame = new MiniGame(new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-        }
+            SceneManager.Initialize(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
-        protected override void UnloadContent()
-        {
+            SceneManager.AddScene(new GameScene());
         }
 
         protected override void Update(GameTime gameTime)
         {
             InputManager.Update();
-            TestGame.Update(gameTime);
+            if (!SceneManager.Update(gameTime))
+                Exit();
+
             base.Update(gameTime);
         }
 
@@ -52,8 +47,7 @@ namespace Project_ArcadeThingy
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             SB.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, null);
-            TestGame.Draw(SB);
-            //SB.DrawLine(Tester.LastBounds.Center, TestPlat.LastBounds.Center, 1.0f, Color.Red);
+            SceneManager.Draw(SB);
             SB.End();
             base.Draw(gameTime);
         }

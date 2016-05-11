@@ -42,7 +42,7 @@ namespace Project_ArcadeThingy
             Vector2 v = Vector2.Normalize(_Begin - _End);
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (_Begin.Y > _End.Y) angle = MathHelper.TwoPi - angle;
-            _SB.Draw(ContentManager.Point, r, null, _Color, angle, Vector2.Zero, SpriteEffects.None, _DepthLayer);
+            _SB.Draw(ContentManager.Dot, r, null, _Color, angle, Vector2.Zero, SpriteEffects.None, _DepthLayer);
         }
         public static float PixelToUnit(this float _Input)
         {
