@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FE9D9D8E-6B4B-42BA-9C1F-5903BA96A03B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Project_ArcadeThingy</RootNamespace>
+    <AssemblyName>Project ArcadeThingy</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Core\AnimatedTexture.cs" />
+    <Compile Include="GameObjects\Platforms\BasicPlatform.cs" />
+    <Compile Include="GameObjects\Character.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="Core\AABBRectangle.cs" />
+    <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Core\QuadTree\IQuadTreeElement.cs" />
+    <Compile Include="Core\QuadTree\QuadTree.cs" />
+    <Compile Include="Core\QuadTree\QuadTreeNode.cs" />
+    <Compile Include="Farseer\Collision\Collision.cs" />
+    <Compile Include="Farseer\Collision\Distance.cs" />
+    <Compile Include="Farseer\Collision\DynamicTree.cs" />
+    <Compile Include="Farseer\Collision\DynamicTreeBroadPhase.cs" />
+    <Compile Include="Farseer\Collision\IBroadPhase.cs" />
+    <Compile Include="Farseer\Collision\Shapes\ChainShape.cs" />
+    <Compile Include="Farseer\Collision\Shapes\CircleShape.cs" />
+    <Compile Include="Farseer\Collision\Shapes\EdgeShape.cs" />
+    <Compile Include="Farseer\Collision\Shapes\PolygonShape.cs" />
+    <Compile Include="Farseer\Collision\Shapes\Shape.cs" />
+    <Compile Include="Farseer\Collision\TimeOfImpact.cs" />
+    <Compile Include="Farseer\Common\ConvexHull\ChainHull.cs" />
+    <Compile Include="Farseer\Common\ConvexHull\GiftWrap.cs" />
+    <Compile Include="Farseer\Common\ConvexHull\Melkman.cs" />
+    <Compile Include="Farseer\Common\Curve.cs" />
+    <Compile Include="Farseer\Common\CurveKey.cs" />
+    <Compile Include="Farseer\Common\CurveKeyCollection.cs" />
+    <Compile Include="Farseer\Common\Decomposition\BayazitDecomposer.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDTDecomposer.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\DelaunayTriangle.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\AdvancingFront.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\AdvancingFrontNode.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweep.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepConstraint.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepContext.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepPointComparator.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\Sweep\PointOnEdgeException.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\ITriangulatable.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Orientation.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Polygon\Polygon.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Polygon\PolygonPoint.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Polygon\PolygonSet.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Sets\ConstrainedPointSet.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Sets\PointSet.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\TriangulationConstraint.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\TriangulationContext.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\TriangulationMode.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\TriangulationPoint.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\TriangulationUtil.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Util\FixedArray3.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Util\FixedBitArray3.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Util\PointGenerator.cs" />
+    <Compile Include="Farseer\Common\Decomposition\CDT\Util\PolygonGenerator.cs" />
+    <Compile Include="Farseer\Common\Decomposition\EarclipDecomposer.cs" />
+    <Compile Include="Farseer\Common\Decomposition\FlipcodeDecomposer.cs" />
+    <Compile Include="Farseer\Common\Decomposition\SeidelDecomposer.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Edge.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\MonotoneMountain.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Node.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Point.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\QueryGraph.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Sink.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Trapezoid.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\TrapezoidalMap.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\Triangulator.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\XNode.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Seidel\YNode.cs" />
+    <Compile Include="Farseer\Common\Decomposition\Triangulate.cs" />
+    <Compile Include="Farseer\Common\FixedArray.cs" />
+    <Compile Include="Farseer\Common\HashSet.cs" />
+    <Compile Include="Farseer\Common\LineTools.cs" />
+    <Compile Include="Farseer\Common\Math.cs" />
+    <Compile Include="Farseer\Common\MathHelper.cs" />
+    <Compile Include="Farseer\Common\Path.cs" />
+    <Compile Include="Farseer\Common\PathManager.cs" />
+    <Compile Include="Farseer\Common\PhysicsLogic\FilterData.cs" />
+    <Compile Include="Farseer\Common\PhysicsLogic\PhysicsLogic.cs" />
+    <Compile Include="Farseer\Common\PhysicsLogic\RealExplosion.cs" />
+    <Compile Include="Farseer\Common\PhysicsLogic\SimpleExplosion.cs" />
+    <Compile Include="Farseer\Common\PolygonManipulation\CuttingTools.cs" />
+    <Compile Include="Farseer\Common\PolygonManipulation\SimpleCombiner.cs" />
+    <Compile Include="Farseer\Common\PolygonManipulation\SimplifyTools.cs" />
+    <Compile Include="Farseer\Common\PolygonManipulation\YuPengClipper.cs" />
+    <Compile Include="Farseer\Common\PolygonTools.cs" />
+    <Compile Include="Farseer\Common\Serialization.cs" />
+    <Compile Include="Farseer\Common\TextureTools\MarchingSquares.cs" />
+    <Compile Include="Farseer\Common\TextureTools\Terrain.cs" />
+    <Compile Include="Farseer\Common\TextureTools\TextureConverter.cs" />
+    <Compile Include="Farseer\Common\Vertices.cs" />
+    <Compile Include="Farseer\Controllers\AbstractForceController.cs" />
+    <Compile Include="Farseer\Controllers\BuoyancyController.cs" />
+    <Compile Include="Farseer\Controllers\Controller.cs" />
+    <Compile Include="Farseer\Controllers\GravityController.cs" />
+    <Compile Include="Farseer\Controllers\SimpleWindForce.cs" />
+    <Compile Include="Farseer\Controllers\VelocityLimitController.cs" />
+    <Compile Include="Farseer\ConvertUnits.cs" />
+    <Compile Include="Farseer\DebugViewBase.cs" />
+    <Compile Include="Farseer\Dynamics\Body.cs" />
+    <Compile Include="Farseer\Dynamics\BreakableBody.cs" />
+    <Compile Include="Farseer\Dynamics\ContactManager.cs" />
+    <Compile Include="Farseer\Dynamics\Contacts\Contact.cs" />
+    <Compile Include="Farseer\Dynamics\Contacts\ContactSolver.cs" />
+    <Compile Include="Farseer\Dynamics\Fixture.cs" />
+    <Compile Include="Farseer\Dynamics\Island.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\AngleJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\DistanceJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\FixedMouseJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\FrictionJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\GearJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\Joint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\MotorJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\PrismaticJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\PulleyJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\RevoluteJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\RopeJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\WeldJoint.cs" />
+    <Compile Include="Farseer\Dynamics\Joints\WheelJoint.cs" />
+    <Compile Include="Farseer\Dynamics\TimeStep.cs" />
+    <Compile Include="Farseer\Dynamics\World.cs" />
+    <Compile Include="Farseer\Dynamics\WorldCallbacks.cs" />
+    <Compile Include="Farseer\Factories\BodyFactory.cs" />
+    <Compile Include="Farseer\Factories\FixtureFactory.cs" />
+    <Compile Include="Farseer\Factories\JointFactory.cs" />
+    <Compile Include="Farseer\Factories\LinkFactory.cs" />
+    <Compile Include="Farseer\Settings.cs" />
+    <Compile Include="Game\Game1.cs" />
+    <Compile Include="GameObjects\GameObj.cs" />
+    <Compile Include="Game\MiniGame.cs" />
+    <Compile Include="Core\InputManager.cs" />
+    <Compile Include="GameObjects\MovementPhysicsObject.cs" />
+    <Compile Include="GameObjects\MovingObj.cs" />
+    <Compile Include="Particle System\Particle.cs" />
+    <Compile Include="Particle System\ParticleEmitter.cs" />
+    <Compile Include="Particle System\ParticleSystem.cs" />
+    <Compile Include="GameObjects\Physics Object.cs" />
+    <Compile Include="GameObjects\Platforms\BasePlatform.cs" />
+    <Compile Include="PlayerController.cs" />
+    <Compile Include="Core\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Game\GameScene.cs" />
+    <Compile Include="SceneSystem\Menu\MainMenuScene.cs" />
+    <Compile Include="SceneSystem\Menu\MenuEntry.cs" />
+    <Compile Include="SceneSystem\Menu\MenuScene.cs" />
+    <Compile Include="SceneSystem\Popups\AcceptBox.cs" />
+    <Compile Include="SceneSystem\Popups\MessageBox.cs" />
+    <Compile Include="SceneSystem\Core\Scene.cs" />
+    <Compile Include="SceneSystem\Core\SceneManager.cs" />
+    <Compile Include="GameObjects\SideScrollingCharacter.cs" />
+    <Compile Include="GameObjects\SideScrollingPlayerCharacter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\PixelFont.spritefont" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
