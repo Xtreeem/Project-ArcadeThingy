@@ -20,7 +20,7 @@ namespace Project_ArcadeThingy
         protected float mDensity;
         protected Body mBody;
         protected GameObj mOwner;
-
+        public virtual float GetMotorSpeedX { get { return mBody.LinearVelocity.X.UnitToPixels(); } }
         public Body Body { get { return mBody; } }
 
         public Physics_Objetct(ref World _World, GameObj _Owner, Vector2 _Size, Vector2 _Position, Texture2D _Tex = null, BodyType _BodyType = BodyType.Static, float _Density = 1.0f)

@@ -41,6 +41,7 @@ namespace Project_ArcadeThingy
             mGameObjects.Add(new BasicPlatform(new Vector2(1920, 16), new Vector2(960, 1060), ref mWorld));
 
             mGameObjects.Add(new BasicPlatform(new Vector2(64, 16), new Vector2(50, 860), ref mWorld));
+            mGameObjects.Add(new BasicPlatform(new Vector2(64, 16), new Vector2(250, 860), ref mWorld));
             //mGameObjects.Add(new BasicPlatform(new Vector2(64, 16), new Vector2(50, 1010), ref mWorld));
             //mGameObjects.Add(new BasicPlatform(new Vector2(64, 16), new Vector2(50, 960), ref mWorld));
             //mGameObjects.Add(new BasicPlatform(new Vector2(64, 16), new Vector2(100, 955), ref mWorld));

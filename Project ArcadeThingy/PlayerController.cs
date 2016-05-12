@@ -27,14 +27,14 @@ namespace Project_ArcadeThingy
                 Vector2 FinalVelocity = Vector2.Zero;
                 if (InputManager.PlayerOneButtonMoveLeft && !InputManager.PlayerOneButtonMoveRight)
                 {
-                    mPawn.HandleMovementInput(MovementInput.Left, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.Left, 10);
                 }
                 else if (InputManager.PlayerOneButtonMoveRight && !InputManager.PlayerOneButtonMoveLeft)
                 {
-                    mPawn.HandleMovementInput(MovementInput.Right, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.Right, 10);
                 }
                 else
-                    mPawn.HandleMovementInput(MovementInput.None, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.None, 10);
                 if (InputManager.PlayerOneButtonMoveJump)
                 {
                     mPawn.TryJump(_GT);

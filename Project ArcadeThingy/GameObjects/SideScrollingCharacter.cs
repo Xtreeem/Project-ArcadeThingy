@@ -35,6 +35,7 @@ namespace Project_ArcadeThingy
         private double mJumpGraceMaxTimer = 0.05;
         private double mJumpCooldown = 1.1;
         private double mJumpCooldownTimer = 0;
+        private float mAirControllSpeed = 1.0f;
 
 
         public bool mCanIJump { get; private set; } = true;
@@ -63,6 +64,7 @@ namespace Project_ArcadeThingy
                 mJumpGraceTimer -= _GT.ElapsedGameTime.TotalSeconds;
             if (mJumpCooldownTimer > 0)
                 mJumpCooldownTimer -= _GT.ElapsedGameTime.TotalSeconds;
+            HaveIFallenOffCheck();
             SnapToGround();
             //mGroundPlatform = null;
 
@@ -76,6 +78,7 @@ namespace Project_ArcadeThingy
             tNewPos.Y += mGroundPlatform.Body.Size.Y / 2;
             tNewPos.Y -= mBody.Size.Y;
             mBody.Body.Position = tNewPos.PixelsToUnits();
+            mBody.Body.LinearVelocity = new Vector2(mBody.Body.LinearVelocity.X, 0);
 
         }
 
@@ -123,7 +126,7 @@ namespace Project_ArcadeThingy
             mBody.Body.LinearVelocity = tFinalSpeed.PixelsToUnits();
         }
 
-        public void HandleMovementInput(MovementInput _Input, float _intensity)
+        public void HandleMovementInput(GameTime _GT, MovementInput _Input, float _intensity)
         {
             switch (_Input)
             {
@@ -131,17 +134,22 @@ namespace Project_ArcadeThingy
                     mEffect = SpriteEffects.FlipHorizontally;
                     if (mCurrentState != SideCharacterState.Airbound)
                     {
-                        (mBody as MovementPhysicsObject).Accelerate(true);
+                        (mBody as MovementPhysicsObject).Accelerate(_GT, true);
                         StateCheck();
                     }
+                    else
+                        AirControll(_GT, -mAirControllSpeed);
                     break;
                 case MovementInput.Right:
                     mEffect = SpriteEffects.None;
+
+                    if (mCurrentState != SideCharacterState.Airbound)
                     {
-                        if (mCurrentState != SideCharacterState.Airbound)
-                            (mBody as MovementPhysicsObject).Accelerate(false);
+                        (mBody as MovementPhysicsObject).Accelerate(_GT, false);
                         StateCheck();
                     }
+                    else
+                        AirControll(_GT, mAirControllSpeed);
                     break;
                 case MovementInput.Up:
                     mBody.Body.ApplyLinearImpulse(new Vector2(0, _intensity));
@@ -149,7 +157,7 @@ namespace Project_ArcadeThingy
                     CheckAnimation();
                     break;
                 case MovementInput.None:
-                    (mBody as MovementPhysicsObject).DecreaseSidewaysSpeed();
+                    (mBody as MovementPhysicsObject).DecreaseSidewaysSpeed(_GT);
                     StateCheck();
                     break;
                 default:
@@ -157,17 +165,30 @@ namespace Project_ArcadeThingy
             }
         }
 
+        private void AirControll(GameTime _GT, float _intensity)
+        {
+
+            mBody.Body.ApplyLinearImpulse(new Vector2(_intensity * (float)_GT.ElapsedGameTime.TotalSeconds, 0));
+        }
+
         private void StateCheck()
         {
             if (mCurrentState == SideCharacterState.Airbound) return;
             //Console.WriteLine(mBody.Body.LinearVelocity.X.UnitToPixels().ToString());
-            if (Math.Abs(mBody.Body.LinearVelocity.X.UnitToPixels()) > 40)
+            if (Math.Abs(mBody.GetMotorSpeedX) > 40)
             {
                 SwapState(SideCharacterState.Running);
                 if (mBody.Body.LinearVelocity.X.UnitToPixels() > 0)
-                    mEffect = SpriteEffects.None;
-                else
-                    mEffect = SpriteEffects.FlipHorizontally;
+                    if (mBody.GetMotorSpeedX > 0)
+                    {
+                        Console.WriteLine("Effect set to : Right");
+                        mEffect = SpriteEffects.None;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Effect set to : Left");
+                        mEffect = SpriteEffects.FlipHorizontally;
+                    }
             }
             else
                 SwapState(SideCharacterState.Idle);
@@ -252,7 +273,7 @@ namespace Project_ArcadeThingy
 
         public void TryJump(GameTime _GT)
         {
-            Console.WriteLine(mCanIJump + " - " + mWasJumpingLastFrame + " " + mJumpTimer + " / " + mMaxJumpTime);
+            //Console.WriteLine(mCanIJump + " - " + mWasJumpingLastFrame + " " + mJumpTimer + " / " + mMaxJumpTime);
             if ((!mCanIJump) && !mWasJumpingLastFrame) return;
             if (mJumpTimer > mMaxJumpTime) return;
             if (mJumpCooldownTimer > 0) return;
@@ -261,16 +282,28 @@ namespace Project_ArcadeThingy
             mJumpTimer += _GT.ElapsedGameTime.TotalSeconds;
             if (mWasJumpingLastFrame)
             {
-                Console.WriteLine("Continous jump");
-                HandleMovementInput(MovementInput.Up, -mJumpStrengthContinous);
+                //Console.WriteLine("Continous jump");
+                HandleMovementInput(_GT, MovementInput.Up, -mJumpStrengthContinous);
             }
             else
-                HandleMovementInput(MovementInput.Up, -mJumpStrengthInitial);
-            Console.WriteLine("Pring - " + mJumpTimer);
+                HandleMovementInput(_GT, MovementInput.Up, -mJumpStrengthInitial);
+            //Console.WriteLine("Pring - " + mJumpTimer);
             mCanIJump = false;
             mWasJumpingLastFrame = true;
             mGroundPlatform = null;
         }
 
+        private void HaveIFallenOffCheck()
+        {
+            if (mGroundPlatform == null) return;
+            if (mBody.Body.Position.UnitToPixels().X > mGroundPlatform.Body.Body.Position.UnitToPixels().X + (mGroundPlatform.Body.Size.X / 2 + mBody.Size.X / 2)) { FallOffPlatform(); return; }
+            if (mBody.Body.Position.UnitToPixels().X < mGroundPlatform.Body.Body.Position.UnitToPixels().X - (mGroundPlatform.Body.Size.X / 2 + mBody.Size.X / 2)) { FallOffPlatform(); return; } 
+        }
+
+        private void FallOffPlatform()
+        {
+            Console.WriteLine("FellOff");
+                mGroundPlatform = null;
+        }
     }
 }
