@@ -8,15 +8,9 @@ using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
-    class PlayerController : Controller
+    class PlayerController : SideScrollerController
     {
-        //Jumping variables
-        private double mMaxJumpTime = 0.1;
-        private float mJumpStrengthInitial = 0.9f;
-        private float mJumpStrengthContinous = 0.1f;
-        private double mJumpTimer = 0;
-        private bool mCanIJump = true;
-        private bool mWasJumpingLastFrame = false;
+
 
         public int Index { get { return mIndex; } }
         private int mIndex;
@@ -24,26 +18,7 @@ namespace Project_ArcadeThingy
         {
         }
 
-        private void Landed()
-        {
-            mCanIJump = true;
-            mJumpTimer = mMaxJumpTime;
-        }
 
-        private void TryJump(GameTime _GT)
-        {
-            if ((!mCanIJump) && !mWasJumpingLastFrame) return;
-            if (mJumpTimer > mMaxJumpTime) return;
-
-            mJumpTimer += _GT.ElapsedGameTime.TotalSeconds;
-            if (mWasJumpingLastFrame)
-                mPawn.HandleMovementInput(MovementInput.Up, -mJumpStrengthContinous);
-            else
-                mPawn.HandleMovementInput(MovementInput.Up, -mJumpStrengthInitial);
-            Console.WriteLine("Pring - " + mJumpTimer);
-            mCanIJump = false;
-            mWasJumpingLastFrame = true;
-        }
 
         public void Update(GameTime _GT)
         {
@@ -52,20 +27,23 @@ namespace Project_ArcadeThingy
                 Vector2 FinalVelocity = Vector2.Zero;
                 if (InputManager.PlayerOneButtonMoveLeft && !InputManager.PlayerOneButtonMoveRight)
                 {
-                    mPawn.HandleMovementInput(MovementInput.Left, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.Left, 10);
                 }
                 else if (InputManager.PlayerOneButtonMoveRight && !InputManager.PlayerOneButtonMoveLeft)
                 {
-                    mPawn.HandleMovementInput(MovementInput.Right, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.Right, 10);
                 }
                 else
-                    mPawn.HandleMovementInput(MovementInput.None, 10);
+                    mPawn.HandleMovementInput(_GT,MovementInput.None, 10);
                 if (InputManager.PlayerOneButtonMoveJump)
                 {
-                    TryJump(_GT);
+                    mPawn.TryJump(_GT);
                 }
                 else
-                    mWasJumpingLastFrame = false;
+                {
+                    //Console.WriteLine("Setting was jumping to false");
+                    mPawn.mWasJumpingLastFrame = false;
+                }
             }
 
 

@@ -35,7 +35,7 @@ namespace Project_ArcadeThingy
     public class AnimatedTexture
     {
         private List<AnimationDesc> mAnimations = new List<AnimationDesc>();
-        private AnimationDesc mCurrentAnimation;
+        private AnimationDesc? mCurrentAnimation;
 
         private bool mReturning = false;
         private double mFrameTimer = 0;
@@ -46,10 +46,15 @@ namespace Project_ArcadeThingy
         public AnimatedTexture()
         {
             mSourceSheet = ContentManager.MarioSheet;
-            mAnimations.Add(new AnimationDesc(0.07, new Vector2(16, 0), 16, 16, 3, true, false));
-            SwapAnimation(0);
             SetupRectangle();
         }
+
+        public void Initialize(int _StartingAnimationIndex)
+        {
+            SwapAnimation(_StartingAnimationIndex);
+            SetupRectangle();
+        }
+
 
         public void Update(GameTime _GT)
         {
@@ -57,7 +62,8 @@ namespace Project_ArcadeThingy
         }
         public void Draw(SpriteBatch _SB, Rectangle _Destination, Color _Color, float _Rotation = 0.0f, SpriteEffects _Effect = SpriteEffects.None, float _LayerDepth = 0.5f)
         {
-            _SB.Draw(mSourceSheet, _Destination, mSourceRec, _Color, _Rotation, mCurrentAnimation.Origin, _Effect, _LayerDepth);
+            if (mCurrentAnimation == null) return;
+            _SB.Draw(mSourceSheet, _Destination, mSourceRec, _Color, _Rotation, mCurrentAnimation.Value.Origin, _Effect, _LayerDepth);
         }
 
         public void Set_FrameSize(int _Width, int _Height)
@@ -66,30 +72,37 @@ namespace Project_ArcadeThingy
             mSourceRec.Height = _Height;
         }
 
+        public void AddAnimation(AnimationDesc _Animation)
+        {
+            mAnimations.Add(_Animation);
+        }
+
         private void SetupRectangle()
         {
-            mSourceRec = new Rectangle((int)mCurrentAnimation.FirstFrameLocation.X, (int)mCurrentAnimation.FirstFrameLocation.Y, mCurrentAnimation.FrameWidth, mCurrentAnimation.FrameHeight);
+            if (mCurrentAnimation == null) return;
+            mSourceRec = new Rectangle((int)mCurrentAnimation.Value.FirstFrameLocation.X, (int)mCurrentAnimation.Value.FirstFrameLocation.Y, mCurrentAnimation.Value.FrameWidth, mCurrentAnimation.Value.FrameHeight);
         }
 
 
         private void Animate(GameTime _GT)
         {
+            if (mCurrentAnimation == null) return;
             mFrameTimer += _GT.ElapsedGameTime.TotalSeconds;
-            if (mFrameTimer < mCurrentAnimation.TimePerFrame - (mCurrentAnimation.TimePerFrame * AnimationSpeedScale)) return;
+            if (mFrameTimer < mCurrentAnimation.Value.TimePerFrame - (mCurrentAnimation.Value.TimePerFrame * AnimationSpeedScale)) return;
             else
                 mFrameTimer = 0;
 
             if (mReturning)
             {
-                if(--mFrameIndex < 0)
+                if (--mFrameIndex < 0)
                 {
                     mReturning = false;
                     mFrameIndex = 1;
                 }
             }
             else
-            if (++mFrameIndex >= mCurrentAnimation.FramesPerAnimation)
-                if (mCurrentAnimation.BoomerangAnimation)
+            if (++mFrameIndex >= mCurrentAnimation.Value.FramesPerAnimation)
+                if (mCurrentAnimation.Value.BoomerangAnimation)
                 {
                     mFrameIndex -= 2;
                     mReturning = true;
@@ -98,10 +111,10 @@ namespace Project_ArcadeThingy
 
 
 
-            if (mCurrentAnimation.VerticleAnimation)
-                mSourceRec.Y = (int)(mCurrentAnimation.FirstFrameLocation.Y + mFrameIndex * mCurrentAnimation.FrameHeight);
+            if (mCurrentAnimation.Value.VerticleAnimation)
+                mSourceRec.Y = (int)(mCurrentAnimation.Value.FirstFrameLocation.Y + mFrameIndex * mCurrentAnimation.Value.FrameHeight);
             else
-                mSourceRec.X = (int)(mCurrentAnimation.FirstFrameLocation.X + mFrameIndex * mCurrentAnimation.FrameWidth);
+                mSourceRec.X = (int)(mCurrentAnimation.Value.FirstFrameLocation.X + mFrameIndex * mCurrentAnimation.Value.FrameWidth);
         }
 
         public void SwapAnimation(int _AnimationIndex, int _StartingFrame = 0)
@@ -110,15 +123,15 @@ namespace Project_ArcadeThingy
             mCurrentAnimation = mAnimations[_AnimationIndex];
             mFrameTimer = 0;
             mFrameIndex = _StartingFrame;
-            if (mCurrentAnimation.VerticleAnimation)
+            if (mCurrentAnimation.Value.VerticleAnimation)
             {
-                mSourceRec.Y = (int)(mCurrentAnimation.FirstFrameLocation.Y + mFrameIndex * mCurrentAnimation.FrameHeight);
-                mSourceRec.X = (int)mCurrentAnimation.FirstFrameLocation.X;
+                mSourceRec.Y = (int)(mCurrentAnimation.Value.FirstFrameLocation.Y + mFrameIndex * mCurrentAnimation.Value.FrameHeight);
+                mSourceRec.X = (int)mCurrentAnimation.Value.FirstFrameLocation.X;
             }
             else
             {
-                mSourceRec.Y = (int)mCurrentAnimation.FirstFrameLocation.Y;
-                mSourceRec.X = (int)(mCurrentAnimation.FirstFrameLocation.X + mFrameIndex * mCurrentAnimation.FrameWidth);
+                mSourceRec.Y = (int)mCurrentAnimation.Value.FirstFrameLocation.Y;
+                mSourceRec.X = (int)(mCurrentAnimation.Value.FirstFrameLocation.X + mFrameIndex * mCurrentAnimation.Value.FrameWidth);
             }
 
         }

@@ -19,6 +19,15 @@ namespace Project_ArcadeThingy
         RevoluteJoint mMotor;
         float mMaxEngineSpeed = 50;
         float mMotorAcceleration = 0.5f;
+        float mMotorFallOffSpeed = 46.25f;
+
+        public override float GetMotorSpeedX
+        {
+            get
+            {
+                return mMotor.MotorSpeed.UnitToPixels();
+            }
+        }
 
         public MovementPhysicsObject(ref World _World, GameObj _Owner, Vector2 _Size, Vector2 _Position, Texture2D _Tex = null, BodyType _BodyType = BodyType.Static, float _Density = 1) : base(ref _World, _Owner, _Size, _Position, _Tex, _BodyType, _Density)
         {
@@ -29,17 +38,17 @@ namespace Project_ArcadeThingy
 
         }
 
-        internal void DecreaseSidewaysSpeed()
+        internal void DecreaseSidewaysSpeed(GameTime _GT)
         {
             if (mMotor.MotorSpeed == 0) return;
             if (mMotor.MotorSpeed > 0)
                 if (mMotor.MotorSpeed <= 0.5f) mMotor.MotorSpeed = 0;
-                else mMotor.MotorSpeed *= 0.9f;
+                else mMotor.MotorSpeed = MathHelper.Clamp(mMotor.MotorSpeed * ((mMotorFallOffSpeed * (float)_GT.ElapsedGameTime.TotalSeconds)), 0.4f, float.MaxValue);
             if (mMotor.MotorSpeed < 0)
                 if (mMotor.MotorSpeed >= -0.5f) mMotor.MotorSpeed = 0;
-                else mMotor.MotorSpeed *= 0.9f;
+                else mMotor.MotorSpeed = MathHelper.Clamp(mMotor.MotorSpeed * ((mMotorFallOffSpeed * (float)_GT.ElapsedGameTime.TotalSeconds)), -50, -0.4f);
 
-
+            Console.WriteLine(GetMotorSpeedX.ToString());
         }
 
         public override void SetUpPhysics(Vector2 _Position)
@@ -94,18 +103,18 @@ namespace Project_ArcadeThingy
             return new Rectangle((int)Position.X, (int)(Position.Y + Size.X / 2), (int)Size.X, (int)Size.Y);
         }
 
-        public void Accelerate(bool _Left)
+        public void Accelerate(GameTime _GT, bool _Left)
         {
             if (_Left)
             {
                 if (mMotor.MotorSpeed > 0)
-                    mMotor.MotorSpeed *= 0.9f;
+                    mMotor.MotorSpeed *= (mMotorFallOffSpeed * (float)_GT.ElapsedGameTime.TotalSeconds);
                 SetMotorSpeed(GetMotorSpeed - GetMotorAcceleration);
             }
             else
             {
                 if (mMotor.MotorSpeed < 0)
-                    mMotor.MotorSpeed *= 0.9f;
+                    mMotor.MotorSpeed *= (mMotorFallOffSpeed * (float)_GT.ElapsedGameTime.TotalSeconds);
                 SetMotorSpeed(GetMotorSpeed + GetMotorAcceleration);
             }
         }
