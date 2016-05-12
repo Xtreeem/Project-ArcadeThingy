@@ -25,6 +25,7 @@ namespace Project_ArcadeThingy
         protected Color mColor;
         protected Texture2D mTexture;
         protected Vector2 Size;
+        protected SpriteEffects mEffect;
 
 
         public GameObj(Vector2 _Size, Vector2 _Position,ref World _World)

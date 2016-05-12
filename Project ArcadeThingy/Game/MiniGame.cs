@@ -31,6 +31,9 @@ namespace Project_ArcadeThingy
 
         public MiniGame(Rectangle _Bounds)
         {
+            TestingTexture.AddAnimation(new AnimationDesc(0, new Vector2(0, 0), 16, 16, 1));
+            TestingTexture.Initialize(0);
+
             mBounds = _Bounds;
             mQuadTree = new QuadTree<GameObj>(new AABBRectangle(new Rectangle(mBounds.Left - QuadTreeBuffert, mBounds.Top - QuadTreeBuffert, mBounds.Width + (QuadTreeBuffert * 2), mBounds.Height + (QuadTreeBuffert * 2)), 0.0f));
             mPositionOffSet = new Vector2(mBounds.X, mBounds.Y);

@@ -30,6 +30,8 @@ namespace Project_ArcadeThingy
                 _SB.Draw(mTexture, tPos + new Vector2(i * TileSize, 0), tSourceRec, Color.White);
 
             }
+
+            _SB.DrawString(ContentManager.Font, mBody.Body.UserData.ToString(), new Vector2(150, 150), Color.Red);
         }
 
 

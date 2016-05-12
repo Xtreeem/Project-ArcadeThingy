@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
-    abstract class Controller
+    abstract class SideScrollerController
     {
-        protected Character mPawn;
+        protected SideScrollingCharacter mPawn;
 
-        public void Set_Pawn(Character _Input)
+        public void Set_Pawn(SideScrollingCharacter _Input)
         {
             mPawn = _Input;
         }
