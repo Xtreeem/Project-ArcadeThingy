@@ -19,6 +19,7 @@ namespace Project_ArcadeThingy
         public static Texture2D PlatformSheet { get; private set; }
         public static SpriteFont Font { get; private set; }
         public static string MarioFileName { get; private set; }
+        public static string LaneFileName { get; private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -37,6 +38,7 @@ namespace Project_ArcadeThingy
             Font = _Content.Load<SpriteFont>("PixelFont");
 
             MarioFileName = "MarioMap.txt";
+            LaneFileName = "LaneMap.txt";
         } 
     }
 }

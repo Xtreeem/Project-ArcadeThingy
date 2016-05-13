@@ -7,13 +7,22 @@ namespace Project_ArcadeThingy
     class Spline
     {
         public List<Vector2> Positions { get; private set; }
-        List<Vector2> mBasePositions;
+        public List<Vector2> mBasePositions { get; private set; }
         float mDensity;
         public Spline(float _Density)
         {
             mDensity = _Density;
             Positions = new List<Vector2>();
             mBasePositions = new List<Vector2>();
+        }
+
+        public void Pop()
+        {
+            if (mBasePositions.Count <= 0)
+                return;
+
+            mBasePositions.RemoveAt(mBasePositions.Count - 1);
+            UpdateSpline();
         }
 
         public void AddPosition(Vector2 _Position)
@@ -47,7 +56,7 @@ namespace Project_ArcadeThingy
         {
             Vector2 origin = new Vector2(_Texture.Width / 2 * _Scale, _Texture.Height / 2 * _Scale);
             for (int i = 0; i < Positions.Count; ++i)
-                _SB.Draw(_Texture, Positions[i], null, color, 0.0f, origin, _Scale, SpriteEffects.None, 1.0f);
+                _SB.Draw(_Texture, Positions[i], null, color, 0.0f, origin, _Scale, SpriteEffects.None, 0.5f);
         }
 
         public void DrawPositions(SpriteBatch _SB, Texture2D _Texture, Color color, float _Scale)

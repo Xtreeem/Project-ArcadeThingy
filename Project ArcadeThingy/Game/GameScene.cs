@@ -9,23 +9,28 @@ namespace Project_ArcadeThingy
     class GameScene : Scene
     {
         MiniGame TestGame;
+        MaxiGame FestGame;
+        bool mFesting = true;
         public GameScene()
         {
             TestGame = new MiniGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
-        }
-
-        public override void HandleInput()
-        {
+            FestGame = new MaxiGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
         }
 
         public override void Update(GameTime _GT)
         {
-            TestGame.Update(_GT);
+            if (mFesting)
+                FestGame.Update(_GT);
+            else
+                TestGame.Update(_GT);
         }
 
         public override void Draw(SpriteBatch _SB)
         {
-            TestGame.Draw(_SB);
+            if (mFesting)
+                FestGame.Draw(_SB);
+            else
+                TestGame.Draw(_SB);
         }
     }
 }

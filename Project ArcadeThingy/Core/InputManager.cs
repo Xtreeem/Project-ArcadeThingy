@@ -120,7 +120,7 @@ namespace Project_ArcadeThingy
             return mMouseState.LeftButton == ButtonState.Released;
         }
 
-        public static bool IsLeftButtonClicked()
+        public static bool LeftButtonClicked()
         {
             return mOldMouseState.LeftButton == ButtonState.Released && mMouseState.LeftButton == ButtonState.Pressed;
         }
