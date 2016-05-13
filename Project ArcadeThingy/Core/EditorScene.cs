@@ -1,14 +1,15 @@
 ﻿using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Project_ArcadeThingy
 {
-    // TODO: collision
+    // TODO: 
+    // -collision
     class EditorScene : Scene
     {
         int mTileSize = BasePlatform.TILE_SIZE;
@@ -22,12 +23,56 @@ namespace Project_ArcadeThingy
         Vector2 mStartPlatPos;
         ShroomType mShroomType;
         int mType;
+        StreamWriter mWriter;
+        StreamReader mReader;
+        string mShroomCode = "Shroom";
+        string mSuperCode = "Super";
 
         public EditorScene()
         {
             mShroomType = ShroomType.Yellow;
             mPlatform = new ShroomPlatform(mShroomType, new Vector2(32, 16), InputManager.MousePosition(), ref mWorld);
             mType = 0;
+        }
+
+        private string WriteVector(Vector2 _VectorToWrite) { return _VectorToWrite.X.ToString() + "," + _VectorToWrite.Y.ToString(); }
+
+        private void SaveToFile()
+        {
+            mWriter = new StreamWriter(ContentManager.MarioFileName);
+            for (int i = 0; i < mPlatforms.Count; ++i)
+            {
+                BasePlatform platform = mPlatforms[i];
+                string line = "";
+                if (platform is ShroomPlatform)
+                    line = mShroomCode + "," + (int)(platform as ShroomPlatform).Type + ",";
+                else if (platform is SuperPlatform)
+                    line = mSuperCode + "," + (platform as SuperPlatform).Type + ",";
+
+                line += WriteVector(platform.Body.Size) + ",";
+                line += WriteVector(platform.Body.Body.Position.UnitToPixels());
+
+                mWriter.WriteLine(line);
+            }
+            mWriter.Flush();
+            mWriter.Close();
+        }
+
+        int Int(string _Str) { return int.Parse(_Str); }
+
+        private void ReadFromFile()
+        {
+            mPlatforms.Clear();
+            mReader = new StreamReader(ContentManager.MarioFileName);
+            while (!mReader.EndOfStream)
+            {
+                string[] line = mReader.ReadLine().Split(',');
+                if (line[0] == mShroomCode)
+                    mPlatforms.Add(new ShroomPlatform((ShroomType)Int(line[1]), new Vector2(Int(line[2]), Int(line[3])), new Vector2(Int(line[4]), Int(line[5])), ref mWorld));
+                else
+                    mPlatforms.Add(new SuperPlatform(Int(line[1]), new Vector2(Int(line[2]), Int(line[3])), new Vector2(Int(line[4]), Int(line[5])), ref mWorld));
+            }
+            mReader.Close();
         }
 
         public override void Update(GameTime _GT)
@@ -58,7 +103,7 @@ namespace Project_ArcadeThingy
                 if (mType == 6)
                 {
                     currSize.Y = mTileSize;
-                    currPos.Y = mStartPlatPos.Y - mStartPlatPos.Y % mTileSize;
+                    currPos.Y = mStartPlatPos.Y - mStartPlatPos.Y % mTileSize + currSize.Y / 2;
                     mSoonPlatform = new ShroomPlatform(mShroomType, currSize, currPos, ref mWorld);
                 }
                 else
@@ -83,7 +128,7 @@ namespace Project_ArcadeThingy
                 mCreatingPlatform = true;
                 mPlatform = null;
             }
-            else if (InputManager.IsLeftButtonReleased())
+            if (InputManager.IsLeftButtonReleased())
             {
                 mCreatingPlatform = false;
                 mPlatforms.Add(mSoonPlatform);
@@ -95,6 +140,12 @@ namespace Project_ArcadeThingy
             }
             if (InputManager.IsKeyClicked(Keys.Space))
                 mShroomType = (mShroomType == ShroomType.GreenYellow) ? ShroomType.Yellow : mShroomType + 1;
+            if (InputManager.IsKeyClicked(Keys.S))
+                SaveToFile();
+            if (InputManager.IsKeyClicked(Keys.L))
+                ReadFromFile();
+            if (InputManager.IsKeyPressed(Keys.LeftControl) && InputManager.IsKeyClicked(Keys.Z))
+                if (mPlatforms.Count > 0) mPlatforms.RemoveAt(mPlatforms.Count - 1);
         }
 
         public override void Draw(SpriteBatch _SB)

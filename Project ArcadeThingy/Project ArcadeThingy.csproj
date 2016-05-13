@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>0162</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -40,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Core\AnimatedTexture.cs" />
     <Compile Include="Core\EditorScene.cs" />
+    <Compile Include="Core\Spline.cs" />
     <Compile Include="GameObjects\Platforms\BasicPlatform.cs" />
     <Compile Include="GameObjects\Platforms\ShroomPlatform.cs" />
     <Compile Include="GameObjects\Platforms\SuperPlatform.cs" />

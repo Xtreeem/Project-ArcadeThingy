@@ -18,6 +18,7 @@ namespace Project_ArcadeThingy
         public static Texture2D MenuBackground { get; private set; }
         public static Texture2D PlatformSheet { get; private set; }
         public static SpriteFont Font { get; private set; }
+        public static string MarioFileName { get; private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -34,6 +35,8 @@ namespace Project_ArcadeThingy
             BasicPlatform = _Content.Load<Texture2D>("BasicPlatform");
             MenuBackground = _Content.Load<Texture2D>("MenuBackground");
             Font = _Content.Load<SpriteFont>("PixelFont");
+
+            MarioFileName = "MarioMap.txt";
         } 
     }
 }

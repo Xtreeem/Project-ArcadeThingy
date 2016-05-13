@@ -36,132 +36,132 @@ using System;
 
 namespace Microsoft.Xna.Framework
 {
-    public class CurveKey : IEquatable<CurveKey>, IComparable<CurveKey>
-    {
-#region Private Fields
+//    public class CurveKey : IEquatable<CurveKey>, IComparable<CurveKey>
+//    {
+//#region Private Fields
 
-        private CurveContinuity continuity;
-        private float position;
-        private float tangentIn;
-        private float tangentOut;
-        private float value;
+//        private CurveContinuity continuity;
+//        private float position;
+//        private float tangentIn;
+//        private float tangentOut;
+//        private float value;
 
-#endregion Private Fields
+//#endregion Private Fields
 
-#region Properties
+//#region Properties
 
-        public CurveContinuity Continuity
-        {
-            get { return continuity; }
-            set { continuity = value; }
-        }
+//        public CurveContinuity Continuity
+//        {
+//            get { return continuity; }
+//            set { continuity = value; }
+//        }
 
-        public float Position
-        {
-            get { return position; }
-        }
+//        public float Position
+//        {
+//            get { return position; }
+//        }
 
-        public float TangentIn
-        {
-            get { return tangentIn; }
-            set { tangentIn = value; }
-        }
+//        public float TangentIn
+//        {
+//            get { return tangentIn; }
+//            set { tangentIn = value; }
+//        }
 
-        public float TangentOut
-        {
-            get { return tangentOut; }
-            set { tangentOut = value; }
-        }
+//        public float TangentOut
+//        {
+//            get { return tangentOut; }
+//            set { tangentOut = value; }
+//        }
 
-        public float Value
-        {
-            get { return value; }
-            set { this.value = value; }
-        }
+//        public float Value
+//        {
+//            get { return value; }
+//            set { this.value = value; }
+//        }
 
-#endregion
+//#endregion
 
-#region Constructors
+//#region Constructors
 
-        public CurveKey(float position, float value)
-            : this(position, value, 0, 0, CurveContinuity.Smooth)
-        {
-        }
+//        public CurveKey(float position, float value)
+//            : this(position, value, 0, 0, CurveContinuity.Smooth)
+//        {
+//        }
 
-        public CurveKey(float position, float value, float tangentIn, float tangentOut)
-            : this(position, value, tangentIn, tangentOut, CurveContinuity.Smooth)
-        {
-        }
+//        public CurveKey(float position, float value, float tangentIn, float tangentOut)
+//            : this(position, value, tangentIn, tangentOut, CurveContinuity.Smooth)
+//        {
+//        }
 
-        public CurveKey(float position, float value, float tangentIn, float tangentOut, CurveContinuity continuity)
-        {
-            this.position = position;
-            this.value = value;
-            this.tangentIn = tangentIn;
-            this.tangentOut = tangentOut;
-            this.continuity = continuity;
-        }
+//        public CurveKey(float position, float value, float tangentIn, float tangentOut, CurveContinuity continuity)
+//        {
+//            this.position = position;
+//            this.value = value;
+//            this.tangentIn = tangentIn;
+//            this.tangentOut = tangentOut;
+//            this.continuity = continuity;
+//        }
 
-#endregion Constructors
+//#endregion Constructors
 
-#region Public Methods
+//#region Public Methods
 
-#region IComparable<CurveKey> Members
+//#region IComparable<CurveKey> Members
 
-        public int CompareTo(CurveKey other)
-        {
-            return position.CompareTo(other.position);
-        }
+//        public int CompareTo(CurveKey other)
+//        {
+//            return position.CompareTo(other.position);
+//        }
 
-#endregion
+//#endregion
 
-#region IEquatable<CurveKey> Members
+//#region IEquatable<CurveKey> Members
 
-        public bool Equals(CurveKey other)
-        {
-            return (this == other);
-        }
+//        public bool Equals(CurveKey other)
+//        {
+//            return (this == other);
+//        }
 
-#endregion
+//#endregion
 
-        public static bool operator !=(CurveKey a, CurveKey b)
-        {
-            return !(a == b);
-        }
+//        public static bool operator !=(CurveKey a, CurveKey b)
+//        {
+//            return !(a == b);
+//        }
 
-        public static bool operator ==(CurveKey a, CurveKey b)
-        {
-            if (Equals(a, null))
-                return Equals(b, null);
+//        public static bool operator ==(CurveKey a, CurveKey b)
+//        {
+//            if (Equals(a, null))
+//                return Equals(b, null);
 
-            if (Equals(b, null))
-                return Equals(a, null);
+//            if (Equals(b, null))
+//                return Equals(a, null);
 
-            return (a.position == b.position)
-                   && (a.value == b.value)
-                   && (a.tangentIn == b.tangentIn)
-                   && (a.tangentOut == b.tangentOut)
-                   && (a.continuity == b.continuity);
-        }
+//            return (a.position == b.position)
+//                   && (a.value == b.value)
+//                   && (a.tangentIn == b.tangentIn)
+//                   && (a.tangentOut == b.tangentOut)
+//                   && (a.continuity == b.continuity);
+//        }
 
-        public CurveKey Clone()
-        {
-            return new CurveKey(position, value, tangentIn, tangentOut, continuity);
-        }
+//        public CurveKey Clone()
+//        {
+//            return new CurveKey(position, value, tangentIn, tangentOut, continuity);
+//        }
 
-        public override bool Equals(object obj)
-        {
-            return (obj is CurveKey) ? ((CurveKey) obj) == this : false;
-        }
+//        public override bool Equals(object obj)
+//        {
+//            return (obj is CurveKey) ? ((CurveKey) obj) == this : false;
+//        }
 
-        public override int GetHashCode()
-        {
-            return position.GetHashCode() ^ value.GetHashCode() ^ tangentIn.GetHashCode() ^
-                   tangentOut.GetHashCode() ^ continuity.GetHashCode();
-        }
+//        public override int GetHashCode()
+//        {
+//            return position.GetHashCode() ^ value.GetHashCode() ^ tangentIn.GetHashCode() ^
+//                   tangentOut.GetHashCode() ^ continuity.GetHashCode();
+//        }
 
-#endregion
-    }
+//#endregion
+//    }
 }
 
 #endif
