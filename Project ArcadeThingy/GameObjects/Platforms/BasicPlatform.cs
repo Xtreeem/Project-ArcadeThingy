@@ -14,6 +14,7 @@ namespace Project_ArcadeThingy
         {
             mBody.Body.BodyType = BodyType.Static;
             mBody.Set_Tex(ContentManager.BasicPlatform);
+            mTexture = ContentManager.ShroomPlatform;
         }
     }
 }

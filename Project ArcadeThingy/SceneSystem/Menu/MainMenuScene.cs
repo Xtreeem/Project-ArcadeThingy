@@ -13,12 +13,18 @@ namespace Project_ArcadeThingy
 
             Set_Desc(menuDesc);
             AddEntry("Start", Start);
+            AddEntry("Level Editor", Edit);
             AddEntry("Exit", Close);
         }
 
         private void Start()
         {
             SceneManager.AddScene(new GameScene());
+        }
+
+        private void Edit()
+        {
+            SceneManager.AddScene(new EditorScene());
         }
     }
 }

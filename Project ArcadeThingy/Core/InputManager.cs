@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,12 +67,15 @@ namespace Project_ArcadeThingy
         public static bool EitherJoystickRight { get { return mPlayerOneJoystickRight || mPlayerTwoJoystickRight; } }
         #endregion
 
-        private static KeyboardState mOldState, mKeyboardState;
+        private static KeyboardState mOldKeyboardState, mKeyboardState;
+        private static MouseState mOldMouseState, mMouseState;
 
         public static void Update()
         {
-            mOldState = mKeyboardState;
+            mOldKeyboardState = mKeyboardState;
+            mOldMouseState = mMouseState;
             mKeyboardState = Keyboard.GetState();
+            mMouseState = Mouse.GetState();
 
             mPlayerOneButtonMoveJump = IsKeyPressed(Keys.NumPad2);
             mPlayerOneButtonMoveLeft = IsKeyPressed(Keys.NumPad1);
@@ -98,12 +102,42 @@ namespace Project_ArcadeThingy
 
         public static bool IsKeyClicked(Keys _Key)
         {
-            return (mKeyboardState.IsKeyDown(_Key) && mOldState.IsKeyUp(_Key)) ;
+            return (mKeyboardState.IsKeyDown(_Key) && mOldKeyboardState.IsKeyUp(_Key)) ;
         }
 
         public static bool IsKeyPressed(Keys _Key)
         {
             return mKeyboardState.IsKeyDown(_Key);
+        }
+
+        public static bool IsLeftButtonDown()
+        {
+            return mMouseState.LeftButton == ButtonState.Pressed;
+        }
+
+        public static bool IsLeftButtonUp()
+        {
+            return mMouseState.LeftButton == ButtonState.Released;
+        }
+
+        public static bool IsLeftButtonClicked()
+        {
+            return mOldMouseState.LeftButton == ButtonState.Released && mMouseState.LeftButton == ButtonState.Pressed;
+        }
+
+        public static bool IsLeftButtonReleased()
+        {
+            return mOldMouseState.LeftButton == ButtonState.Pressed && mMouseState.LeftButton == ButtonState.Released;
+        }
+
+        public static Vector2 MousePosition()
+        {
+            return mMouseState.Position.ToVector2();
+        }
+
+        public static Point MousePoint()
+        {
+            return mMouseState.Position;
         }
     }
 }

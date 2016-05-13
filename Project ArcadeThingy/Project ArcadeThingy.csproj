@@ -39,7 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core\AnimatedTexture.cs" />
+    <Compile Include="Core\EditorScene.cs" />
     <Compile Include="GameObjects\Platforms\BasicPlatform.cs" />
+    <Compile Include="GameObjects\Platforms\ShroomPlatform.cs" />
+    <Compile Include="GameObjects\Platforms\SuperPlatform.cs" />
     <Compile Include="SideScrollerController.cs" />
     <Compile Include="Core\AABBRectangle.cs" />
     <Compile Include="Content\ContentManager.cs" />

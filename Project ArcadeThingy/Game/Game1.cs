@@ -22,6 +22,7 @@ namespace Project_ArcadeThingy
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -31,7 +32,7 @@ namespace Project_ArcadeThingy
             ContentManager.Load(Content);
             SceneManager.Initialize(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
-            SceneManager.AddScene(new GameScene());
+            SceneManager.AddScene(new MainMenuScene());
         }
 
         protected override void Update(GameTime gameTime)

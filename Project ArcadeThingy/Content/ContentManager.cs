@@ -16,6 +16,7 @@ namespace Project_ArcadeThingy
         public static Texture2D MarioSheet { get; private set; }
         public static Texture2D ShroomPlatform { get; private set; }
         public static Texture2D MenuBackground { get; private set; }
+        public static Texture2D PlatformSheet { get; private set; }
         public static SpriteFont Font { get; private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
@@ -29,10 +30,10 @@ namespace Project_ArcadeThingy
             BasicCharacter = _Content.Load<Texture2D>("BasicCharacter");
             MarioSheet = _Content.Load<Texture2D>("SpriteSheets\\MarioSheet");
             ShroomPlatform = _Content.Load<Texture2D>("Platform\\Shrooms");
+            PlatformSheet = _Content.Load<Texture2D>("Platform\\PlatformTextures16");
             BasicPlatform = _Content.Load<Texture2D>("BasicPlatform");
             MenuBackground = _Content.Load<Texture2D>("MenuBackground");
             Font = _Content.Load<SpriteFont>("PixelFont");
-
         } 
     }
 }
