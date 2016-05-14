@@ -49,7 +49,7 @@ namespace Project_ArcadeThingy
             mController.Set_Pawn(this);
 
             mBody = new MovementPhysicsObject(ref _World, this, _Size, _Position);
-            mMainTexture = new AnimatedTexture();
+            mMainTexture = new AnimatedTexture(ContentManager.MarioSheet);
             (mBody as MovementPhysicsObject).mWheel.OnCollision += mOnCollisionWheel;
             mBody.Body.OnCollision += mOnCollisionBody;
             SetupAnimations();

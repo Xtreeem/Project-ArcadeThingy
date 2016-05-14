@@ -8,13 +8,13 @@ namespace Project_ArcadeThingy
 {
     class GameScene : Scene
     {
-        MiniGame TestGame;
+        PlatformGame TestGame;
         MaxiGame FestGame;
-        bool mFesting = true;
+        bool mFesting = false;
         public GameScene()
         {
-            TestGame = new MiniGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
-            FestGame = new MaxiGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
+            TestGame = new PlatformGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
+            //FestGame = new MaxiGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
         }
 
         public override void Update(GameTime _GT)

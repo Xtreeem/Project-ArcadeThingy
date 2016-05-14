@@ -47,7 +47,8 @@ namespace Project_ArcadeThingy
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            SB.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, null);
+            //SB.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, null);
+            SB.Begin();
             SceneManager.Draw(SB);
             SB.End();
             base.Draw(gameTime);

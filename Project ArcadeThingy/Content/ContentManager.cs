@@ -24,6 +24,7 @@ namespace Project_ArcadeThingy
         public static SpriteFont Font { get; private set; }
         public static Texture2D CircleBody { get; private set; }
         public static Texture2D Castle { get; private set; }
+        public static Texture2D Platformer_Character_Smiley { get;  private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -44,9 +45,13 @@ namespace Project_ArcadeThingy
             Font = _Content.Load<SpriteFont>("PixelFont");
             CircleBody = _Content.Load<Texture2D>("CircleBody");
             Castle = _Content.Load<Texture2D>("Castle");
-
             MarioFileName = "MarioMap.txt";
             LaneFileName = "LaneMap.txt";
+
+
+
+
+            Platformer_Character_Smiley = _Content.Load<Texture2D>("Platformer\\Characters\\Smiley");
         } 
     }
 }

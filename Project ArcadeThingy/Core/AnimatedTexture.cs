@@ -43,9 +43,9 @@ namespace Project_ArcadeThingy
         private Rectangle mSourceRec;
         private Texture2D mSourceSheet;
         public double AnimationSpeedScale { get; set; }
-        public AnimatedTexture()
+        public AnimatedTexture(Texture2D _TextureSheet)
         {
-            mSourceSheet = ContentManager.MarioSheet;
+            mSourceSheet = _TextureSheet;
             SetupRectangle();
         }
 
@@ -87,6 +87,7 @@ namespace Project_ArcadeThingy
         private void Animate(GameTime _GT)
         {
             if (mCurrentAnimation == null) return;
+            if (mCurrentAnimation.Value.FramesPerAnimation <= 1) return;
             mFrameTimer += _GT.ElapsedGameTime.TotalSeconds;
             if (mFrameTimer < mCurrentAnimation.Value.TimePerFrame - (mCurrentAnimation.Value.TimePerFrame * AnimationSpeedScale)) return;
             else

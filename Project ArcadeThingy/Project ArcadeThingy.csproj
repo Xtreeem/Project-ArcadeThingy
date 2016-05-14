@@ -48,6 +48,11 @@
     <Compile Include="GameObjects\Platforms\ShroomPlatform.cs" />
     <Compile Include="GameObjects\Platforms\SuperPlatform.cs" />
     <Compile Include="Game\MaxiGame.cs" />
+    <Compile Include="Game\PlatformGame\Platform_Character.cs" />
+    <Compile Include="Game\PlatformGame\Platform_GameObj.cs" />
+    <Compile Include="Game\PlatformGame\Platform_PhysicsBody.cs" />
+    <Compile Include="Game\PlatformGame\Platform_Player.cs" />
+    <Compile Include="Game\PlatformGame\WorldTexture2D.cs" />
     <Compile Include="Game\TestPower.cs" />
     <Compile Include="SideScrollerController.cs" />
     <Compile Include="Core\AABBRectangle.cs" />
@@ -172,7 +177,7 @@
     <Compile Include="Farseer\Settings.cs" />
     <Compile Include="Game\Game1.cs" />
     <Compile Include="GameObjects\GameObj.cs" />
-    <Compile Include="Game\MiniGame.cs" />
+    <Compile Include="Game\PlatformGame\PlatformGame.cs" />
     <Compile Include="Core\InputManager.cs" />
     <Compile Include="GameObjects\MovementPhysicsObject.cs" />
     <Compile Include="GameObjects\MovingObj.cs" />
@@ -204,6 +209,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\MarioMap.txt" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
