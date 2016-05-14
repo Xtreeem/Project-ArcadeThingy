@@ -1,13 +1,9 @@
-﻿using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Joints;
+﻿using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Common;
+using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
@@ -31,6 +27,8 @@ namespace Project_ArcadeThingy
             mDensity = _Density;
             mOwner = _Owner;
             SetUpPhysics(_Position);
+
+
         }
 
         public virtual void SetUpPhysics(Vector2 _Position)
@@ -41,6 +39,14 @@ namespace Project_ArcadeThingy
             mBody.UserData = mOwner;
         }
 
+        public void SetUpCircle(Vector2 _Position)
+        {
+            mBody = BodyFactory.CreateCircle(mWorld, Size.X.PixelToUnit() / 2, mDensity, _Position.PixelsToUnits());
+            mBody.Restitution = 0.4f;
+            mBody.Friction = 0.25f;
+            mBody.UserData = mOwner;
+            mBody.BodyType = BodyType.Dynamic;
+        }
 
         public void Set_Tex(Texture2D _Input)
         {
@@ -51,8 +57,7 @@ namespace Project_ArcadeThingy
         public void Draw(SpriteBatch _SB)
         {
             if (mTex == null) return;
-            _SB.Draw(mTex, new Rectangle(mBody.Position.UnitToPixels().ToPoint(), Size.ToPoint()), null, Color.White, mBody.Rotation, mOrigin, SpriteEffects.None, 1.0f);
-
+            _SB.Draw(mTex, new Rectangle(Body.Position.UnitToPixels().ToPoint(), Size.ToPoint()), null, Color.White, Body.Rotation, mOrigin, SpriteEffects.None, 1.0f);
 
 
             //Vector2 tPos = new Vector2((mBody.Position.X.UnitToPixels()), (mBody.Position.Y.UnitToPixels()));

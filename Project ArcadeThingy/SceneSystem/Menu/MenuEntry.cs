@@ -37,6 +37,7 @@ namespace Project_ArcadeThingy
     {
         public Action BoundAction { get; set; }
         public bool IsSelected { get; set; }
+        public Vector2 Positon { get { return mPosition; } }
         Color mColor;
         string mText;
         Vector2 mPosition;
@@ -55,7 +56,7 @@ namespace Project_ArcadeThingy
             mPosition = mDesc.StartPosition;
             mScale = 1.0f;
             mRotation = 0.0f;
-            mLayerDepth = 0.0f;
+            mLayerDepth = 1.0f;
 
             Vector2 size = mDesc.Font.MeasureString(mText) * mScale;
             mOrigin = size / 2.0f;

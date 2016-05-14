@@ -8,10 +8,10 @@ namespace Project_ArcadeThingy
 {
     abstract class MenuScene : Scene
     {
-        MenuEntry mSelectedEntry { get { return mEntries[mSelectedIndex]; } }
+        protected MenuEntry mSelectedEntry { get { return mEntries[mSelectedIndex]; } }
         public EntryDesc Desc { get; private set; }
 
-        List<MenuEntry> mEntries;
+        protected List<MenuEntry> mEntries;
         int mSelectedIndex;
 
         /// <summary>

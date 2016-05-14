@@ -1,8 +1,10 @@
 ﻿using FarseerPhysics;
+using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +23,16 @@ namespace Project_ArcadeThingy
 
     public enum ObjectType
     {
-        Platform, 
+        Platform,
         Player
+    }
+
+    public enum CollisionDirection
+    {
+        Right,
+        Left,
+        Bottom,
+        Top
     }
 
     public static class Utilities
@@ -67,6 +77,25 @@ namespace Project_ArcadeThingy
         public static Point ToPoint(this Vector2 _Input)
         {
             return new Point((int)_Input.X, (int)_Input.Y);
+        }
+
+        public static CollisionDirection Direction(this Contact c)
+        {
+            Vector2 cNorm = c.Manifold.LocalNormal;
+            if (Math.Abs(cNorm.X) > Math.Abs(cNorm.Y))
+            {
+                if (cNorm.X > 0)
+                    return CollisionDirection.Right;
+                else
+                    return CollisionDirection.Left;
+            }
+            else
+            {
+                if (cNorm.Y > 0)
+                    return CollisionDirection.Bottom;
+                else
+                    return CollisionDirection.Top;
+            }
         }
 
     }

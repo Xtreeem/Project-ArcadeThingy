@@ -1,19 +1,21 @@
 ﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Project_ArcadeThingy
 {
+
     // TODO: 
     // -collision
+    // but fuck that
     class EditorScene : Scene
     {
         int mTileSize = BasePlatform.TILE_SIZE;
-        List<BasePlatform> mPlatforms = new List<BasePlatform>();
+        List<BasePlatform> mPlatforms;
         World mWorld = new World(new Vector2(0, 9.8f));
         BasePlatform mPlatform;
         BasePlatform mSoonPlatform;
@@ -23,18 +25,18 @@ namespace Project_ArcadeThingy
         Vector2 mStartPlatPos;
         ShroomType mShroomType;
         int mType;
-        StreamWriter mWriter;
-        StreamReader mReader;
-        string mShroomCode = "Shroom";
-        string mSuperCode = "Super";
         Spline mTopSpline;
         Spline mMidSpline;
         Spline mBotSpline;
         Spline mCurrSpline;
-        bool mPlacingSpline = true;
+        bool mPlacingSpline;
+        MovingObj One, Two;
+        List<TestPower> powers;
 
         public EditorScene()
         {
+            mPlacingSpline = false;
+            mPlatforms = new List<BasePlatform>();
             mShroomType = ShroomType.Yellow;
             mPlatform = new ShroomPlatform(mShroomType, new Vector2(32, 16), InputManager.MousePosition(), ref mWorld);
             mType = 0;
@@ -42,102 +44,82 @@ namespace Project_ArcadeThingy
             mMidSpline = new Spline(1.0f);
             mBotSpline = new Spline(1.0f);
             mCurrSpline = mTopSpline;
+
+            ReadFromFile();
+
+            One = new MovingObj(new Vector2(25, 25), new Vector2(100, 100), ref mWorld);
+            Two = new MovingObj(new Vector2(50, 50), new Vector2(300, 100), ref mWorld);
+            One.Body.Set_Tex(ContentManager.CircleBody);
+            Two.Body.Set_Tex(ContentManager.CircleBody);
+            mWorld.RemoveBody(One.Body.Body);
+            mWorld.RemoveBody(Two.Body.Body);
+            One.Body.SetUpCircle(new Vector2(100, 100));
+            Two.Body.SetUpCircle(new Vector2(300, 100));
+            for (int i = 0; i < One.Body.Body.FixtureList.Count; ++i)
+                One.Body.Body.FixtureList[i].UserData = One;
+
+            powers = new List<TestPower>();
+            powers.Add(new TestPower(new Vector2(50, 50), new Vector2(500, 100), ref mWorld));
+
+            One.Body.Body.OnCollision += Body_OnCollision;
         }
 
-        private string WriteVector(Vector2 _VectorToWrite) { return ((int)_VectorToWrite.X).ToString() + "," + ((int)_VectorToWrite.Y).ToString(); }
+        private bool Body_OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            if (fixtureB.UserData is TestPower)
+            {
+                int index = powers.IndexOf(fixtureB.UserData as TestPower);
+
+                powers[index].DoCollision(fixtureA.UserData as MovingObj);
+
+                mWorld.RemoveBody(powers[index].Body.Body);
+                powers.RemoveAt(index);
+
+                return false;
+            }
+            else
+                return true;
+        }
 
         private void SaveToFile()
         {
             if (mPlacingSpline)
             {
-                mWriter = new StreamWriter(ContentManager.LaneFileName);
-
-                for (int i = 0; i < mTopSpline.mBasePositions.Count; ++i)
-                    mWriter.WriteLine("top," + WriteVector(mTopSpline.mBasePositions[i]));
-                for (int i = 0; i < mMidSpline.mBasePositions.Count; ++i)
-                    mWriter.WriteLine("mid," + WriteVector(mMidSpline.mBasePositions[i]));
-                for (int i = 0; i < mBotSpline.mBasePositions.Count; ++i)
-                    mWriter.WriteLine("bot," + WriteVector(mBotSpline.mBasePositions[i]));
-
-                mWriter.Flush();
-                mWriter.Close();
-                return;
+                FileUtils.SaveSpline(FileUtils.Spline_Top, mTopSpline);
+                FileUtils.SaveSpline(FileUtils.Spline_Mid, mMidSpline);
+                FileUtils.SaveSpline(FileUtils.Spline_Bot, mBotSpline);
             }
-
-            mWriter = new StreamWriter(ContentManager.MarioFileName);
-            for (int i = 0; i < mPlatforms.Count; ++i)
-            {
-                BasePlatform platform = mPlatforms[i];
-                string line = "";
-                if (platform is ShroomPlatform)
-                    line = mShroomCode + "," + (int)(platform as ShroomPlatform).Type + ",";
-                else if (platform is SuperPlatform)
-                    line = mSuperCode + "," + (platform as SuperPlatform).Type + ",";
-
-                line += WriteVector(platform.Body.Size) + ",";
-                line += WriteVector(platform.Body.Body.Position.UnitToPixels());
-
-                mWriter.WriteLine(line);
-            }
-            mWriter.Flush();
-            mWriter.Close();
+            else
+                FileUtils.SavePlatforms(mPlatforms);
         }
-
-        int Int(string _Str) { return int.Parse(_Str); }
 
         private void ReadFromFile()
         {
-            if (mPlacingSpline)
-            {
-                mTopSpline = new Spline(1.0f);
-                mMidSpline = new Spline(1.0f);
-                mBotSpline = new Spline(1.0f);
-
-                mReader = new StreamReader(ContentManager.LaneFileName);
-                while (!mReader.EndOfStream)
-                {
-                    string[] line = mReader.ReadLine().Split(',');
-
-                    if (line[0] == "top")
-                        mTopSpline.AddPosition(new Vector2(Int(line[1]), Int(line[2])));
-                    if (line[0] == "mid")
-                        mMidSpline.AddPosition(new Vector2(Int(line[1]), Int(line[2])));
-                    if (line[0] == "bot")
-                        mBotSpline.AddPosition(new Vector2(Int(line[1]), Int(line[2])));
-                }
-
-                mReader.Close();
-                return;
-            }
-
+            //mTopSpline.Clear();
+            //mMidSpline.Clear();
+            //mBotSpline.Clear();
+            //mTopSpline.AddRange(FileUtils.GetSpline(FileUtils.Spline_Top));
+            //mMidSpline.AddRange(FileUtils.GetSpline(FileUtils.Spline_Mid));
+            //mBotSpline.AddRange(FileUtils.GetSpline(FileUtils.Spline_Bot));
             mPlatforms.Clear();
-            mReader = new StreamReader(ContentManager.MarioFileName);
-            while (!mReader.EndOfStream)
-            {
-                string[] line = mReader.ReadLine().Split(',');
-                if (line[0] == mShroomCode)
-                    mPlatforms.Add(new ShroomPlatform((ShroomType)Int(line[1]), new Vector2(Int(line[2]), Int(line[3])), new Vector2(Int(line[4]), Int(line[5])), ref mWorld));
-                else
-                    mPlatforms.Add(new SuperPlatform(Int(line[1]), new Vector2(Int(line[2]), Int(line[3])), new Vector2(Int(line[4]), Int(line[5])), ref mWorld));
-            }
-            mReader.Close();
+            mPlatforms.AddRange(FileUtils.GetPlatforms(ref mWorld));
         }
 
         public override void Update(GameTime _GT)
         {
+            mWorld.Step((float)_GT.ElapsedGameTime.TotalSeconds);
+            One.Update(_GT);
+            Two.Update(_GT);
+
+            return;
             if (mPlacingSpline)
             {
-
-
-                return;
             }
 
             float mouseX = InputManager.MousePosition().X;
             float mouseY = InputManager.MousePosition().Y;
             float snapX = (mouseX + mTileSize / 2) - mouseX % mTileSize;
             float snapY = (mouseY + mTileSize * 1.5f) - mouseY % mTileSize;
-
-            mWorld.Step((float)_GT.ElapsedGameTime.TotalSeconds);
 
             if (mPlatform != null)
             {
@@ -169,11 +151,36 @@ namespace Project_ArcadeThingy
         public override void HandleInput()
         {
             if (InputManager.IsKeyClicked(Keys.Tab))
-                mShowGrid = !mShowGrid;
+                mPlacingSpline = !mPlacingSpline;
+            //mShowGrid = !mShowGrid;
             if (InputManager.IsKeyClicked(Keys.S))
                 SaveToFile();
             if (InputManager.IsKeyClicked(Keys.L))
                 ReadFromFile();
+            if (InputManager.IsKeyPressed(Keys.A))
+            {
+                if (One.Body.Body.LinearVelocity.X > -2.5)
+                    One.Body.Body.LinearVelocity += new Vector2(-0.25f, 0.0f);
+
+                if (InputManager.IsKeyClicked(Keys.F))
+                {
+                    One.Body.Body.LinearVelocity += new Vector2(-5f, 0.0f);
+                    One.Body.Body.LinearVelocity = (new Vector2(One.Body.Body.LinearVelocity.X, 0.0f));
+                }
+            }
+            if (InputManager.IsKeyPressed(Keys.D))
+            {
+                if (One.Body.Body.LinearVelocity.X < 2.5)
+                    One.Body.Body.LinearVelocity += new Vector2(0.25f, 0.0f);
+
+                if (InputManager.IsKeyClicked(Keys.F))
+                {
+                    One.Body.Body.LinearVelocity += new Vector2(5f, 0.0f);
+                    One.Body.Body.LinearVelocity = (new Vector2(One.Body.Body.LinearVelocity.X, 0.0f));
+                }
+            }
+            if (InputManager.IsKeyClicked(Keys.W))
+                One.Body.Body.LinearVelocity = new Vector2(One.Body.Body.LinearVelocity.X, -5.0f);
 
             if (mPlacingSpline)
             {
@@ -263,18 +270,23 @@ namespace Project_ArcadeThingy
                 }
                 else
                     position = 0;
-                return;
+            }
+            else
+            {
+                for (int i = 0; i < mPlatforms.Count; ++i)
+                    mPlatforms[i].Draw(_SB);
+
+                if (mPlatform != null)
+                    mPlatform.Draw(_SB);
+
+                if (mSoonPlatform != null)
+                    mSoonPlatform.Draw(_SB);
             }
 
-            for (int i = 0; i < mPlatforms.Count; ++i)
-                mPlatforms[i].Draw(_SB);
-
-            if (mPlatform != null)
-                mPlatform.Draw(_SB);
-
-            if (mSoonPlatform != null)
-                mSoonPlatform.Draw(_SB);
-
+            One.Draw(_SB);
+            Two.Draw(_SB);
+            for (int i = 0; i < powers.Count; ++i)
+                powers[i].Draw(_SB);
 
         }
     }

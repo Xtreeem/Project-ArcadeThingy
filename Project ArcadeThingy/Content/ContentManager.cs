@@ -9,6 +9,8 @@ namespace Project_ArcadeThingy
 {
     public static class ContentManager
     {
+        public static string MarioFileName { get; private set; }
+        public static string LaneFileName { get; private set; }
         public static List<Texture2D> Particles { get; private set; }
         public static Texture2D Dot { get; private set; }
         public static Texture2D BasicCharacter { get; private set; }
@@ -16,10 +18,12 @@ namespace Project_ArcadeThingy
         public static Texture2D MarioSheet { get; private set; }
         public static Texture2D ShroomPlatform { get; private set; }
         public static Texture2D MenuBackground { get; private set; }
+        public static Texture2D LaneBackground { get; private set; }
+        public static Texture2D LaneTexture { get; private set; }
         public static Texture2D PlatformSheet { get; private set; }
         public static SpriteFont Font { get; private set; }
-        public static string MarioFileName { get; private set; }
-        public static string LaneFileName { get; private set; }
+        public static Texture2D CircleBody { get; private set; }
+        public static Texture2D Castle { get; private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -35,7 +39,11 @@ namespace Project_ArcadeThingy
             PlatformSheet = _Content.Load<Texture2D>("Platform\\PlatformTextures16");
             BasicPlatform = _Content.Load<Texture2D>("BasicPlatform");
             MenuBackground = _Content.Load<Texture2D>("MenuBackground");
+            LaneBackground = _Content.Load<Texture2D>("LaneBackground");
+            LaneTexture = _Content.Load<Texture2D>("LaneTexture");
             Font = _Content.Load<SpriteFont>("PixelFont");
+            CircleBody = _Content.Load<Texture2D>("CircleBody");
+            Castle = _Content.Load<Texture2D>("Castle");
 
             MarioFileName = "MarioMap.txt";
             LaneFileName = "LaneMap.txt";

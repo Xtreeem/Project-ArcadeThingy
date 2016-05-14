@@ -12,8 +12,8 @@ namespace Project_ArcadeThingy
     {
         Random,
         Cuteness,
-        Fire
-
+        Fire,
+        Menu
     }
 
     class ParticleSystem
@@ -57,6 +57,9 @@ namespace Project_ArcadeThingy
                     break;
                 case ParticlePreSet.Fire:
                     SetUpFire();
+                    break;
+                case ParticlePreSet.Menu:
+                    SetupMenu();
                     break;
                 default:
                     break;
@@ -122,5 +125,35 @@ namespace Project_ArcadeThingy
             mEmitters.Add(t);
         }
 
+        private void SetupMenu()
+        {
+            GenerateMenuFire(mPos);
+        }
+
+        private void GenerateMenuFire(Vector2 _Pos)
+        {
+            ParticleEmitter t = new ParticleEmitter(ContentManager.Particles, mPos);
+            t.AngleVelocityMinMax = new Vector2(-0.2f, 0.2f);
+            t.ColorRGBMin = new Vector3(0.0f, 0.0f, 0.0f);
+            t.ColorRGBMax = new Vector3(0.2f, 0.2f, 0.2f);
+            t.MinParticleLife = 1.0f;
+            t.mParticlesPerBurst = 50;
+            t.mPos = _Pos;
+            t.mTimePerBurst = 0.01f;
+            t.OpacityMin = 0.1f;
+            t.OpacityRandomMax = 0.25f;
+            t.OpacityRandomMin = 0.05f;
+            t.ParticleDepth = 0.9f;
+            t.ParticleTTLRandomMin = 0.2f;
+            t.ParticleTTLRandomMax = 1.0f;
+            t.VelocitySpanX = new Vector2(-200, 200);
+            t.VelocitySpanY = new Vector2(-25, 25);
+            t.ScaleMin = 1f;
+            t.ScaleRandomMin = 0.1f;
+            t.ScaleRandomMax = 0.3f;
+            t.MonoColor = true;
+            t.Activated = true;
+            mEmitters.Add(t);
+        }
     }
 }

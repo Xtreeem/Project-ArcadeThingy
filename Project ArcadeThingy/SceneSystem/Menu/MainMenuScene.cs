@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Project_ArcadeThingy
 {
     class MainMenuScene : MenuScene
     {
+        ParticleSystem mPSystem;
         public MainMenuScene() : base()
         {
             EntryDesc menuDesc = new EntryDesc(ContentManager.Font, new Vector2(SceneManager.Width / 2, SceneManager.Height / 2));
@@ -15,6 +16,20 @@ namespace Project_ArcadeThingy
             AddEntry("Start", Start);
             AddEntry("Level Editor", Edit);
             AddEntry("Exit", Close);
+
+            mPSystem = new ParticleSystem(ParticlePreSet.Menu, mSelectedEntry.Positon);
+        }
+
+        public override void Update(GameTime _GT)
+        {
+            mPSystem.Update(_GT, mSelectedEntry.Positon);
+            base.Update(_GT);
+        }
+
+        public override void Draw(SpriteBatch _SB)
+        {
+            mPSystem.Draw(_SB);
+            base.Draw(_SB);
         }
 
         private void Start()

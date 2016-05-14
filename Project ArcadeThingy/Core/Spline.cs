@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace Project_ArcadeThingy
 {
-    class Spline
+    public class Spline
     {
         public List<Vector2> Positions { get; private set; }
         public List<Vector2> mBasePositions { get; private set; }
         float mDensity;
-        public Spline(float _Density)
+
+        public Spline(float _Density = 1.0f)
         {
             mDensity = _Density;
             Positions = new List<Vector2>();
@@ -28,6 +29,18 @@ namespace Project_ArcadeThingy
         public void AddPosition(Vector2 _Position)
         {
             mBasePositions.Add(_Position);
+            UpdateSpline();
+        }
+
+        public void AddRange(IEnumerable<Vector2> _Collection)
+        {
+            mBasePositions.AddRange(_Collection);
+            UpdateSpline();
+        }
+
+        public void Clear()
+        {
+            mBasePositions.Clear();
             UpdateSpline();
         }
 
@@ -52,10 +65,10 @@ namespace Project_ArcadeThingy
             }
         }
 
-        public void DrawSpline(SpriteBatch _SB, Texture2D _Texture, Color color, float _Scale)
+        public void DrawSpline(SpriteBatch _SB, Texture2D _Texture, Color color, float _Scale, int _DrawEvery = 1)
         {
             Vector2 origin = new Vector2(_Texture.Width / 2 * _Scale, _Texture.Height / 2 * _Scale);
-            for (int i = 0; i < Positions.Count; ++i)
+            for (int i = 0; i < Positions.Count; i += _DrawEvery)
                 _SB.Draw(_Texture, Positions[i], null, color, 0.0f, origin, _Scale, SpriteEffects.None, 0.5f);
         }
 

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project_ArcadeThingy
 {
-    abstract class BasePlatform : MovingObj
+    public abstract class BasePlatform : MovingObj
     {
         public const int TILE_SIZE = 16;
         public BasePlatform(Vector2 _Size, Vector2 _Position, ref World _World) : base(_Size, _Position, ref _World)

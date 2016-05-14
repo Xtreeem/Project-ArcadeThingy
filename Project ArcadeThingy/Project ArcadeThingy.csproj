@@ -39,13 +39,16 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Base.cs" />
     <Compile Include="Core\AnimatedTexture.cs" />
     <Compile Include="Core\EditorScene.cs" />
+    <Compile Include="Core\FileUtils.cs" />
     <Compile Include="Core\Spline.cs" />
     <Compile Include="GameObjects\Platforms\BasicPlatform.cs" />
     <Compile Include="GameObjects\Platforms\ShroomPlatform.cs" />
     <Compile Include="GameObjects\Platforms\SuperPlatform.cs" />
     <Compile Include="Game\MaxiGame.cs" />
+    <Compile Include="Game\TestPower.cs" />
     <Compile Include="SideScrollerController.cs" />
     <Compile Include="Core\AABBRectangle.cs" />
     <Compile Include="Content\ContentManager.cs" />

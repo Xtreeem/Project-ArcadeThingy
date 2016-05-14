@@ -13,6 +13,13 @@ namespace Project_ArcadeThingy
         protected Vector2 mMaxVelocity;
         public MovingObj(Vector2 _Size, Vector2 _Position,ref World _World) : base(_Size, _Position, ref _World)
         {
+            for (int i = 0; i < mBody.Body.FixtureList.Count; ++i)
+                mBody.Body.FixtureList[i].UserData = this;
+        }
+
+        public void SetPos()
+        {
+            mBody.Body.Position = new Vector2(100, 100).PixelsToUnits();
         }
 
         public override void Update(GameTime _GT)
