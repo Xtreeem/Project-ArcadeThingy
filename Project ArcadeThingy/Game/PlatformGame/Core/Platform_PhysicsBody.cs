@@ -43,6 +43,7 @@ namespace Project_ArcadeThingy
             }
             mBody.Position = _Position.PixelsToUnits();
             mBody.OnCollision += mOnCollision;
+            mBody.UserData = _Owner;
         }
 
         private bool mOnCollision(Fixture _F1, Fixture _F2, Contact _C)
@@ -53,10 +54,15 @@ namespace Project_ArcadeThingy
             return true;
         }
 
+        public void ApplyLinearVelocity(Vector2 _Input)
+        {
+            mBody.LinearVelocity = mBody.LinearVelocity + _Input.PixelsToUnits();
+        }
+
         public Rectangle GetDrawRectangle()
         {
             if (IsCircle)
-                return new Rectangle((int)Position.X, (int)(Position.Y), (int)Radius, (int)Radius);
+                return new Rectangle((int)Position.X, (int)(Position.Y), (int)Radius * 2, (int)Radius * 2);
             else
                 return new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
         }

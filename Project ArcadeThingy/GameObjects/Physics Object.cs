@@ -1,9 +1,11 @@
 ﻿using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Project_ArcadeThingy
 {
@@ -28,7 +30,12 @@ namespace Project_ArcadeThingy
             mOwner = _Owner;
             SetUpPhysics(_Position);
 
+            mBody.OnCollision += Test;
+        }
 
+        private bool Test(Fixture _F1, Fixture _F2, Contact _C)
+        {
+            return true;
         }
 
         public virtual void SetUpPhysics(Vector2 _Position)

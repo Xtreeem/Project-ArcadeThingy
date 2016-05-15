@@ -24,7 +24,7 @@ namespace Project_ArcadeThingy
         protected SideCharacterState mCurrentState;
         protected SideCharacterState mOldState;
 
-        protected SideScrollerController mController;
+        protected Platform_Controller mController;
 
         //Jumping variables
         private double mMaxJumpTime = 0.1;
@@ -43,10 +43,10 @@ namespace Project_ArcadeThingy
 
         private BasePlatform mGroundPlatform = null;
 
-        public SideScrollingCharacter(Vector2 _Size, Vector2 _Position, ref World _World, SideScrollerController _Controller) : base(_Size, _Position, ref _World)
+        public SideScrollingCharacter(Vector2 _Size, Vector2 _Position, ref World _World, Platform_Controller _Controller) : base(_Size, _Position, ref _World)
         {
             mController = _Controller;
-            mController.Set_Pawn(this);
+            //mController.Set_Pawn(this);
 
             mBody = new MovementPhysicsObject(ref _World, this, _Size, _Position);
             mMainTexture = new AnimatedTexture(ContentManager.MarioSheet);

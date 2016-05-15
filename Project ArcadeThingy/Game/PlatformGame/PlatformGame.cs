@@ -18,8 +18,8 @@ namespace Project_ArcadeThingy
         AnimatedTexture TestingTexture = new AnimatedTexture(ContentManager.MarioSheet);
 
 
-        PlayerController ControllerOne = new PlayerController(1);
-        PlayerController ControllerTwo = new PlayerController(2);
+        Platform_PlayerController ControllerOne = new Platform_PlayerController(1);
+        Platform_PlayerController ControllerTwo = new Platform_PlayerController(2);
         const int QuadTreeBuffert = 50;
         Vector2 mPositionOffSet;
         public Rectangle Bounds { get { return mBounds; } }
@@ -49,7 +49,7 @@ namespace Project_ArcadeThingy
             mGameObjects.AddRange(FileUtils.GetPlatforms(ref mWorld));
             //mGameObjects.Add(new SideScrollingPlayerCharacter(new Vector2(32, 64), new Vector2(170, 00), ref mWorld, ControllerOne));
 
-            mPlatObjects.Add(new Platform_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley));
+            mPlatObjects.Add(new Platform_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerOne));
 
         }
 

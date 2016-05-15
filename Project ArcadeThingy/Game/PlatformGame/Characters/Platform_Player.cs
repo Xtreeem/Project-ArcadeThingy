@@ -12,7 +12,7 @@ namespace Project_ArcadeThingy
 {
     class Platform_Player : Platform_Character
     {
-        public Platform_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture)
+        public Platform_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture, Platform_Controller _Controller) : base(_Controller)
         {
             //Setup Texture
             mTexture = new AnimatedTexture(_Texture);
@@ -27,14 +27,6 @@ namespace Project_ArcadeThingy
         public override void Draw(SpriteBatch _SB)
         {
             mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
-        }
-
-
-
-
-        public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
-        {
-            throw new NotImplementedException();
         }
     }
 }

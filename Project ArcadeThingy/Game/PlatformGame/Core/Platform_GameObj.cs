@@ -18,6 +18,6 @@ namespace Project_ArcadeThingy
 
         public virtual void Update(GameTime _GT) { }
         public virtual void Draw(SpriteBatch _SB) { }
-        abstract public bool OnCollision(Fixture _Me, Fixture _Other, Contact _C);
+        public virtual bool OnCollision(Fixture _Me, Fixture _Other, Contact _C) { return true; }
     }
 }
