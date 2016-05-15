@@ -22,6 +22,8 @@ namespace Project_ArcadeThingy
         public Vector2 LinearVelocity { get { return mBody.LinearVelocity.UnitToPixels(); } set { mBody.LinearVelocity = value.PixelsToUnits(); } }
         public BodyType BodyType { get { return mBody.BodyType; } set { mBody.BodyType = value; } }
 
+        public bool CollisionEnabled { get { return mBody.Enabled;} set { mBody.Enabled = value; } }
+
         public PF_PhysicsBody(World _World, Vector2 _Position, Vector2 _Size, float _density, bool _Circle = false, object _Owner = null)
         {
             IsCircle = _Circle;

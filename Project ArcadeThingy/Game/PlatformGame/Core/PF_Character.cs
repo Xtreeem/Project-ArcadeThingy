@@ -74,8 +74,6 @@ namespace Project_ArcadeThingy
             UpdateTimers(_GT);
         }
 
-
-
         public override void Draw(SpriteBatch _SB)
         {
             _SB.DrawString(ContentManager.Font, mNumberOfJumpsRemaining.ToString() + " - " + mBody.LinearVelocity.X.ToString().TruncateLongString(5).PadRight(5, '_') + " , " + mBody.LinearVelocity.Y.ToString().TruncateLongString(5).PadRight(5, '_'), mBody.Position + new Vector2(-50, -100), Color.Red);
@@ -390,8 +388,10 @@ namespace Project_ArcadeThingy
             return true;
         }
 
+        protected void DropCoins(int _Amount, float _Intensity, bool _UniformVelocity = false)
+        {
 
-
+        }
 
 
         public void DEBUG(Vector2 _VectorOne, Vector2 VectorTwo, bool _Bool)

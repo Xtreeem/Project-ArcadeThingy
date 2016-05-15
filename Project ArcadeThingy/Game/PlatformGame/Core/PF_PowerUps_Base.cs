@@ -42,11 +42,11 @@ namespace Project_ArcadeThingy
 
         public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
         {
-            if (mCollisionImmunityTimer <= 0)
+            if (mCollisionImmunityTimer <= 0 && _Other.UserData is PF_Player)
             {
                 PickUpEffect(_Other.Body.UserData as PF_Character);
             }
-            return false;
+            return !(_Other.UserData is PF_Player);
         }
 
         public abstract void PickUpEffect(PF_Character _Claimant);

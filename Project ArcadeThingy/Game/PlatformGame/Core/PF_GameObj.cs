@@ -6,9 +6,12 @@ using System;
 
 namespace Project_ArcadeThingy
 {
+    public delegate void DeleteThis(PF_GameObj _Sender);
+    public delegate void CreateObject(PF_GameObj _NewObject);
     public abstract class PF_GameObj
     {
-        public event Action DeleteMe;
+        public event DeleteThis DeleteMe;
+        public event CreateObject CreatedObject;
         public PF_PhysicsBody Body { get { return mBody; } }
         protected PF_PhysicsBody mBody;
         protected AnimatedTexture mTexture;
@@ -23,7 +26,21 @@ namespace Project_ArcadeThingy
         {
             if (mTexture != null)
                 mTexture.Draw(_SB, mBody.GetDrawRectangle(), mColor);
+
         }
+
+        protected void DeleteThisObject()
+        {
+            if (DeleteMe != null)
+                DeleteMe(this);
+        }
+
+        protected void CreatedNewObject(PF_GameObj _NewObject)
+        {
+            if (CreatedObject != null)
+                CreatedObject(_NewObject);
+        }
+
         public virtual bool OnCollision(Fixture _Me, Fixture _Other, Contact _C) { return true; }
     }
 }
