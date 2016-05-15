@@ -16,6 +16,7 @@ namespace Project_ArcadeThingy
         protected PF_PhysicsBody mBody;
         protected AnimatedTexture mTexture;
         protected Color mColor = Color.White;
+        protected World mWorld;
 
         public virtual void Update(GameTime _GT)
         {
@@ -39,6 +40,30 @@ namespace Project_ArcadeThingy
         {
             if (CreatedObject != null)
                 CreatedObject(_NewObject);
+        }
+
+        protected void DropCoins(int _Amount, float _Intensity, float _Diviation, bool _UniformVelocity = false)
+        {
+            PF_PowerUps_Coin tCoin;
+            Vector2 tDirection = Vector2.Zero;
+            float tIntensity = Utilities.Random.NextFloat(_Intensity - _Diviation, _Intensity + _Diviation);
+            for (int i = 0; i < _Amount; i++)
+            {
+                tCoin = new PF_PowerUps_Coin(mWorld, mBody.Position, new Vector2(32, 32), 1.5, BodyType.Dynamic);
+                CreatedObject(tCoin);
+                if (i % 2 == 0)
+                {
+                    tDirection = (new Vector2(Utilities.Random.NextFloat(-1, 1), Utilities.Random.NextFloat(-1, 1)));
+                    tCoin.mBody.LinearVelocity = tDirection * tIntensity;
+                }
+                else
+                {
+                    tDirection.X *= -1;
+                    tCoin.mBody.LinearVelocity = tDirection * tIntensity;
+                }
+                if (!_UniformVelocity)
+                    tIntensity = Utilities.Random.NextFloat(_Intensity - _Diviation, _Intensity + _Diviation);
+            }
         }
 
         public virtual bool OnCollision(Fixture _Me, Fixture _Other, Contact _C) { return true; }

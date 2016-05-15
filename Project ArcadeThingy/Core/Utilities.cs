@@ -94,9 +94,14 @@ namespace Project_ArcadeThingy
             }
         }
 
+        public static float NextFloat(this Random _Random, float _Min, float _Max)
+        {
+            return (float)(_Random.NextDouble() * (_Max - _Min) + _Min);
+        }
+
         public static string TruncateLongString(this string _String, int _MaxLength)
         {
-             return _String.Substring(0, Math.Min(_String.Length, _MaxLength));
+            return _String.Substring(0, Math.Min(_String.Length, _MaxLength));
         }
     }
 }

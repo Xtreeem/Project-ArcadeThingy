@@ -35,9 +35,12 @@ namespace Project_ArcadeThingy
         protected Rectangle mSrcRec;
         new Texture2D mTexture;
 
-        public PF_Platform_Base(Vector2 _Position, Vector2 _Size, World _Word, Platform_Type _Type)
+        public PF_Platform_Base(Vector2 _Position, Vector2 _Size, World _World, Platform_Type _Type)
         {
-            mBody = new PF_PhysicsBody(_Word, _Position, _Size * TILE_SIZE, 0.0f, false, this);
+            mWorld = _World;
+            mBody = new PF_PhysicsBody(_World, _Position, _Size * TILE_SIZE, 0.0f, false, this);
+            mBody.CollidesWith = Category.All;
+            mBody.CollisionCategories = Category.Cat1;
             mTexture = ContentManager.PlatformSheet;
             mSrcRec = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
         }

@@ -12,7 +12,7 @@ namespace Project_ArcadeThingy
 {
     class PF_Player : PF_Character
     {
-        public PF_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture, PF_Controller _Controller) : base(_Controller)
+        public PF_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture, PF_Controller _Controller) : base(_Controller, _World)
         {
             //Setup Texture
             mTexture = new AnimatedTexture(_Texture);
@@ -22,6 +22,8 @@ namespace Project_ArcadeThingy
             //Setup Physical Body
             mBody = new PF_PhysicsBody(_World, _Position, new Vector2(_Radius, _Radius), 1.0f, true, this);
             mBody.BodyType = BodyType.Dynamic;
+            mBody.CollidesWith = Category.All;
+            mBody.CollisionCategories = Category.Cat4;
         }
     }
 }

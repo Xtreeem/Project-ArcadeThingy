@@ -1,0 +1,5 @@
+﻿Collision Categories: 
+Cat1 = Platforms
+Cat2 = PowerUps
+Cat3 = Enemies
+Cat4 = Players

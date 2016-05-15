@@ -58,8 +58,9 @@ namespace Project_ArcadeThingy
         public Platform_CharacterState State { get; protected set; } = Platform_CharacterState.Airbound;
         public PF_Platform_Base mPlatform = null;
 
-        public PF_Character(PF_Controller _Controller)
+        public PF_Character(PF_Controller _Controller, World _World)
         {
+            mWorld = _World;
             Controller = _Controller;
             Controller.SetPawn(this);
         }
@@ -388,15 +389,12 @@ namespace Project_ArcadeThingy
             return true;
         }
 
-        protected void DropCoins(int _Amount, float _Intensity, bool _UniformVelocity = false)
-        {
 
-        }
 
 
         public void DEBUG(Vector2 _VectorOne, Vector2 VectorTwo, bool _Bool)
         {
-            mBody.ApplyLinearVelocity(_VectorOne, VectorTwo);
+            DropCoins(10, 450, 250, false);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Project_ArcadeThingy
 
         public PF_PowerUps_Base(World _World, Vector2 _Position, Vector2 _Size, double _CollisionImunityTimer = 0.0f, BodyType _BodyType = BodyType.Static)
         {
+            mWorld = _World;
             mCollisionImmunityTimer = _CollisionImunityTimer;
             SetUpPhysics(_World, _Position, _Size, _BodyType);
             SetUpTexture();
@@ -37,6 +38,8 @@ namespace Project_ArcadeThingy
         {
             mBody = new PF_PhysicsBody(_World, _Position, _Size, 1, true, this);
             mBody.BodyType = _BodyType;
+            mBody.CollidesWith = Category.Cat1 | Category.Cat4;
+            mBody.CollisionCategories = Category.Cat2;
         }
         protected abstract void SetUpTexture();
 
