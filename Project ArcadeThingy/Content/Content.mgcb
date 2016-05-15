@@ -235,6 +235,42 @@
 /processorParam:TextureFormat=Color
 /build:Platformer/Characters/Smiley.png
 
+#begin Platformer/PowerUps/CoinSpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Platformer/PowerUps/CoinSpriteSheet.png
+
+#begin Platformer/Audio/Music_One.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Platformer/Audio/Music_One.wav
+
+#begin Platformer/Audio/Pickup_PowerUpOne.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Platformer/Audio/Pickup_PowerUpOne.wav
+
+#begin Platformer/Audio/Movement_Jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Platformer/Audio/Movement_Jump.wav
+
+#begin Platformer/Audio/Pickup_Coin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Platformer/Audio/Pickup_Coin.wav
+
 #begin Platformer/UI.png
 /importer:TextureImporter
 /processor:TextureProcessor

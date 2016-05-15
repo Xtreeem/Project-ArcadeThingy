@@ -28,6 +28,7 @@ namespace Project_ArcadeThingy
 
             PlatformSheet = _Content.Load<Texture2D>("Platform\\PlatformTextures16");
             Platformer_Character_Smiley = _Content.Load<Texture2D>("Platformer\\Characters\\Smiley");
+            Platformer_PowerUps_Coin = _Content.Load<Texture2D>("Platformer\\PowerUps\\CoinSpriteSheet");
         } 
     }
 }

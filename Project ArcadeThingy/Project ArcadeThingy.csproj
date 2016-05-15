@@ -54,6 +54,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\AudioManager.cs" />
     <Compile Include="Core\AnimatedTexture.cs" />
     <Compile Include="Core\EditorScene.cs" />
     <Compile Include="Core\FileUtils.cs" />

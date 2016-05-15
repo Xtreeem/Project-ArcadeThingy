@@ -44,6 +44,17 @@ namespace Project_ArcadeThingy
                 mPawn.DEBUG(new Vector2(0, 170), new Vector2(0, 750), true);
             if (!LeftInputKeyPressed && !RightInputKeyPressed)
                 mPawn.HandleInput(_GT, MovementInput.None);
+
+            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D1))
+                AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
+
+            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D2))
+                AudioManager.PlayEffect(SoundEffectName.Pickup_Coin);
+
+            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D3))
+                AudioManager.PlayEffect(SoundEffectName.Pickup_PowerUp);
+
+
         }
     }
 }
