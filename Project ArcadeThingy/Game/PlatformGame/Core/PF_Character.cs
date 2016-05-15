@@ -175,9 +175,12 @@ namespace Project_ArcadeThingy
         protected virtual void HandleInput_None(GameTime _GT)
         {
             if (mBody.LinearVelocity.X == 0) return;
+            if (State == Platform_CharacterState.Airbound) return;
 
             if (Math.Abs(mBody.LinearVelocity.X) < Math.Abs(mMovementGroundDeceleration * _GT.ElapsedGameTime.TotalSeconds))
-                mBody.LinearVelocity = new Vector2(0, mBody.LinearVelocity.Y);
+            {
+                mBody.LinearVelocity = new Vector2(0, mBody.LinearVelocity.Y); return;
+            }
             if (mBody.LinearVelocity.X > 0)
                 mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X - mMovementGroundDeceleration * (float)_GT.ElapsedGameTime.TotalSeconds, mBody.LinearVelocity.Y);
             else
@@ -352,26 +355,26 @@ namespace Project_ArcadeThingy
 
         public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
         {
-            if (_Other.UserData is PF_Platform_Base && mJumpGraceTimer <= 0)
+            if (_Other.Body.UserData is PF_Platform_Base && mJumpGraceTimer <= 0)
             {
                 switch (_C.Direction())
                 {
                     case CollisionDirection.Right:
                         mWallJumpDirection = CollisionDirection.Right;
                         mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.UserData as PF_Platform_Base);
+                        StickToWall(_Other.Body.UserData as PF_Platform_Base);
                         break;
                     case CollisionDirection.Left:
                         mWallJumpDirection = CollisionDirection.Left;
                         mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.UserData as PF_Platform_Base);
+                        StickToWall(_Other.Body.UserData as PF_Platform_Base);
                         break;
                     case CollisionDirection.Bottom:
                         break;
                     case CollisionDirection.Top:
                         {
                             Landed();
-                            mPlatform = (_Other.UserData as PF_Platform_Base);
+                            mPlatform = (_Other.Body.UserData as PF_Platform_Base);
                         }
                         break;
                     default:

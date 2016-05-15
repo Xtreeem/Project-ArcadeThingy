@@ -11,6 +11,7 @@ namespace Project_ArcadeThingy
         public static Texture2D MenuBackground { get; private set; }
         public static Texture2D PlatformSheet { get; private set; }
         public static Texture2D Platformer_Character_Smiley { get;  private set; }
+        public static Texture2D Platformer_PowerUps_Coin { get;  private set; }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {

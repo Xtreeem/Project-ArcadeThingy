@@ -20,6 +20,20 @@ namespace Project_ArcadeThingy
             mBounds = _Bounds;
 
             mPlatObjects.Add(new PF_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerOne));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(952, 1064),  new Vector2((1936/16), 2), mWorld, Platform_Type_Super.One));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(952, 8),  new Vector2((1936/16), 2), mWorld, Platform_Type_Super.One));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(14, 520),  new Vector2((2), 1064/16), mWorld, Platform_Type_Super.One));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(1904, 520),  new Vector2((2), 1064/16), mWorld, Platform_Type_Super.One));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(528, 900),  new Vector2(528/16, 3), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(1392, 900),  new Vector2(528/16, 3), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(952, 500), new Vector2(528 / 16, 3), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(1252, 750), new Vector2(528 / 16, 3), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(652, 750), new Vector2(528 / 16, 3), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(400, 400), new Vector2(384 / 16, 8), mWorld, Platform_Type_Super.Three));
+            mPlatObjects.Add(new PF_Platform_Super(new Vector2(1520, 400), new Vector2(384 / 16, 8), mWorld, Platform_Type_Super.Three));
+
+
+
         }
 
         public void Update(GameTime _GT)

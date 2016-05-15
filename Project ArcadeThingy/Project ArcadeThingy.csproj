@@ -62,6 +62,7 @@
     <Compile Include="Game\PlatformGame\Core\PF_PhysicsBody.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_Platform_Base.cs" />
     <Compile Include="Game\PlatformGame\Characters\PF_Player.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_PowerUps_Base.cs" />
     <Compile Include="Game\PlatformGame\Platforms\PF_Platform_Shroom.cs" />
     <Compile Include="Game\PlatformGame\Platforms\PF_Platform_Super.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_Controller.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Game\Game1.cs" />
     <Compile Include="Game\PlatformGame\PlatformGame.cs" />
     <Compile Include="Core\InputManager.cs" />
+    <Compile Include="Game\PlatformGame\PowerUps\PF_PowerUps_Coin.cs" />
     <Compile Include="Particle System\Particle.cs" />
     <Compile Include="Particle System\ParticleEmitter.cs" />
     <Compile Include="Particle System\ParticleSystem.cs" />
