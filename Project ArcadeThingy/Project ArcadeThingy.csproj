@@ -52,8 +52,9 @@
     <Compile Include="Game\PlatformGame\Core\Platform_GameObj.cs" />
     <Compile Include="Game\PlatformGame\Core\Platform_PhysicsBody.cs" />
     <Compile Include="Game\PlatformGame\Core\Platform_Platform_Base.cs" />
-    <Compile Include="Game\PlatformGame\Platforms\Platform_Platform_Basic.cs" />
     <Compile Include="Game\PlatformGame\Characters\Platform_Player.cs" />
+    <Compile Include="Game\PlatformGame\Platforms\Platform_Platform_Shroom.cs" />
+    <Compile Include="Game\PlatformGame\Platforms\Platform_Platform_Super.cs" />
     <Compile Include="Game\TestPower.cs" />
     <Compile Include="Game\PlatformGame\Core\Platform_Controller.cs" />
     <Compile Include="Core\AABBRectangle.cs" />
