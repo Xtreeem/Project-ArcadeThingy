@@ -4,11 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project_ArcadeThingy
 {
-    class Platform_Platform_Super : Platform_Platform_Base
+    public class PF_Platform_Super : PF_Platform_Base
     {
-        public Platform_Platform_Super(Vector2 _Position, Vector2 _Size, World _World, Platform_Type_Super _Type)
+        public Platform_Type_Super Type { get; private set; }
+        public PF_Platform_Super(Vector2 _Position, Vector2 _Size, World _World, Platform_Type_Super _Type)
             : base(_Position, _Size, _World, Platform_Type.Super)
         {
+            Type = _Type;
             switch (_Type)
             {
                 case Platform_Type_Super.Two:

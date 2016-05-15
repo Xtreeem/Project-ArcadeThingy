@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
@@ -56,20 +52,15 @@ namespace Project_ArcadeThingy
                 case ParticlePreSet.Cuteness:
                     break;
                 case ParticlePreSet.Fire:
-                    SetUpFire();
+                    GenerateSmokeEmitter(mPos);
+                    GenerateFireEmitter(mPos);
                     break;
                 case ParticlePreSet.Menu:
-                    SetupMenu();
+                    GenerateMenuFire(mPos);
                     break;
                 default:
                     break;
             }
-        }
-
-        private void SetUpFire()
-        {
-            GenerateSmokeEmitter(mPos);
-            GenerateFireEmitter(mPos);
         }
 
         private void GenerateSmokeEmitter(Vector2 _Pos)
@@ -123,11 +114,6 @@ namespace Project_ArcadeThingy
             t.MonoColor = false;
             t.Activated = true;
             mEmitters.Add(t);
-        }
-
-        private void SetupMenu()
-        {
-            GenerateMenuFire(mPos);
         }
 
         private void GenerateMenuFire(Vector2 _Pos)

@@ -2,15 +2,10 @@
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
-    class Platform_PhysicsBody
+    public class PF_PhysicsBody
     {
         public bool IsCircle { get; private set; }
 
@@ -27,7 +22,7 @@ namespace Project_ArcadeThingy
         public Vector2 LinearVelocity { get { return mBody.LinearVelocity.UnitToPixels(); } set { mBody.LinearVelocity = value.PixelsToUnits(); } }
         public BodyType BodyType { get { return mBody.BodyType; } set { mBody.BodyType = value; } }
 
-        public Platform_PhysicsBody(World _World, Vector2 _Position, Vector2 _Size, float _density, bool _Circle = false, object _Owner = null)
+        public PF_PhysicsBody(World _World, Vector2 _Position, Vector2 _Size, float _density, bool _Circle = false, object _Owner = null)
         {
             IsCircle = _Circle;
             mSize = _Size;
@@ -49,8 +44,8 @@ namespace Project_ArcadeThingy
         private bool mOnCollision(Fixture _F1, Fixture _F2, Contact _C)
         {
             if (mBody.UserData == null) return true;
-            if (_F1.UserData == mBody.UserData) return (mBody.UserData as Platform_GameObj).OnCollision(_F1, _F2, _C);
-            if (_F2.UserData == mBody.UserData) return (mBody.UserData as Platform_GameObj).OnCollision(_F2, _F1, _C);
+            if (_F1.UserData == mBody.UserData) return (mBody.UserData as PF_GameObj).OnCollision(_F1, _F2, _C);
+            if (_F2.UserData == mBody.UserData) return (mBody.UserData as PF_GameObj).OnCollision(_F2, _F1, _C);
             return true;
         }
 

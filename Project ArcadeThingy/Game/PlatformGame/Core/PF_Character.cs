@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
@@ -17,7 +13,7 @@ namespace Project_ArcadeThingy
         Stunned
     }
 
-    abstract class Platform_Character : Platform_GameObj
+    abstract class PF_Character : PF_GameObj
     {
         //Jumping
         public bool CanJump { get { return mNumberOfJumpsRemaining > 0; } }
@@ -39,7 +35,7 @@ namespace Project_ArcadeThingy
         private double mWallStickTimerMax = 2.5;
         private CollisionDirection mWallJumpDirection;
         private Vector2 mWallJumpPreviousVelocity;
-        private BasePlatform mWallJumpPlatform;
+        private PF_Platform_Base mWallJumpPlatform;
         private bool mWallStickPossible = true;
         private double mWallStickGraceTimer;
         private double mWallStickGraceTimerMax = 0.05;
@@ -58,11 +54,11 @@ namespace Project_ArcadeThingy
 
 
         //Misc
-        public Platform_Controller Controller { get; protected set; }
+        public PF_Controller Controller { get; protected set; }
         public Platform_CharacterState State { get; protected set; } = Platform_CharacterState.Airbound;
-        public BasePlatform mPlatform = null;
+        public PF_Platform_Base mPlatform = null;
 
-        public Platform_Character(Platform_Controller _Controller)
+        public PF_Character(PF_Controller _Controller)
         {
             Controller = _Controller;
             Controller.SetPawn(this);
@@ -86,10 +82,10 @@ namespace Project_ArcadeThingy
             //mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
             mTexture.Draw(_SB, mBody.GetDrawRectangle(), mCanWallJump ? Color.Red : Color.White);
             if (mPlatform != null)
-                _SB.DrawLine(mBody.Position, mPlatform.Body.Body.Position.UnitToPixels(), 1.0f, Color.Red);
+                _SB.DrawLine(mBody.Position, mPlatform.Body.Position, 1.0f, Color.Red);
 
             if (mWallJumpPlatform != null)
-                _SB.DrawLine(mBody.Position, mWallJumpPlatform.Body.Body.Position.UnitToPixels(), 1.0f, Color.Green);
+                _SB.DrawLine(mBody.Position, mWallJumpPlatform.Body.Position, 1.0f, Color.Green);
 
 
             base.Draw(_SB);
@@ -271,7 +267,7 @@ namespace Project_ArcadeThingy
 
         #region WallSticking
 
-        protected virtual void StickToWall(BasePlatform _Wall)
+        protected virtual void StickToWall(PF_Platform_Base _Wall)
         {
             if (!mWallStickPossible) return;
             mWallJumpPlatform = _Wall;
@@ -292,9 +288,9 @@ namespace Project_ArcadeThingy
                 mNumberOfJumpsRemaining = mNumberOfJumps;
 
             if (mWallJumpDirection == CollisionDirection.Right)
-                mBody.Position = new Vector2(mWallJumpPlatform.Body.Body.Position.X.UnitToPixels() + mBody.Radius + mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
+                mBody.Position = new Vector2(mWallJumpPlatform.Body.Position.X + mBody.Radius + mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
             else
-                mBody.Position = new Vector2(mWallJumpPlatform.Body.Body.Position.X.UnitToPixels() - mBody.Radius - mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
+                mBody.Position = new Vector2(mWallJumpPlatform.Body.Position.X - mBody.Radius - mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
             mBody.GravityScale = MathHelper.Clamp((float)(mWallStickTimer / mWallStickTimerMax), 0.0f, 1.0f);
 
             switch (mWallJumpDirection)
@@ -323,10 +319,10 @@ namespace Project_ArcadeThingy
         protected bool DidISlideOffCheck()
         {
             if (mWallJumpPlatform == null) return true;
-            if (mWallJumpPlatform.Body.Body.Position.UnitToPixels().Y - mWallJumpPlatform.Body.Size.Y / 2 > mBody.Position.Y)
+            if (mWallJumpPlatform.Body.Position.Y - mWallJumpPlatform.Body.Size.Y / 2 > mBody.Position.Y)
                 UnstickFromWall();
             if (mWallJumpPlatform == null) return true;
-            if (mWallJumpPlatform.Body.Body.Position.UnitToPixels().Y + mWallJumpPlatform.Body.Size.Y / 2 < mBody.Position.Y)
+            if (mWallJumpPlatform.Body.Position.Y + mWallJumpPlatform.Body.Size.Y / 2 < mBody.Position.Y)
                 UnstickFromWall();
 
             return false;
@@ -337,10 +333,10 @@ namespace Project_ArcadeThingy
         protected bool DidIFallOfCheck()
         {
             if (mPlatform == null) return true;
-            if (mPlatform.Body.Body.Position.UnitToPixels().X - mPlatform.Body.Size.X / 2 > mBody.Position.X)
+            if (mPlatform.Body.Position.X - mPlatform.Body.Size.X / 2 > mBody.Position.X)
                 mPlatform = null;
             if (mPlatform == null) return true;
-            if (mPlatform.Body.Body.Position.UnitToPixels().X + mPlatform.Body.Size.X / 2 < mBody.Position.X)
+            if (mPlatform.Body.Position.X + mPlatform.Body.Size.X / 2 < mBody.Position.X)
                 mPlatform = null;
 
             return false;
@@ -348,7 +344,7 @@ namespace Project_ArcadeThingy
         private void SnapToPlatform()
         {
             if (mPlatform == null) return;
-            mBody.Position = new Vector2(mBody.Position.X, mPlatform.Body.Body.Position.Y.UnitToPixels() - mBody.Radius - mPlatform.Body.Size.Y / 2);
+            mBody.Position = new Vector2(mBody.Position.X, mPlatform.Body.Position.Y - mBody.Radius - mPlatform.Body.Size.Y / 2);
         }
 
 
@@ -356,26 +352,26 @@ namespace Project_ArcadeThingy
 
         public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
         {
-            if (_Other.UserData is BasePlatform && mJumpGraceTimer <= 0)
+            if (_Other.UserData is PF_Platform_Base && mJumpGraceTimer <= 0)
             {
                 switch (_C.Direction())
                 {
                     case CollisionDirection.Right:
                         mWallJumpDirection = CollisionDirection.Right;
                         mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.UserData as BasePlatform);
+                        StickToWall(_Other.UserData as PF_Platform_Base);
                         break;
                     case CollisionDirection.Left:
                         mWallJumpDirection = CollisionDirection.Left;
                         mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.UserData as BasePlatform);
+                        StickToWall(_Other.UserData as PF_Platform_Base);
                         break;
                     case CollisionDirection.Bottom:
                         break;
                     case CollisionDirection.Top:
                         {
                             Landed();
-                            mPlatform = (_Other.UserData as BasePlatform);
+                            mPlatform = (_Other.UserData as PF_Platform_Base);
                         }
                         break;
                     default:

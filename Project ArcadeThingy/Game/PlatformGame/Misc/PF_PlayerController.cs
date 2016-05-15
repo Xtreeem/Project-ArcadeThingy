@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
-    class Platform_PlayerController : Platform_Controller
+    class PF_PlayerController : PF_Controller
     {
 
 
         internal int Index { get { return mIndex; } }
         private int mIndex;
-        internal Platform_PlayerController(int _Index)
+        internal PF_PlayerController(int _Index)
         {
         }
 

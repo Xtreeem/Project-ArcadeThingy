@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
@@ -35,13 +31,12 @@ namespace Project_ArcadeThingy
         public bool MonoColor { get; set; } = false;
         public bool Activated { get; set; } = false;
 
-
         public ParticleEmitter(List<Texture2D> _Textures, Vector2 _Pos)
         {
-            this.mPos = _Pos;
-            this.mTextures = _Textures;
-            this.mParticles = new List<Particle>();
-            this.mBurstTimer = mTimePerBurst;
+            mPos = _Pos;
+            mTextures = _Textures;
+            mParticles = new List<Particle>();
+            mBurstTimer = mTimePerBurst;
         }
 
         public void Update(GameTime _GT)

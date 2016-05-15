@@ -7,21 +7,21 @@ using Microsoft.Xna.Framework;
 
 namespace Project_ArcadeThingy
 {
-    abstract class Platform_Controller
+    abstract class PF_Controller
     {
-        protected Platform_Character mPawn;
+        protected PF_Character mPawn;
         public bool LeftInputKeyPressed { get; protected set; }
         public bool RightInputKeyPressed { get; protected set; }
 
 
         public bool WasIJumpingLastFrame { get; protected set; }
 
-        public void Set_Pawn(Platform_Character _Input)
+        public void Set_Pawn(PF_Character _Input)
         {
             mPawn = _Input;
         }
 
         internal abstract void Update(GameTime _GT);
-        internal void SetPawn(Platform_Character _Pawn) { mPawn = _Pawn; }
+        internal void SetPawn(PF_Character _Pawn) { mPawn = _Pawn; }
     }
 }

@@ -3,11 +3,6 @@ using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_ArcadeThingy
 {
@@ -45,6 +40,7 @@ namespace Project_ArcadeThingy
             float t = (float)Random.NextDouble() * (max - min) + min;
             return t;
         }
+
         public static void DrawLine(this SpriteBatch _SB, Vector2 _Begin, Vector2 _End, float _DepthLayer, Color _Color, int _Width = 1)
         {
             Rectangle r = new Rectangle((int)_Begin.X, (int)_Begin.Y, (int)(_End - _Begin).Length() + _Width, _Width);
@@ -53,6 +49,7 @@ namespace Project_ArcadeThingy
             if (_Begin.Y > _End.Y) angle = MathHelper.TwoPi - angle;
             _SB.Draw(ContentManager.Dot, r, null, _Color, angle, Vector2.Zero, SpriteEffects.None, _DepthLayer);
         }
+
         public static float PixelToUnit(this float _Input)
         {
             return ConvertUnits.ToSimUnits(_Input);
@@ -96,11 +93,10 @@ namespace Project_ArcadeThingy
                     return CollisionDirection.Top;
             }
         }
+
         public static string TruncateLongString(this string _String, int _MaxLength)
         {
              return _String.Substring(0, Math.Min(_String.Length, _MaxLength));
         }
-
-
     }
 }

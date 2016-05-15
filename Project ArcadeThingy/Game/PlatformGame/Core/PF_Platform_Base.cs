@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Project_ArcadeThingy
 {
-    enum Platform_Type
+    public enum Platform_Type
     {
         Super,
         Shroom,
     }
 
-    enum Platform_Type_Shroom
+    public enum Platform_Type_Shroom
     {
         Yellow,
         Red,
@@ -19,7 +19,7 @@ namespace Project_ArcadeThingy
         GreenYellow,
     }
 
-    enum Platform_Type_Super
+    public enum Platform_Type_Super
     {
         One,
         Two,
@@ -29,15 +29,15 @@ namespace Project_ArcadeThingy
         Six,
     }
 
-    abstract class Platform_Platform_Base : Platform_GameObj
+    public abstract class PF_Platform_Base : PF_GameObj
     {
         public const int TILE_SIZE = 16;
         protected Rectangle mSrcRec;
         new Texture2D mTexture;
 
-        public Platform_Platform_Base(Vector2 _Position, Vector2 _Size, World _Word, Platform_Type _Type)
+        public PF_Platform_Base(Vector2 _Position, Vector2 _Size, World _Word, Platform_Type _Type)
         {
-            mBody = new Platform_PhysicsBody(_Word, _Position, _Size * TILE_SIZE, 0.0f);
+            mBody = new PF_PhysicsBody(_Word, _Position, _Size * TILE_SIZE, 0.0f);
             mTexture = ContentManager.PlatformSheet;
             mSrcRec = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
         }

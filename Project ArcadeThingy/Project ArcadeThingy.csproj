@@ -39,29 +39,19 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Base.cs" />
     <Compile Include="Core\AnimatedTexture.cs" />
     <Compile Include="Core\EditorScene.cs" />
     <Compile Include="Core\FileUtils.cs" />
-    <Compile Include="Core\Spline.cs" />
-    <Compile Include="GameObjects\Platforms\BasicPlatform.cs" />
-    <Compile Include="GameObjects\Platforms\ShroomPlatform.cs" />
-    <Compile Include="GameObjects\Platforms\SuperPlatform.cs" />
-    <Compile Include="Game\MaxiGame.cs" />
-    <Compile Include="Game\PlatformGame\Core\Platform_Character.cs" />
-    <Compile Include="Game\PlatformGame\Core\Platform_GameObj.cs" />
-    <Compile Include="Game\PlatformGame\Core\Platform_PhysicsBody.cs" />
-    <Compile Include="Game\PlatformGame\Core\Platform_Platform_Base.cs" />
-    <Compile Include="Game\PlatformGame\Characters\Platform_Player.cs" />
-    <Compile Include="Game\PlatformGame\Platforms\Platform_Platform_Shroom.cs" />
-    <Compile Include="Game\PlatformGame\Platforms\Platform_Platform_Super.cs" />
-    <Compile Include="Game\TestPower.cs" />
-    <Compile Include="Game\PlatformGame\Core\Platform_Controller.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_Character.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_GameObj.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_PhysicsBody.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_Platform_Base.cs" />
+    <Compile Include="Game\PlatformGame\Characters\PF_Player.cs" />
+    <Compile Include="Game\PlatformGame\Platforms\PF_Platform_Shroom.cs" />
+    <Compile Include="Game\PlatformGame\Platforms\PF_Platform_Super.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_Controller.cs" />
     <Compile Include="Core\AABBRectangle.cs" />
     <Compile Include="Content\ContentManager.cs" />
-    <Compile Include="Core\QuadTree\IQuadTreeElement.cs" />
-    <Compile Include="Core\QuadTree\QuadTree.cs" />
-    <Compile Include="Core\QuadTree\QuadTreeNode.cs" />
     <Compile Include="Farseer\Collision\Collision.cs" />
     <Compile Include="Farseer\Collision\Distance.cs" />
     <Compile Include="Farseer\Collision\DynamicTree.cs" />
@@ -76,9 +66,6 @@
     <Compile Include="Farseer\Common\ConvexHull\ChainHull.cs" />
     <Compile Include="Farseer\Common\ConvexHull\GiftWrap.cs" />
     <Compile Include="Farseer\Common\ConvexHull\Melkman.cs" />
-    <Compile Include="Farseer\Common\Curve.cs" />
-    <Compile Include="Farseer\Common\CurveKey.cs" />
-    <Compile Include="Farseer\Common\CurveKeyCollection.cs" />
     <Compile Include="Farseer\Common\Decomposition\BayazitDecomposer.cs" />
     <Compile Include="Farseer\Common\Decomposition\CDTDecomposer.cs" />
     <Compile Include="Farseer\Common\Decomposition\CDT\Delaunay\DelaunayTriangle.cs" />
@@ -124,7 +111,6 @@
     <Compile Include="Farseer\Common\HashSet.cs" />
     <Compile Include="Farseer\Common\LineTools.cs" />
     <Compile Include="Farseer\Common\Math.cs" />
-    <Compile Include="Farseer\Common\MathHelper.cs" />
     <Compile Include="Farseer\Common\Path.cs" />
     <Compile Include="Farseer\Common\PathManager.cs" />
     <Compile Include="Farseer\Common\PhysicsLogic\FilterData.cs" />
@@ -178,17 +164,12 @@
     <Compile Include="Farseer\Factories\LinkFactory.cs" />
     <Compile Include="Farseer\Settings.cs" />
     <Compile Include="Game\Game1.cs" />
-    <Compile Include="GameObjects\GameObj.cs" />
     <Compile Include="Game\PlatformGame\PlatformGame.cs" />
     <Compile Include="Core\InputManager.cs" />
-    <Compile Include="GameObjects\MovementPhysicsObject.cs" />
-    <Compile Include="GameObjects\MovingObj.cs" />
     <Compile Include="Particle System\Particle.cs" />
     <Compile Include="Particle System\ParticleEmitter.cs" />
     <Compile Include="Particle System\ParticleSystem.cs" />
-    <Compile Include="GameObjects\Physics Object.cs" />
-    <Compile Include="GameObjects\Platforms\BasePlatform.cs" />
-    <Compile Include="Game\PlatformGame\Misc\Platform_PlayerController.cs" />
+    <Compile Include="Game\PlatformGame\Misc\PF_PlayerController.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Utilities.cs" />
@@ -200,8 +181,6 @@
     <Compile Include="SceneSystem\Popups\MessageBox.cs" />
     <Compile Include="SceneSystem\Core\Scene.cs" />
     <Compile Include="SceneSystem\Core\SceneManager.cs" />
-    <Compile Include="GameObjects\SideScrollingCharacter.cs" />
-    <Compile Include="GameObjects\SideScrollingPlayerCharacter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

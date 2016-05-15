@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework;
 
 namespace Project_ArcadeThingy
 {
-    class Platform_Player : Platform_Character
+    class PF_Player : PF_Character
     {
-        public Platform_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture, Platform_Controller _Controller) : base(_Controller)
+        public PF_Player(World _World, Vector2 _Position, float _Radius, Texture2D _Texture, PF_Controller _Controller) : base(_Controller)
         {
             //Setup Texture
             mTexture = new AnimatedTexture(_Texture);
@@ -20,7 +20,7 @@ namespace Project_ArcadeThingy
             mTexture.Initialize(0);
 
             //Setup Physical Body
-            mBody = new Platform_PhysicsBody(_World, _Position, new Vector2(_Radius, _Radius), 1.0f, true, this);
+            mBody = new PF_PhysicsBody(_World, _Position, new Vector2(_Radius, _Radius), 1.0f, true, this);
             mBody.BodyType = BodyType.Dynamic;
         }
     }
