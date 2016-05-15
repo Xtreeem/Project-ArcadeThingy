@@ -15,8 +15,7 @@ namespace Project_ArcadeThingy
     {
         Left,
         Right,
-        Up,
-        Down,
+        Jump,
         None
     }
 
@@ -97,6 +96,11 @@ namespace Project_ArcadeThingy
                     return CollisionDirection.Top;
             }
         }
+        public static string TruncateLongString(this string _String, int _MaxLength)
+        {
+             return _String.Substring(0, Math.Min(_String.Length, _MaxLength));
+        }
+
 
     }
 }

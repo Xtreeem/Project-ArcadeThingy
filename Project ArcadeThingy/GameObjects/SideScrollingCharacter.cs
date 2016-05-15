@@ -151,7 +151,7 @@ namespace Project_ArcadeThingy
                     else
                         AirControll(_GT, mAirControllSpeed);
                     break;
-                case MovementInput.Up:
+                case MovementInput.Jump:
                     mBody.Body.ApplyLinearImpulse(new Vector2(0, _intensity));
                     SwapState(SideCharacterState.Airbound);
                     CheckAnimation();
@@ -283,10 +283,10 @@ namespace Project_ArcadeThingy
             if (mWasJumpingLastFrame)
             {
                 //Console.WriteLine("Continous jump");
-                HandleMovementInput(_GT, MovementInput.Up, -mJumpStrengthContinous);
+                HandleMovementInput(_GT, MovementInput.Jump, -mJumpStrengthContinous);
             }
             else
-                HandleMovementInput(_GT, MovementInput.Up, -mJumpStrengthInitial);
+                HandleMovementInput(_GT, MovementInput.Jump, -mJumpStrengthInitial);
             //Console.WriteLine("Pring - " + mJumpTimer);
             mCanIJump = false;
             mWasJumpingLastFrame = true;

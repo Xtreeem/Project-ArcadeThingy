@@ -12,13 +12,13 @@ namespace Project_ArcadeThingy
     {
 
 
-        public int Index { get { return mIndex; } }
+        internal int Index { get { return mIndex; } }
         private int mIndex;
-        public Platform_PlayerController(int _Index)
+        internal Platform_PlayerController(int _Index)
         {
         }
 
-        public void Draw(SpriteBatch _SB)
+        internal void Draw(SpriteBatch _SB)
         {
 
         }
@@ -26,7 +26,20 @@ namespace Project_ArcadeThingy
         internal override void Update(GameTime _GT)
         {
             if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
-                mPawn.TryToJump(_GT);
+            {
+                /*WasIJumpingLastFrame = */mPawn.HandleInput(_GT, MovementInput.Jump);
+                WasIJumpingLastFrame = true;
+            }
+            else
+                WasIJumpingLastFrame = false;
+            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad1))
+                mPawn.HandleInput(_GT, MovementInput.Left);
+            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad3))
+                mPawn.HandleInput(_GT, MovementInput.Right);
+            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad5))
+                mPawn.DEBUG(new Vector2(0, -170), new Vector2(0, -750), true);
+            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad2))
+                mPawn.DEBUG(new Vector2(0, 170), new Vector2(0, 750), true);
         }
     }
 }

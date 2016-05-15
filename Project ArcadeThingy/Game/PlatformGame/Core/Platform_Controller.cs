@@ -11,6 +11,8 @@ namespace Project_ArcadeThingy
     {
         protected Platform_Character mPawn;
 
+        public bool WasIJumpingLastFrame { get; protected set; }
+
         public void Set_Pawn(Platform_Character _Input)
         {
             mPawn = _Input;

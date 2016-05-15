@@ -26,7 +26,6 @@ namespace Project_ArcadeThingy
         public Vector2 LinearVelocity { get { return mBody.LinearVelocity.UnitToPixels(); } set { mBody.LinearVelocity = value.PixelsToUnits(); } }
         public BodyType BodyType { get { return mBody.BodyType; } set { mBody.BodyType = value; } }
 
-
         public Platform_PhysicsBody(World _World, Vector2 _Position, Vector2 _Size, float _density, bool _Circle = false, object _Owner = null)
         {
             IsCircle = _Circle;
@@ -57,6 +56,49 @@ namespace Project_ArcadeThingy
         public void ApplyLinearVelocity(Vector2 _Input)
         {
             mBody.LinearVelocity = mBody.LinearVelocity + _Input.PixelsToUnits();
+        }
+
+        public void ApplyLinearVelocity(Vector2 _Input, Vector2 _Cap)
+        {
+            Vector2 tVelocity = Vector2.Zero;
+            if (_Input.X != 0)
+            {
+                if (_Input.X < 0)
+                {
+                    if (LinearVelocity.X > _Cap.X)
+                        tVelocity.X = (LinearVelocity.X + _Input.X > _Cap.X) ? _Input.X : (_Cap.X - LinearVelocity.X);
+                }
+                else
+                {
+                    if (LinearVelocity.X < _Cap.X)
+                        tVelocity.X = (_Input.X + LinearVelocity.X < _Cap.X) ? _Input.X : (_Cap.X - LinearVelocity.X);
+                }
+            }
+            if (_Input.Y != 0)
+                if (_Input.Y != 0)
+                {
+                    if (_Input.Y < 0)
+                    {
+                        if (LinearVelocity.Y > _Cap.Y)
+                            tVelocity.Y = (LinearVelocity.Y + _Input.Y > _Cap.Y) ? _Input.Y : (_Cap.Y - LinearVelocity.Y);
+                    }
+                    else
+                    {
+                        if (LinearVelocity.Y < _Cap.Y)
+                            tVelocity.Y = (_Input.Y + LinearVelocity.Y < _Cap.Y) ? _Input.Y : (_Cap.Y - LinearVelocity.Y);
+                    }
+                }
+            if (tVelocity == Vector2.Zero) return;
+
+            Vector2 debug = new Vector2(LinearVelocity.X + tVelocity.X, LinearVelocity.Y + tVelocity.Y).PixelsToUnits();
+
+            mBody.LinearVelocity = debug;
+        }
+
+
+        public void ApplyLinearForce(Vector2 _Force, Vector2 _Position)
+        {
+            mBody.ApplyLinearImpulse(_Force.PixelsToUnits(), _Position.PixelsToUnits());
         }
 
         public Rectangle GetDrawRectangle()

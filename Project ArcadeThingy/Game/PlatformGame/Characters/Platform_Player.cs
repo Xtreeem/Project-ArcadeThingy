@@ -23,10 +23,5 @@ namespace Project_ArcadeThingy
             mBody = new Platform_PhysicsBody(_World, _Position, new Vector2(_Radius, _Radius), 1.0f, true, this);
             mBody.BodyType = BodyType.Dynamic;
         }
-
-        public override void Draw(SpriteBatch _SB)
-        {
-            mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
-        }
     }
 }
