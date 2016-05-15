@@ -33,15 +33,25 @@ namespace Project_ArcadeThingy
         private double mJumpGraceTimer = 0;
         private double mJumpGrace = 0.05;
 
-        private bool mSideJump { get { return (mWallJumpTimer <= 0); } }
-        private double mWallJumpTimer;
-        private double mWallJumpTimerMax = 0.2;
+        //Wall-Jumping/Sticking
+        private bool mCanWallJump { get { return (mWallJumpPlatform != null); } }
+        private double mWallStickTimer;
+        private double mWallStickTimerMax = 2.5;
+        private CollisionDirection mWallJumpDirection;
+        private Vector2 mWallJumpPreviousVelocity;
+        private BasePlatform mWallJumpPlatform;
+        private bool mWallStickPossible = true;
+        private double mWallStickGraceTimer;
+        private double mWallStickGraceTimerMax = 0.05;
+        private Vector2 mWallStickGoingInVelocity;
 
 
         //Sideways Movemvent
         private float mMovementGroundAcceleration = 600.0f;
         private float mMovementAirAcceleration = 300.0f;
         private float mMovementTurningMultiplier = 3.0f;
+        private Vector2 mWallJumpStrengthInitial = new Vector2(350.0f, -550.0f);
+        private float mMovementGroundDeceleration = 1000.0f;
 
         protected Vector2 MovementSpeedCap = new Vector2(450, 750);
 
@@ -51,9 +61,6 @@ namespace Project_ArcadeThingy
         public Platform_Controller Controller { get; protected set; }
         public Platform_CharacterState State { get; protected set; } = Platform_CharacterState.Airbound;
         public BasePlatform mPlatform = null;
-
-
-
 
         public Platform_Character(Platform_Controller _Controller)
         {
@@ -65,7 +72,9 @@ namespace Project_ArcadeThingy
         {
             Controller.Update(_GT);
             DidIFallOfCheck();
+            DidISlideOffCheck();
             SnapToPlatform();
+            SnapToWall(_GT);
             UpdateTimers(_GT);
         }
 
@@ -74,9 +83,15 @@ namespace Project_ArcadeThingy
         public override void Draw(SpriteBatch _SB)
         {
             _SB.DrawString(ContentManager.Font, mNumberOfJumpsRemaining.ToString() + " - " + mBody.LinearVelocity.X.ToString().TruncateLongString(5).PadRight(5, '_') + " , " + mBody.LinearVelocity.Y.ToString().TruncateLongString(5).PadRight(5, '_'), mBody.Position + new Vector2(-50, -100), Color.Red);
-            mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
+            //mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
+            mTexture.Draw(_SB, mBody.GetDrawRectangle(), mCanWallJump ? Color.Red : Color.White);
             if (mPlatform != null)
                 _SB.DrawLine(mBody.Position, mPlatform.Body.Body.Position.UnitToPixels(), 1.0f, Color.Red);
+
+            if (mWallJumpPlatform != null)
+                _SB.DrawLine(mBody.Position, mWallJumpPlatform.Body.Body.Position.UnitToPixels(), 1.0f, Color.Green);
+
+
             base.Draw(_SB);
         }
 
@@ -86,7 +101,16 @@ namespace Project_ArcadeThingy
                 mJumpCooldownTimer -= _GT.ElapsedGameTime.TotalSeconds;
             if (mJumpGraceTimer > 0)
                 mJumpGraceTimer -= _GT.ElapsedGameTime.TotalSeconds;
+            if (mWallStickGraceTimer > 0)
+                mWallStickGraceTimer -= _GT.ElapsedGameTime.TotalSeconds;
         }
+
+        protected void SetCharacterState(Platform_CharacterState _NewState)
+        {
+            State = _NewState;
+        }
+
+        #region Inputs
 
         internal bool HandleInput(GameTime _GT, MovementInput _Input, bool _Override = false)
         {
@@ -102,6 +126,7 @@ namespace Project_ArcadeThingy
                     return TryToJump(_GT, _Override);
                     break;
                 case MovementInput.None:
+                    HandleInput_None(_GT);
                     break;
             }
             return true;
@@ -151,6 +176,22 @@ namespace Project_ArcadeThingy
             return true;
         }
 
+        protected virtual void HandleInput_None(GameTime _GT)
+        {
+            if (mBody.LinearVelocity.X == 0) return;
+
+            if (Math.Abs(mBody.LinearVelocity.X) < Math.Abs(mMovementGroundDeceleration * _GT.ElapsedGameTime.TotalSeconds))
+                mBody.LinearVelocity = new Vector2(0, mBody.LinearVelocity.Y);
+            if (mBody.LinearVelocity.X > 0)
+                mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X - mMovementGroundDeceleration * (float)_GT.ElapsedGameTime.TotalSeconds, mBody.LinearVelocity.Y);
+            else
+                mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X + mMovementGroundDeceleration * (float)_GT.ElapsedGameTime.TotalSeconds, mBody.LinearVelocity.Y);
+        }
+
+        #endregion
+
+        #region Jumping
+
         /// <summary>
         /// Will make ask the character to attempt to jump.
         /// </summary>
@@ -158,10 +199,11 @@ namespace Project_ArcadeThingy
         public virtual bool TryToJump(GameTime _GT, bool _Override = false)
         {
             if (!CanJump && !Controller.WasIJumpingLastFrame && !_Override) return false;
+            if (mWallJumpPlatform != null && mPlatform == null) return WallJump();
             if (mJumpTimer < 0 && Controller.WasIJumpingLastFrame && !_Override) return false;
             mJumpTimer -= _GT.ElapsedGameTime.TotalSeconds;
 
-            if (Controller.WasIJumpingLastFrame)
+            if (Controller.WasIJumpingLastFrame && mPlatform == null)
             {
                 Console.WriteLine("Jump - Continouse");
                 mBody.ApplyLinearVelocity(new Vector2(0, -mJumpStrengthContinuous) * (float)_GT.ElapsedGameTime.TotalSeconds, -MovementSpeedCap);
@@ -189,6 +231,7 @@ namespace Project_ArcadeThingy
                     mJumpGraceTimer = mJumpGrace;
                 mJumpCooldownTimer = mJumpCooldown;
                 mJumpTimer = mJumpTimerMax;
+                mWallStickPossible = true;
                 --mNumberOfJumpsRemaining;
             }
             else
@@ -201,6 +244,18 @@ namespace Project_ArcadeThingy
             return true;
         }
 
+        protected virtual bool WallJump()
+        {
+            UnstickFromWall();
+            if (mWallJumpDirection == CollisionDirection.Right)
+                mBody.LinearVelocity = mWallJumpStrengthInitial;
+            else
+                mBody.LinearVelocity = new Vector2(-mWallJumpStrengthInitial.X, mWallJumpStrengthInitial.Y);
+            mWallStickTimer = 0;
+            mWallStickPossible = true;
+
+            return true;
+        }
         protected virtual void Landed()
         {
             if (State == Platform_CharacterState.Grounded) return;
@@ -209,27 +264,75 @@ namespace Project_ArcadeThingy
             mJumpTimer = 0;
             Console.WriteLine("Landed");
             mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, 0);
-
+            mWallStickPossible = true;
             SetCharacterState(Platform_CharacterState.Grounded);
         }
+        #endregion
 
-        protected void SetCharacterState(Platform_CharacterState _NewState)
+        #region WallSticking
+
+        protected virtual void StickToWall(BasePlatform _Wall)
         {
-            State = _NewState;
+            if (!mWallStickPossible) return;
+            mWallJumpPlatform = _Wall;
+            mWallStickTimer = 0;
+            mWallStickPossible = false;
+            mBody.LinearVelocity = new Vector2(0, mBody.LinearVelocity.Y * 0.1f);
+            mWallStickGraceTimer = mWallStickGraceTimerMax;
+
         }
 
-        public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
+        protected virtual void SnapToWall(GameTime _GT)
         {
-            if (_Other.UserData is BasePlatform && mJumpGraceTimer <= 0)
+            if (mWallJumpPlatform == null) return;
+            if (mWallStickTimer >= mWallStickTimerMax) { UnstickFromWall(); return; }
+            else mWallStickTimer += _GT.ElapsedGameTime.TotalSeconds;
+
+            if (mWallStickGraceTimer <= 0)
+                mNumberOfJumpsRemaining = mNumberOfJumps;
+
+            if (mWallJumpDirection == CollisionDirection.Right)
+                mBody.Position = new Vector2(mWallJumpPlatform.Body.Body.Position.X.UnitToPixels() + mBody.Radius + mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
+            else
+                mBody.Position = new Vector2(mWallJumpPlatform.Body.Body.Position.X.UnitToPixels() - mBody.Radius - mWallJumpPlatform.Body.Size.X / 2, mBody.Position.Y);
+            mBody.GravityScale = MathHelper.Clamp((float)(mWallStickTimer / mWallStickTimerMax), 0.0f, 1.0f);
+
+            switch (mWallJumpDirection)
             {
-                if (_C.Direction() == CollisionDirection.Top)
-                {
-                    Landed();
-                    mPlatform = (_Other.UserData as BasePlatform);
-                }
+                case CollisionDirection.Right:
+                    if (!Controller.LeftInputKeyPressed)
+                        UnstickFromWall();
+                    break;
+                case CollisionDirection.Left:
+                    if (!Controller.RightInputKeyPressed)
+                        UnstickFromWall();
+                    break;
+                default:
+                    break;
             }
-            return true;
         }
+
+        protected virtual void UnstickFromWall()
+        {
+            mBody.GravityScale = 1;
+            mWallJumpPlatform = null;
+            if (mWallStickGraceTimer > 0)
+                mBody.LinearVelocity = mWallStickGoingInVelocity;
+        }
+
+        protected bool DidISlideOffCheck()
+        {
+            if (mWallJumpPlatform == null) return true;
+            if (mWallJumpPlatform.Body.Body.Position.UnitToPixels().Y - mWallJumpPlatform.Body.Size.Y / 2 > mBody.Position.Y)
+                UnstickFromWall();
+            if (mWallJumpPlatform == null) return true;
+            if (mWallJumpPlatform.Body.Body.Position.UnitToPixels().Y + mWallJumpPlatform.Body.Size.Y / 2 < mBody.Position.Y)
+                UnstickFromWall();
+
+            return false;
+        }
+        #endregion
+
 
         protected bool DidIFallOfCheck()
         {
@@ -245,19 +348,50 @@ namespace Project_ArcadeThingy
         private void SnapToPlatform()
         {
             if (mPlatform == null) return;
-            mBody.Position = new Vector2(mBody.Position.X, mPlatform.Body.Body.Position.Y.UnitToPixels() - mBody.Radius - mPlatform.Body.Size.Y/2);
+            mBody.Position = new Vector2(mBody.Position.X, mPlatform.Body.Body.Position.Y.UnitToPixels() - mBody.Radius - mPlatform.Body.Size.Y / 2);
         }
+
+
+
+
+        public override bool OnCollision(Fixture _Me, Fixture _Other, Contact _C)
+        {
+            if (_Other.UserData is BasePlatform && mJumpGraceTimer <= 0)
+            {
+                switch (_C.Direction())
+                {
+                    case CollisionDirection.Right:
+                        mWallJumpDirection = CollisionDirection.Right;
+                        mWallStickGoingInVelocity = mBody.LinearVelocity;
+                        StickToWall(_Other.UserData as BasePlatform);
+                        break;
+                    case CollisionDirection.Left:
+                        mWallJumpDirection = CollisionDirection.Left;
+                        mWallStickGoingInVelocity = mBody.LinearVelocity;
+                        StickToWall(_Other.UserData as BasePlatform);
+                        break;
+                    case CollisionDirection.Bottom:
+                        break;
+                    case CollisionDirection.Top:
+                        {
+                            Landed();
+                            mPlatform = (_Other.UserData as BasePlatform);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+
+
+
 
 
         public void DEBUG(Vector2 _VectorOne, Vector2 VectorTwo, bool _Bool)
         {
             mBody.ApplyLinearVelocity(_VectorOne, VectorTwo);
         }
-
-
-
-
-
-
     }
 }

@@ -10,6 +10,9 @@ namespace Project_ArcadeThingy
     abstract class Platform_Controller
     {
         protected Platform_Character mPawn;
+        public bool LeftInputKeyPressed { get; protected set; }
+        public bool RightInputKeyPressed { get; protected set; }
+
 
         public bool WasIJumpingLastFrame { get; protected set; }
 

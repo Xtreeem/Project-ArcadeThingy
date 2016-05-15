@@ -12,7 +12,7 @@ namespace Project_ArcadeThingy
 {
     abstract class Platform_GameObj
     {
-        public Platform_PhysicsBody Body { get; }
+        public Platform_PhysicsBody Body { get { return mBody; } }
         protected Platform_PhysicsBody mBody;
         protected AnimatedTexture mTexture;
 

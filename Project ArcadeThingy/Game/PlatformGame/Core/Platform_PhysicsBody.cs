@@ -20,6 +20,7 @@ namespace Project_ArcadeThingy
         public float Height { get { return mSize.Y; } }
         public float Width { get { return mSize.X; } }
         public float Radius { get { return mRadius; } }
+        public float GravityScale { get { return mBody.GravityScale; } set { mBody.GravityScale = value; } }
 
         private Body mBody;
         public Vector2 Position { get { return mBody.Position.UnitToPixels(); } set { mBody.Position = value.PixelsToUnits(); } }

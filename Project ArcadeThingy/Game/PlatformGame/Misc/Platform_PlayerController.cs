@@ -25,6 +25,8 @@ namespace Project_ArcadeThingy
 
         internal override void Update(GameTime _GT)
         {
+            LeftInputKeyPressed = InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad1);
+            RightInputKeyPressed = InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad3);
             if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
             {
                 /*WasIJumpingLastFrame = */mPawn.HandleInput(_GT, MovementInput.Jump);
@@ -32,14 +34,16 @@ namespace Project_ArcadeThingy
             }
             else
                 WasIJumpingLastFrame = false;
-            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad1))
+            if (LeftInputKeyPressed)
                 mPawn.HandleInput(_GT, MovementInput.Left);
-            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad3))
+            if (RightInputKeyPressed)
                 mPawn.HandleInput(_GT, MovementInput.Right);
             if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad5))
                 mPawn.DEBUG(new Vector2(0, -170), new Vector2(0, -750), true);
             if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad2))
                 mPawn.DEBUG(new Vector2(0, 170), new Vector2(0, 750), true);
+            if (!LeftInputKeyPressed && !RightInputKeyPressed)
+                mPawn.HandleInput(_GT, MovementInput.None);
         }
     }
 }
