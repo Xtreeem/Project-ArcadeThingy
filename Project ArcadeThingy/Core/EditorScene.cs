@@ -43,8 +43,8 @@ namespace Project_ArcadeThingy
         {
             float mouseX = InputManager.MousePosition().X;
             float mouseY = InputManager.MousePosition().Y;
-            float snapX = (mouseX + mTileSize / 2) - mouseX % mTileSize;
-            float snapY = (mouseY + mTileSize * 1.5f) - mouseY % mTileSize;
+            float snapX = (mouseX ) - mouseX % mTileSize;
+            float snapY = (mouseY ) - mouseY % mTileSize;
 
             if (mPlatform != null)
             {

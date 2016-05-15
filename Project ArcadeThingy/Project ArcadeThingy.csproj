@@ -57,6 +57,7 @@
     <Compile Include="Core\AnimatedTexture.cs" />
     <Compile Include="Core\EditorScene.cs" />
     <Compile Include="Core\FileUtils.cs" />
+    <Compile Include="Core\GameTimer.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_Character.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_GameObj.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_PhysicsBody.cs" />

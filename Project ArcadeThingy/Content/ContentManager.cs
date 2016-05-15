@@ -9,6 +9,7 @@ namespace Project_ArcadeThingy
         public static Texture2D Dot { get; private set; }
         public static SpriteFont Font { get; private set; }
         public static Texture2D MenuBackground { get; private set; }
+        public static Texture2D Platformer_UI { get; private set; }
         public static Texture2D PlatformSheet { get; private set; }
         public static Texture2D Platformer_Character_Smiley { get;  private set; }
         public static Texture2D Platformer_PowerUps_Coin { get;  private set; }
@@ -23,6 +24,7 @@ namespace Project_ArcadeThingy
             Dot = _Content.Load<Texture2D>("Dot");
             Font = _Content.Load<SpriteFont>("PixelFont");
             MenuBackground = _Content.Load<Texture2D>("MenuBackground");
+            Platformer_UI = _Content.Load<Texture2D>("Platformer\\UI");
 
             PlatformSheet = _Content.Load<Texture2D>("Platform\\PlatformTextures16");
             Platformer_Character_Smiley = _Content.Load<Texture2D>("Platformer\\Characters\\Smiley");
