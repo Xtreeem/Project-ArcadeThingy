@@ -10,7 +10,7 @@ namespace Project_ArcadeThingy
             : base(_Position, _Size, _World, Platform_Type.Shroom)
         {
             Type = _Type;
-            mSrcRec.Y = TILE_SIZE * 8 + (int)_Type * TILE_SIZE;
+            mSrcRec.Y = TILE_SIZE * 5 + (int)_Type * TILE_SIZE;
         }
     }
 }

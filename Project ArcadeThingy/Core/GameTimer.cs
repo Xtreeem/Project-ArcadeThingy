@@ -78,7 +78,7 @@ namespace Project_ArcadeThingy
             if (_Hours)
             {
                 m = m % 60;
-                result += h + ":";
+                result += h;
             }
 
             if (_Minutes)
@@ -90,18 +90,23 @@ namespace Project_ArcadeThingy
             if (_Seconds)
             {
                 ms = ms % 1000;
-                result += s + ":";
+                result += s;
             }
 
             if (_MilliSeconds)
-                result += ms / 10;
+                result += ":" + ms / 10;
 
             return result;
         }
 
         public void Draw(SpriteBatch _SB, SpriteFont _Font, Vector2 _Position, Color _Color)
         {
-            string text = TimerToText(CurrentTime, false, false, true, true);
+            string text = "";
+            if (CurrentTime > 60)
+                text = TimerToText(CurrentTime, false, true, true, false);
+            else
+                text = TimerToText(CurrentTime, false, false, true, true);
+
             Vector2 origin = _Font.MeasureString(text) / 2;
 
             _SB.DrawString(_Font, text, _Position, _Color, 0.0f, origin, 1.0f, SpriteEffects.None, 1.0f);

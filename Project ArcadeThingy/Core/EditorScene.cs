@@ -1,5 +1,4 @@
 ﻿using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,13 +7,19 @@ using System.Collections.Generic;
 
 namespace Project_ArcadeThingy
 {
+    enum EditorState
+    {
+        Super,
+        Shrooms,
+        Coins,
+    }
     class EditorScene : Scene
     {
         int mTileSize = PF_Platform_Base.TILE_SIZE;
-        List<PF_Platform_Base> mPlatforms;
+        List<PF_GameObj> mObjects;
         World mWorld = new World(new Vector2(0, 9.8f));
-        PF_Platform_Base mPlatform;
-        PF_Platform_Base mSoonPlatform;
+        PF_GameObj mObject;
+        PF_GameObj mSoonObject;
         bool mCreatingPlatform = false;
         bool mPlacingShrooms = true;
         bool mShowGrid = false;
@@ -22,38 +27,40 @@ namespace Project_ArcadeThingy
         Vector2 mStartPlatPos;
         Platform_Type_Shroom mShroomType;
         Platform_Type_Super mSuperType;
+        EditorState mState;
 
         public EditorScene()
         {
-            mPlatforms = new List<PF_Platform_Base>();
+            mState = EditorState.Shrooms;
             mShroomType = Platform_Type_Shroom.Yellow;
-            mPlatform = new PF_Platform_Shroom(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mShroomType);
-            mSuperType = 0;
-
-            //ReadFromFile();
+            mSuperType = Platform_Type_Super.One;
+            mObject = new PF_Platform_Shroom(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mShroomType);
+            mObjects = new List<PF_GameObj>();
         }
 
         private void ReadFromFile()
         {
-            mPlatforms.Clear();
-            mPlatforms.AddRange(FileUtils.GetPlatforms(mWorld));
+            mObjects.Clear();
+            mObjects.AddRange(FileUtils.GetPlatforms(mWorld));
         }
 
         public override void Update(GameTime _GT)
         {
             float mouseX = InputManager.MousePosition().X;
             float mouseY = InputManager.MousePosition().Y;
-            float snapX = (mouseX ) - mouseX % mTileSize;
-            float snapY = (mouseY ) - mouseY % mTileSize;
+            float snapX = (mouseX) - mouseX % mTileSize;
+            float snapY = (mouseY) - mouseY % mTileSize;
 
-            if (mPlatform != null)
+            if (mObject != null)
             {
-                mPlatform.Body.Position = new Vector2(snapX, snapY);
+                mObject.Body.Position = new Vector2(snapX, snapY);
 
-                if (mPlacingShrooms && !(mPlatform is PF_Platform_Shroom) || mPlatform is PF_Platform_Shroom && (mPlatform as PF_Platform_Shroom).Type != mShroomType)
-                    mPlatform = new PF_Platform_Shroom(new Vector2(snapX, snapY), new Vector2(2, 1), mWorld, mShroomType);
-                else if (!mPlacingShrooms && !(mPlatform is PF_Platform_Super) || mPlatform is PF_Platform_Super && (mPlatform as PF_Platform_Super).Type != mSuperType)
-                    mPlatform = new PF_Platform_Super(new Vector2(snapX, snapY), new Vector2(2, 1), mWorld, mSuperType);
+                if (mState == EditorState.Shrooms && !(mObject is PF_Platform_Shroom) || mObject is PF_Platform_Shroom && (mObject as PF_Platform_Shroom).Type != mShroomType)
+                    mObject = new PF_Platform_Shroom(new Vector2(snapX, snapY), new Vector2(2, 1), mWorld, mShroomType);
+                else if (mState == EditorState.Super && !(mObject is PF_Platform_Super) || mObject is PF_Platform_Super && (mObject as PF_Platform_Super).Type != mSuperType)
+                    mObject = new PF_Platform_Super(new Vector2(snapX, snapY), new Vector2(2, 1), mWorld, mSuperType);
+                else if (mState == EditorState.Coins && !(mObject is PF_PowerUps_Coin))
+                    mObject = new PF_PowerUps_Coin(mWorld, new Vector2(snapX, snapY), new Vector2(32, 32), 0.0);
             }
 
             if (mCreatingPlatform)
@@ -65,10 +72,10 @@ namespace Project_ArcadeThingy
                 {
                     currSize.Y = 1;
                     currPos.Y = mStartPlatPos.Y - mStartPlatPos.Y % mTileSize + currSize.Y / 2;
-                    mSoonPlatform = new PF_Platform_Shroom(currPos, currSize, mWorld, mShroomType);
+                    mSoonObject = new PF_Platform_Shroom(currPos, currSize, mWorld, mShroomType);
                 }
                 else
-                    mSoonPlatform = new PF_Platform_Super(currPos, currSize, mWorld, mSuperType);
+                    mSoonObject = new PF_Platform_Super(currPos, currSize, mWorld, mSuperType);
             }
         }
 
@@ -77,48 +84,61 @@ namespace Project_ArcadeThingy
             if (InputManager.IsKeyClicked(Keys.Tab))
                 mShowGrid = !mShowGrid;
             if (InputManager.IsKeyClicked(Keys.S))
-                FileUtils.SavePlatforms(mPlatforms);
+                FileUtils.SavePlatforms(mObjects);
             if (InputManager.IsKeyClicked(Keys.L))
                 ReadFromFile();
 
             if (InputManager.IsKeyClicked(Keys.Right))
             {
-                if (mPlacingShrooms)
+                if (mState == EditorState.Shrooms)
                     mShroomType = (mShroomType == Platform_Type_Shroom.GreenYellow) ? 0 : mShroomType + 1;
-                else
+                else if (mState == EditorState.Super)
                     mSuperType = (mSuperType == Platform_Type_Super.Six) ? 0 : mSuperType + 1;
             }
             else if (InputManager.IsKeyClicked(Keys.Left))
             {
-                if (mPlacingShrooms)
+                if (mState == EditorState.Shrooms)
                     mShroomType = (mShroomType == Platform_Type_Shroom.Yellow) ? Platform_Type_Shroom.GreenYellow : mShroomType - 1;
-                else
+                else if (mState == EditorState.Super)
                     mSuperType = (mSuperType == Platform_Type_Super.One) ? Platform_Type_Super.Six : mSuperType - 1;
             }
-            else if (InputManager.IsKeyClicked(Keys.Up) || InputManager.IsKeyClicked(Keys.Down))
-                mPlacingShrooms = !mPlacingShrooms;
+            else if (InputManager.IsKeyClicked(Keys.Up))
+                mState = (mState == EditorState.Coins) ? EditorState.Super : mState + 1;
+            else if (InputManager.IsKeyClicked(Keys.Down))
+                mState = (mState == EditorState.Super) ? EditorState.Coins : mState - 1;
 
             if (InputManager.LeftButtonClicked())
             {
+                if (mState == EditorState.Coins)
+                {
+                    mObjects.Add(new PF_PowerUps_Coin(mWorld, InputManager.MousePosition(), new Vector2(32, 32), 0.0));
+                    return;
+                }
+
                 mStartPosition = InputManager.MousePosition();
-                mStartPlatPos = mPlatform.Body.Position;
+                mStartPlatPos = mObject.Body.Position;
                 mCreatingPlatform = true;
-                mPlatform = null;
+                mObject = null;
             }
+
             if (InputManager.IsLeftButtonReleased())
             {
-                mCreatingPlatform = false;
-                mPlatforms.Add(mSoonPlatform);
-                mSoonPlatform = null;
+                if (mState == EditorState.Coins)
+                    return;
 
-                if (mPlacingShrooms)
-                    mPlatform = new PF_Platform_Shroom(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mShroomType);
-                else
-                    mPlatform = new PF_Platform_Super(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mSuperType);
+                mCreatingPlatform = false;
+                mObjects.Add(mSoonObject);
+                mSoonObject = null;
+
+                if (mState == EditorState.Shrooms)
+                    mObject = new PF_Platform_Shroom(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mShroomType);
+                else if (mState == EditorState.Super)
+                    mObject = new PF_Platform_Super(InputManager.MousePosition(), new Vector2(2, 1), mWorld, mSuperType);
+
             }
 
             if (InputManager.IsKeyPressed(Keys.LeftControl) && InputManager.IsKeyClicked(Keys.Z))
-                if (mPlatforms.Count > 0) mPlatforms.RemoveAt(mPlatforms.Count - 1);
+                if (mObjects.Count > 0) mObjects.RemoveAt(mObjects.Count - 1);
         }
 
         public override void Draw(SpriteBatch _SB)
@@ -139,14 +159,14 @@ namespace Project_ArcadeThingy
                 }
             }
 
-            for (int i = 0; i < mPlatforms.Count; ++i)
-                mPlatforms[i].Draw(_SB);
+            for (int i = 0; i < mObjects.Count; ++i)
+                mObjects[i].Draw(_SB);
 
-            if (mPlatform != null)
-                mPlatform.Draw(_SB);
+            if (mObject != null)
+                mObject.Draw(_SB);
 
-            if (mSoonPlatform != null)
-                mSoonPlatform.Draw(_SB);
+            if (mSoonObject != null)
+                mSoonObject.Draw(_SB);
         }
     }
 }

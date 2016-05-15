@@ -307,6 +307,7 @@ namespace FarseerPhysics.Dynamics.Contacts
 
                         // Reverse the order of the reported fixtures. The first fixture is always the one that the
                         // user subscribed to.
+                        if(FixtureB != null)
                         if (FixtureB.OnCollision != null)
                             foreach (OnCollisionEventHandler handler in FixtureB.OnCollision.GetInvocationList())
                                 enabledB = handler(FixtureB, FixtureA, this) && enabledB;
