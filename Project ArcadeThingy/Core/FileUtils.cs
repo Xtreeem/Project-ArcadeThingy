@@ -26,8 +26,8 @@ namespace Project_ArcadeThingy
                 string[] line = reader.ReadLine().Split(',');
                 string name = line[0];
                 int type = int.Parse(line[1]);
-                Vector2 size = new Vector2(int.Parse(line[2]), int.Parse(line[3]));
-                Vector2 position = new Vector2(int.Parse(line[4]), int.Parse(line[5]));
+                Vector2 position = new Vector2(int.Parse(line[2]), int.Parse(line[3]));
+                Vector2 size = new Vector2(int.Parse(line[4]), int.Parse(line[5]));
 
                 if (name == mShroom)
                     result.Add(new PF_Platform_Shroom(size, position, _World, (Platform_Type_Shroom)type));
@@ -53,8 +53,8 @@ namespace Project_ArcadeThingy
                 else if (platform is PF_Platform_Super)
                     line = mSuper + ',' + (platform as PF_Platform_Super).Type + ',';
 
-                line += VectorToString(platform.Body.Size) + ',';
-                line += VectorToString(platform.Body.Position);
+                line += VectorToString(platform.Body.Position) + ',';
+                line += VectorToString(platform.Body.Size);
 
                 mWriter.WriteLine(line);
             }
