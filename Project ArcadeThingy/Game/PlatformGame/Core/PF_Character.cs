@@ -204,26 +204,29 @@ namespace Project_ArcadeThingy
 
             if (Controller.WasIJumpingLastFrame && mPlatform == null)
             {
-                Console.WriteLine("Jump - Continouse");
+                //Console.WriteLine("Jump - Continouse");
                 mBody.ApplyLinearVelocity(new Vector2(0, -mJumpStrengthContinuous) * (float)_GT.ElapsedGameTime.TotalSeconds, -MovementSpeedCap);
             }
             else if (mJumpCooldownTimer <= 0)
             {
                 if (mBody.LinearVelocity.Y > 0 && State == Platform_CharacterState.Airbound)
                 {
-                    Console.WriteLine("Jump - Secondary - Downwards");
+                    //Console.WriteLine("Jump - Secondary - Downwards");
                     mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, -mJumpStrengthSecondary);
+                    AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
 
                 }
                 else if (State == Platform_CharacterState.Airbound)
                 {
-                    Console.WriteLine("Jump - Secondary - Upwards");
+                    //Console.WriteLine("Jump - Secondary - Upwards");
                     mBody.ApplyLinearVelocity(new Vector2(0, -mJumpStrengthSecondary), -MovementSpeedCap);
+                    AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
                 }
                 else
                 {
-                    Console.WriteLine("Jump - Initial");
+                    //Console.WriteLine("Jump - Initial");
                     mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, -mJumpStrengthInitial);
+                    AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
                 }
 
                 if (State == Platform_CharacterState.Grounded)
@@ -252,6 +255,7 @@ namespace Project_ArcadeThingy
                 mBody.LinearVelocity = new Vector2(-mWallJumpStrengthInitial.X, mWallJumpStrengthInitial.Y);
             mWallStickTimer = 0;
             mWallStickPossible = true;
+            AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
 
             return true;
         }
@@ -261,7 +265,6 @@ namespace Project_ArcadeThingy
             //Reset Jump Variables
             mNumberOfJumpsRemaining = mNumberOfJumps;
             mJumpTimer = 0;
-            Console.WriteLine("Landed");
             mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, 0);
             mWallStickPossible = true;
             SetCharacterState(Platform_CharacterState.Grounded);
@@ -276,7 +279,7 @@ namespace Project_ArcadeThingy
             mWallJumpPlatform = _Wall;
             mWallStickTimer = 0;
             mWallStickPossible = false;
-            mBody.LinearVelocity = new Vector2(0, mBody.LinearVelocity.Y * 0.1f);
+            mBody.LinearVelocity = new Vector2(0, 0.0f);
             mWallStickGraceTimer = mWallStickGraceTimerMax;
 
         }
@@ -316,7 +319,10 @@ namespace Project_ArcadeThingy
             mBody.GravityScale = 1;
             mWallJumpPlatform = null;
             if (mWallStickGraceTimer > 0)
-                mBody.LinearVelocity = mWallStickGoingInVelocity;
+            {
+                mWallStickPossible = true;
+                mBody.LinearVelocity = new Vector2 (-mWallStickGoingInVelocity.X/2, mWallStickGoingInVelocity.Y);
+            }
         }
 
         protected bool DidISlideOffCheck()

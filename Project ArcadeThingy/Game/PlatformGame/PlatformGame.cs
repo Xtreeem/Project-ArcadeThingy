@@ -17,6 +17,7 @@ namespace Project_ArcadeThingy
 
         public PlatformGame(Rectangle _Bounds)
         {
+            AudioManager.PlaySong(Songs.First);
             mBounds = _Bounds;
 
             mPlatObjects.Add(new PF_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerOne));
@@ -32,7 +33,7 @@ namespace Project_ArcadeThingy
             mPlatObjects.Add(new PF_Platform_Super(new Vector2(400, 400), new Vector2(384 / 16, 8), mWorld, Platform_Type_Super.Three));
             mPlatObjects.Add(new PF_Platform_Super(new Vector2(1520, 400), new Vector2(384 / 16, 8), mWorld, Platform_Type_Super.Three));
 
-
+            mPlatObjects.Add(new PF_PowerUps_Coin(mWorld, new Vector2(500, 500), new Vector2(32, 32), 0, BodyType.Static));
 
         }
 

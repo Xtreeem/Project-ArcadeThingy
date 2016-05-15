@@ -28,6 +28,7 @@ namespace Project_ArcadeThingy
         {
             SB = new SpriteBatch(GraphicsDevice);
             ContentManager.Load(Content);
+            AudioManager.Load(Content);
             SceneManager.Initialize(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             SceneManager.AddScene(new MainMenuScene());
