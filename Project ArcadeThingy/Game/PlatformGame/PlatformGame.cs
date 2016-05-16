@@ -24,6 +24,7 @@ namespace Project_ArcadeThingy
             AddRange(FileUtils.GetPlatforms(mWorld));
 
             AddNewObject(new PF_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerOne));
+            AddNewObject(new PF_Player(mWorld, new Vector2(550, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerTwo));
             AddNewObject(new PF_PowerUps_Coin(mWorld, new Vector2(500, 500), new Vector2(32, 32), 0, BodyType.Static));
             AddNewObject(new PF_PowerUps_Coin(mWorld, new Vector2(400, 500), new Vector2(32, 32), 0, BodyType.Dynamic));
 

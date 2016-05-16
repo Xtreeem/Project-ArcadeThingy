@@ -12,10 +12,11 @@ namespace Project_ArcadeThingy
     {
 
 
-        internal int Index { get { return mIndex; } }
+        public int Index { get { return mIndex; } }
         private int mIndex;
         internal PF_PlayerController(int _Index)
         {
+            mIndex = _Index;
         }
 
         internal void Draw(SpriteBatch _SB)
@@ -25,11 +26,21 @@ namespace Project_ArcadeThingy
 
         internal override void Update(GameTime _GT)
         {
-            LeftInputKeyPressed = InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad1);
-            RightInputKeyPressed = InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad3);
-            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            if (mIndex == 1)
             {
-                /*WasIJumpingLastFrame = */mPawn.HandleInput(_GT, MovementInput.Jump);
+                LeftInputKeyPressed = InputManager.PlayerOneButtonMoveLeft || InputManager.PlayerOneJoystickLeft;
+                RightInputKeyPressed = InputManager.PlayerOneButtonMoveRight || InputManager.PlayerOneJoystickRight;
+                JumpInputKeyPressed = InputManager.PlayerOneButtonMoveJump;
+            }
+            else
+            {
+                LeftInputKeyPressed = InputManager.PlayerTwoButtonMoveLeft || InputManager.PlayerTwoJoystickLeft;
+                RightInputKeyPressed = InputManager.PlayerTwoButtonMoveRight || InputManager.PlayerTwoJoystickRight;
+                JumpInputKeyPressed = InputManager.PlayerTwoButtonMoveJump;
+            }
+            if (JumpInputKeyPressed)
+            {
+                mPawn.HandleInput(_GT, MovementInput.Jump);
                 WasIJumpingLastFrame = true;
             }
             else
@@ -38,23 +49,8 @@ namespace Project_ArcadeThingy
                 mPawn.HandleInput(_GT, MovementInput.Left);
             if (RightInputKeyPressed)
                 mPawn.HandleInput(_GT, MovementInput.Right);
-            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad5))
-                mPawn.DEBUG(new Vector2(0, -170), new Vector2(0, -750), true);
-            if (InputManager.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.NumPad2))
-                mPawn.DEBUG(new Vector2(0, 170), new Vector2(0, 750), true);
             if (!LeftInputKeyPressed && !RightInputKeyPressed)
                 mPawn.HandleInput(_GT, MovementInput.None);
-
-            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D1))
-                AudioManager.PlayEffect(SoundEffectName.Movement_Jump);
-
-            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D2))
-                AudioManager.PlayEffect(SoundEffectName.Pickup_Coin);
-
-            if (InputManager.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys.D3))
-                AudioManager.PlayEffect(SoundEffectName.Pickup_PowerUp);
-
-
         }
     }
 }

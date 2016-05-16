@@ -57,6 +57,7 @@ namespace Project_ArcadeThingy
         public PF_Controller Controller { get; protected set; }
         public Platform_CharacterState State { get; protected set; } = Platform_CharacterState.Airbound;
         public PF_Platform_Base mPlatform = null;
+        public float mBounceOnCharacterHeadPower = 550;
 
         public PF_Character(PF_Controller _Controller, World _World)
         {
@@ -77,9 +78,9 @@ namespace Project_ArcadeThingy
 
         public override void Draw(SpriteBatch _SB)
         {
-            _SB.DrawString(ContentManager.Font, mNumberOfJumpsRemaining.ToString() + " - " + mBody.LinearVelocity.X.ToString().TruncateLongString(5).PadRight(5, '_') + " , " + mBody.LinearVelocity.Y.ToString().TruncateLongString(5).PadRight(5, '_'), mBody.Position + new Vector2(-50, -100), Color.Red);
+            //_SB.DrawString(ContentManager.Font, mBody.Position.X.ToString().TruncateLongString(4) + " , " + mBody.Position.Y.ToString().TruncateLongString(4), mBody.Position + new Vector2(-50, -100), Color.Red);
             //mTexture.Draw(_SB, mBody.GetDrawRectangle(), Color.White);
-            mTexture.Draw(_SB, mBody.GetDrawRectangle(), mCanWallJump ? Color.Red : Color.White);
+            mTexture.Draw(_SB, mBody.GetDrawRectangle(), mBody.IsUserDataNull ? Color.Red : Color.White);
             if (mPlatform != null)
                 _SB.DrawLine(mBody.Position, mPlatform.Body.Position, 1.0f, Color.Red);
 
@@ -366,7 +367,7 @@ namespace Project_ArcadeThingy
             }
             else if (_Other.Body.UserData is PF_Character)
             {
-
+                return CollisionWithCharacter(_Other.Body.UserData as PF_Character, _C);
             }
 
 
@@ -399,18 +400,18 @@ namespace Project_ArcadeThingy
         }
         protected virtual bool CollisionWithCharacter(PF_Character _OtherGuy, Contact _C)
         {
-            switch (_C.Direction())
+            switch (Utilities.CircleCollisionDirection(mBody, _OtherGuy.Body))
             {
                 case CollisionDirection.Right:
                     break;
                 case CollisionDirection.Left:
                     break;
                 case CollisionDirection.Bottom:
-                    DropCoins(2, 350, 350, false);
+                    DropCoins(2, 350, 350, 1.5,false);
                     break;
                 case CollisionDirection.Top:
                     mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, 0);
-                    mBody.ApplyLinearVelocity(new Vector2(0, 550));
+                    mBody.ApplyLinearVelocity(new Vector2(0, -mBounceOnCharacterHeadPower));
                     break;
                 default:
                     break;
@@ -422,7 +423,7 @@ namespace Project_ArcadeThingy
 
         public void DEBUG(Vector2 _VectorOne, Vector2 VectorTwo, bool _Bool)
         {
-            DropCoins(10, 450, 250, false);
+            DropCoins(10, 450, 250, 1.5, false);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Project_ArcadeThingy
         protected PF_Character mPawn;
         public bool LeftInputKeyPressed { get; protected set; }
         public bool RightInputKeyPressed { get; protected set; }
+        public bool JumpInputKeyPressed { get; protected set; }
 
 
         public bool WasIJumpingLastFrame { get; protected set; }

@@ -3,3 +3,27 @@ Cat1 = Platforms
 Cat2 = PowerUps
 Cat3 = Enemies
 Cat4 = Players
+
+
+
+            mPlayerOneButtonMoveJump = IsKeyPressed(Keys.NumPad2);
+            mPlayerOneButtonMoveLeft = IsKeyPressed(Keys.NumPad1);
+            mPlayerOneButtonMoveRight = IsKeyPressed(Keys.NumPad3);
+            mPlayerOneButtonSpawnOne = IsKeyClicked(Keys.NumPad4);
+            mPlayerOneButtonSpawnTwo = IsKeyClicked(Keys.NumPad5);
+            mPlayerOneButtonSpawnThree = IsKeyClicked(Keys.NumPad6);
+            mPlayerOneJoystickUp = IsKeyPressed(Keys.Up);
+            mPlayerOneJoystickDown = IsKeyPressed(Keys.Down);
+            mPlayerOneJoystickLeft = IsKeyPressed(Keys.Left);
+            mPlayerOneJoystickRight = IsKeyPressed(Keys.Right);
+
+            mPlayerTwoButtonMoveJump = IsKeyPressed(Keys.H);
+            mPlayerTwoButtonMoveLeft = IsKeyPressed(Keys.J);
+            mPlayerTwoButtonMoveRight = IsKeyPressed(Keys.K);
+            mPlayerTwoButtonSpawnOne = IsKeyClicked(Keys.U);
+            mPlayerTwoButtonSpawnTwo = IsKeyClicked(Keys.I);
+            mPlayerTwoButtonSpawnThree = IsKeyClicked(Keys.O);
+            mPlayerTwoJoystickUp = IsKeyPressed(Keys.W);
+            mPlayerTwoJoystickDown = IsKeyPressed(Keys.S);
+            mPlayerTwoJoystickLeft = IsKeyPressed(Keys.A);
+            mPlayerTwoJoystickRight = IsKeyPressed(Keys.D);
