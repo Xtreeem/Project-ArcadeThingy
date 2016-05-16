@@ -84,8 +84,8 @@ namespace Project_ArcadeThingy
             mPlayerOneJoystickRight = IsKeyPressed(Keys.Right);
 
             mPlayerTwoButtonMoveJump = IsKeyPressed(Keys.H);
-            mPlayerTwoButtonMoveLeft = IsKeyPressed(Keys.J);
-            mPlayerTwoButtonMoveRight = IsKeyPressed(Keys.K);
+            mPlayerTwoButtonMoveLeft = IsKeyPressed(Keys.G);
+            mPlayerTwoButtonMoveRight = IsKeyPressed(Keys.J);
             mPlayerTwoButtonSpawnOne = IsKeyClicked(Keys.U);
             mPlayerTwoButtonSpawnTwo = IsKeyClicked(Keys.I);
             mPlayerTwoButtonSpawnThree = IsKeyClicked(Keys.O);

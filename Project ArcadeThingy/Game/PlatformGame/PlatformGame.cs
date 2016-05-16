@@ -29,6 +29,7 @@ namespace Project_ArcadeThingy
             AddRange(FileUtils.GetPlatforms(mWorld));
 
             AddNewObject(new PF_Player(mWorld, new Vector2(250, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerOne));
+            AddNewObject(new PF_Player(mWorld, new Vector2(550, 250), 32, ContentManager.Platformer_Character_Smiley, ControllerTwo));
         }
 
         public void Update(GameTime _GT)

@@ -1,4 +1,5 @@
 ﻿using FarseerPhysics;
+using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,6 +32,13 @@ namespace Project_ArcadeThingy
 
     public static class Utilities
     {
+        //Values used to determin the circle collision direction, higher mod = a more narrow definition of top and bottom
+        private const float cCircleMod = 0;
+        private const float cCircleUpperLeft = -45 + cCircleMod;
+        private const float cCircleUpperRight = 45 - cCircleMod;
+        private const float cCircleLowerLeft = -135 - cCircleMod;
+        private const float cCircleLowerRight = 135 + cCircleMod;
+
         public const float Gravity = 650.0f;
         public static Random Random = new Random();
         public static float NextFloat(float min, float max)
@@ -75,9 +83,9 @@ namespace Project_ArcadeThingy
             return new Point((int)_Input.X, (int)_Input.Y);
         }
 
-        public static CollisionDirection Direction(this Contact c)
+        public static CollisionDirection Direction(this Contact _C)
         {
-            Vector2 cNorm = c.Manifold.LocalNormal;
+            Vector2 cNorm = _C.Manifold.LocalNormal;
             if (Math.Abs(cNorm.X) > Math.Abs(cNorm.Y))
             {
                 if (cNorm.X > 0)
@@ -92,6 +100,32 @@ namespace Project_ArcadeThingy
                 else
                     return CollisionDirection.Top;
             }
+        }
+
+        public static CollisionDirection CircleCollisionDirection(PF_PhysicsBody _Me, PF_PhysicsBody _Other)
+        {
+            float tAngle = (_Me.Position - _Other.Position).ToAngle();
+            tAngle = MathHelper.ToDegrees(tAngle);
+
+            Console.WriteLine(tAngle);
+            if (tAngle < cCircleUpperRight && tAngle > cCircleUpperLeft)
+                return CollisionDirection.Top;
+            if (tAngle < cCircleUpperLeft && tAngle > cCircleLowerLeft)
+                return CollisionDirection.Left;
+            if (tAngle < cCircleLowerRight && tAngle > cCircleUpperRight)
+                return CollisionDirection.Right;
+            else
+                return CollisionDirection.Bottom;
+        }
+
+        public static float ToAngle(this Vector2 _Input)
+        {
+            return (float)Math.Atan2(_Input.X, -_Input.Y);
+        }
+
+        public static Vector2 ToVector2(this float _Input)
+        {
+            return new Vector2((float)Math.Sin(_Input), -(float)Math.Cos(_Input));
         }
 
         public static float NextFloat(this Random _Random, float _Min, float _Max)

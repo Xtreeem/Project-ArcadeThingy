@@ -26,7 +26,7 @@ namespace Project_ArcadeThingy
         public virtual void Draw(SpriteBatch _SB)
         {
             if (mTexture != null)
-                mTexture.Draw(_SB, mBody.GetDrawRectangle(), mColor);
+                mTexture.Draw(_SB, mBody.GetDrawRectangle(), mBody.IsUserDataNull ? Color.Red : mColor);
 
         }
 
@@ -42,14 +42,14 @@ namespace Project_ArcadeThingy
                 CreatedObject(_NewObject);
         }
 
-        protected void DropCoins(int _Amount, float _Intensity, float _Diviation, bool _UniformVelocity = false)
+        protected void DropCoins(int _Amount, float _Intensity, float _Diviation, double _CollisionImmunityTimer = 0.0, bool _UniformVelocity = false)
         {
             PF_PowerUps_Coin tCoin;
             Vector2 tDirection = Vector2.Zero;
             float tIntensity = Utilities.Random.NextFloat(_Intensity - _Diviation, _Intensity + _Diviation);
             for (int i = 0; i < _Amount; i++)
             {
-                tCoin = new PF_PowerUps_Coin(mWorld, mBody.Position, new Vector2(32, 32), 1.5, BodyType.Dynamic);
+                tCoin = new PF_PowerUps_Coin(mWorld, mBody.Position, new Vector2(32, 32), _CollisionImmunityTimer, BodyType.Dynamic);
                 CreatedObject(tCoin);
                 if (i % 2 == 0)
                 {
