@@ -409,7 +409,7 @@ namespace Project_ArcadeThingy
                 case CollisionDirection.Bottom:
                     if (Controller.CoinCount > 0)
                     {
-                        int CoinsDropped = Controller.CoinCount / 10;
+                        int CoinsDropped = MathHelper.Max(Controller.CoinCount / 10, 1);
                         DropCoins(CoinsDropped, 350, 350, 1.5, false);
                         Controller.RemoveCoins(CoinsDropped);
                     }

@@ -82,12 +82,15 @@ namespace Project_ArcadeThingy
         {
             Console.WriteLine("Deleting - " + _Sender.ToString());
 
+            mWorld.RemoveBody(_Sender.Body.Body);
+
             if (_Sender is PF_CoinSpawner)
                 mSpawners.Remove(_Sender);
             else if (_Sender is PF_PowerUps_Coin)
                 mCoins.Remove(_Sender);
             else
                 mObjects.Remove(_Sender);
+
         }
     }
 }

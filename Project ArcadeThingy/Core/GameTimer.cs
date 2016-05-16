@@ -73,7 +73,6 @@ namespace Project_ArcadeThingy
             int h = (int)(CurrentTime / 3600);
             int m = (int)(CurrentTime / 60);
             int s = (int)(CurrentTime);
-            int ms = (int)(CurrentTime * 1000);
 
             if (_Hours)
             {
@@ -84,17 +83,21 @@ namespace Project_ArcadeThingy
             if (_Minutes)
             {
                 s = s % 60;
-                result += m + ":";
+                if (m > 10)
+                    result += m;
+                else
+                    result += "0" + m;
+
+                result += ":";
             }
 
             if (_Seconds)
             {
-                ms = ms % 1000;
-                result += s;
+                if (s >= 10)
+                    result += s;
+                else
+                    result += "0" + s;
             }
-
-            if (_MilliSeconds)
-                result += ":" + ms / 10;
 
             return result;
         }
@@ -102,12 +105,15 @@ namespace Project_ArcadeThingy
         public void Draw(SpriteBatch _SB, SpriteFont _Font, Vector2 _Position, Color _Color)
         {
             string text = "";
-            if (CurrentTime > 60)
+            if (CurrentTime >= 60)
                 text = TimerToText(CurrentTime, false, true, true, false);
             else
                 text = TimerToText(CurrentTime, false, false, true, true);
 
             Vector2 origin = _Font.MeasureString(text) / 2;
+
+            if (CurrentTime <10)
+                _Color = Color.Red;
 
             _SB.DrawString(_Font, text, _Position, _Color, 0.0f, origin, 1.0f, SpriteEffects.None, 1.0f);
         }

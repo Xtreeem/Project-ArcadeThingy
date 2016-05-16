@@ -18,7 +18,7 @@ namespace Project_ArcadeThingy
             mTimer = new GameTimer();
             mTimerPosition = TestGame.mObjects[0].Body.Position;
             mInfoBounds = TestGame.mObjects[0].Body.GetDrawRectangle();
-            mTimer.OnFinished = delegate { GameOver(TestGame.PlayerOneCoins > TestGame.PlayerTwoCoins); };
+            mTimer.OnFinished = delegate { GameOver(); };
         }
 
         public override bool HandleTransition(GameTime _GT)
@@ -28,16 +28,15 @@ namespace Project_ArcadeThingy
                 if (mState == SceneState.Active)
                 {
                     mTimer.Restart(mTotalTime);
-
                 }
                 return true;
             }
             else return false;
         }
 
-        void GameOver(bool _PlayerOneWon)
+        void GameOver()
         {
-            SceneManager.AddScene(new GameOverScene(_PlayerOneWon));
+            SceneManager.AddScene(new GameOverScene(TestGame.PlayerOneCoins, TestGame.PlayerTwoCoins));
             Close();
         }
 
@@ -49,7 +48,7 @@ namespace Project_ArcadeThingy
             if (TestGame.PlayerOneCoins == PlatformGame.MAX_PLAYER_COINS
                 ||
                 TestGame.PlayerTwoCoins == PlatformGame.MAX_PLAYER_COINS)
-                GameOver(TestGame.PlayerOneCoins > TestGame.PlayerTwoCoins);
+                GameOver();
 
         }
 

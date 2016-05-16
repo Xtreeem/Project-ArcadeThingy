@@ -10,7 +10,7 @@ namespace Project_ArcadeThingy
         Rectangle mRect;
         string mText;
 
-        public GameOverScene(bool _PlayerOneWon) : base()
+        public GameOverScene(int _PlayerOneScore, int _PlayerTwoScore) : base()
         {
             Set_Desc(new EntryDesc(ContentManager.Font, new Vector2(SceneManager.Width / 2, SceneManager.Height / 2)));
             AddEntry("Play again", PlayAgain);
@@ -20,11 +20,16 @@ namespace Project_ArcadeThingy
             mTransitionOnTime = 0.0f;
             mTexture = ContentManager.Platformer_UI;
 
-            mText = "Congratulations\nPlayer ";
-            if (_PlayerOneWon)
-                mText += "One!";
+            if (_PlayerOneScore != _PlayerTwoScore)
+            {
+                mText = "Congratz, Player ";
+                if (_PlayerOneScore > _PlayerTwoScore)
+                    mText += "One!";
+                else
+                    mText += "Two!";
+            }
             else
-                mText += "Two!";
+                mText = "It's a draw!";
 
             Vector2 size = ContentManager.Font.MeasureString(mText);
             mRect = new Rectangle(SceneManager.Width / 2, SceneManager.Height / 2, (int)(SceneManager.Width * 0.75f), (int)(SceneManager.Height * 0.75f));

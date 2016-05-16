@@ -18,6 +18,7 @@ namespace Project_ArcadeThingy
         public float GravityScale { get { return mBody.GravityScale; } set { mBody.GravityScale = value; } }
 
         private Body mBody;
+        public Body Body { get { return mBody; } }
         public Vector2 Position { get { return mBody.Position.UnitToPixels(); } set { mBody.Position = value.PixelsToUnits(); } }
         public Vector2 LinearVelocity { get { return mBody.LinearVelocity.UnitToPixels(); } set { mBody.LinearVelocity = value.PixelsToUnits(); } }
         public BodyType BodyType { get { return mBody.BodyType; } set { mBody.BodyType = value; } }
