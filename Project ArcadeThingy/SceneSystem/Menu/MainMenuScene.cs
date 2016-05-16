@@ -35,6 +35,7 @@ namespace Project_ArcadeThingy
         private void Start()
         {
             SceneManager.AddScene(new GameScene());
+            Close();
         }
 
         private void Edit()

@@ -65,7 +65,7 @@ namespace Project_ArcadeThingy
 
         private void GenerateSmokeEmitter(Vector2 _Pos)
         {
-            ParticleEmitter t = new ParticleEmitter(ContentManager.Particles, mPos);
+            ParticleEmitter t = new ParticleEmitter(ContentManager.FireParticles, mPos);
             t.AngleVelocityMinMax = new Vector2(-0.2f, 0.2f);
             t.ColorRGBMin = new Vector3(0.0f, 0.0f, 0.0f);
             t.ColorRGBMax = new Vector3(0.2f, 0.2f, 0.2f);
@@ -91,7 +91,7 @@ namespace Project_ArcadeThingy
         }
         private void GenerateFireEmitter(Vector2 _Pos)
         {
-            ParticleEmitter t = new ParticleEmitter(ContentManager.Particles, mPos);
+            ParticleEmitter t = new ParticleEmitter(ContentManager.FireParticles, mPos);
             t.AngleVelocityMinMax = new Vector2(-0.2f, 0.2f);
             t.ColorRGBMin = new Vector3(1.0f, 0.2f, 0.0f);
             t.ColorRGBMax = new Vector3(1.0f, 0.6f, 0.0f);
@@ -118,10 +118,10 @@ namespace Project_ArcadeThingy
 
         private void GenerateMenuFire(Vector2 _Pos)
         {
-            ParticleEmitter t = new ParticleEmitter(ContentManager.Particles, mPos);
+            ParticleEmitter t = new ParticleEmitter(ContentManager.CuteParticles, mPos);
             t.AngleVelocityMinMax = new Vector2(-0.2f, 0.2f);
             t.ColorRGBMin = new Vector3(0.0f, 0.0f, 0.0f);
-            t.ColorRGBMax = new Vector3(0.2f, 0.2f, 0.2f);
+            t.ColorRGBMax = new Vector3(0.4f, 0.4f, 0.4f);
             t.MinParticleLife = 1.0f;
             t.mParticlesPerBurst = 50;
             t.mPos = _Pos;
@@ -137,7 +137,7 @@ namespace Project_ArcadeThingy
             t.ScaleMin = 1f;
             t.ScaleRandomMin = 0.1f;
             t.ScaleRandomMax = 0.3f;
-            t.MonoColor = true;
+            t.MonoColor = false;
             t.Activated = true;
             mEmitters.Add(t);
         }

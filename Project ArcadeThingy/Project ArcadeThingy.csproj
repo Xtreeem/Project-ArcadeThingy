@@ -60,6 +60,7 @@
     <Compile Include="Core\FileUtils.cs" />
     <Compile Include="Core\GameTimer.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_Character.cs" />
+    <Compile Include="Game\PlatformGame\Core\PF_CoinSpawner.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_GameObj.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_PhysicsBody.cs" />
     <Compile Include="Game\PlatformGame\Core\PF_Platform_Base.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Utilities.cs" />
     <Compile Include="Game\GameScene.cs" />
+    <Compile Include="SceneSystem\GameOverScene.cs" />
     <Compile Include="SceneSystem\Menu\MainMenuScene.cs" />
     <Compile Include="SceneSystem\Menu\MenuEntry.cs" />
     <Compile Include="SceneSystem\Menu\MenuScene.cs" />

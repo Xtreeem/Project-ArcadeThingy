@@ -7,14 +7,16 @@ namespace Project_ArcadeThingy
     {
         PlatformGame TestGame;
         GameTimer mTimer;
-        double mTotalTime = 60.0 * 5;
+        double mTotalTime = 2;//60.0 * 5;
         Vector2 mTimerPosition;
 
         public GameScene()
         {
+            mTransitionOnTime = 0.5f;
             TestGame = new PlatformGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
             mTimer = new GameTimer();
-            mTimerPosition = TestGame.mPlatObjects[0].Body.Position;
+            mTimerPosition = TestGame.mObjects[0].Body.Position;
+            mTimer.OnFinished = delegate { SceneManager.AddScene(new GameOverScene(true)); Close(); };
         }
 
         public override bool HandleTransition(GameTime _GT)
@@ -22,7 +24,10 @@ namespace Project_ArcadeThingy
             if (base.HandleTransition(_GT))
             {
                 if (mState == SceneState.Active)
+                {
                     mTimer.Restart(mTotalTime);
+
+                }
                 return true;
             }
             else return false;

@@ -35,7 +35,10 @@ namespace Project_ArcadeThingy
                 else if (name == mSuper)
                     result.Add(new PF_Platform_Super(position, size / PF_Platform_Base.TILE_SIZE, _World, (Platform_Type_Super)type));
                 else if (name == mCoin)
+                {
                     result.Add(new PF_PowerUps_Coin(_World, position, size, 0, BodyType.Static));
+                    result.Add(new PF_CoinSpawner(position, _World));
+                }
             }
 
             reader.Close();

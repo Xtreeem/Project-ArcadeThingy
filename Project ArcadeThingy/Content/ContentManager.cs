@@ -5,7 +5,8 @@ namespace Project_ArcadeThingy
 {
     public static class ContentManager
     {
-        public static List<Texture2D> Particles { get; private set; }
+        public static List<Texture2D> FireParticles { get; private set; }
+        public static List<Texture2D> CuteParticles { get; private set; }
         public static Texture2D Dot { get; private set; }
         public static SpriteFont Font { get; private set; }
         public static Texture2D MenuBackground { get; private set; }
@@ -16,10 +17,14 @@ namespace Project_ArcadeThingy
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
-            Particles = new List<Texture2D>();
-            Particles.Add(_Content.Load<Texture2D>("Particles\\Fire1"));
-            Particles.Add(_Content.Load<Texture2D>("Particles\\Fire2"));
-            Particles.Add(_Content.Load<Texture2D>("Particles\\Fire3"));
+            FireParticles = new List<Texture2D>();
+            FireParticles.Add(_Content.Load<Texture2D>("Particles\\Fire1"));
+            FireParticles.Add(_Content.Load<Texture2D>("Particles\\Fire2"));
+            FireParticles.Add(_Content.Load<Texture2D>("Particles\\Fire3"));
+
+            CuteParticles = new List<Texture2D>();
+            CuteParticles.Add(_Content.Load<Texture2D>("Particles\\Heart"));
+            CuteParticles.Add(_Content.Load<Texture2D>("Particles\\Star"));
 
             Dot = _Content.Load<Texture2D>("Dot");
             Font = _Content.Load<SpriteFont>("PixelFont");

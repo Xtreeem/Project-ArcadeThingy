@@ -7,11 +7,11 @@ namespace Project_ArcadeThingy
     class GameTimer
     {
         public bool IsCounting { get; private set; }
-        public bool IsFinnished { get; private set; }
+        public bool IsFinished { get; private set; }
         public bool IsLooping { get; set; }
         public double CurrentTime { get; private set; }
         public double TotalTime { get; set; }
-        public Action OnFinnished { get; set; }
+        public Action OnFinished { get; set; }
 
         public GameTimer(double _TotalTime = 0.0f)
         {
@@ -25,7 +25,7 @@ namespace Project_ArcadeThingy
         public void Start()
         {
             IsCounting = true;
-            IsFinnished = false;
+            IsFinished = false;
         }
 
         public void Stop()
@@ -52,15 +52,15 @@ namespace Project_ArcadeThingy
                 {
                     CurrentTime = 0.0f;
 
-                    if (OnFinnished != null)
-                        OnFinnished();
+                    if (OnFinished != null)
+                        OnFinished();
 
                     if (IsLooping)
                         CurrentTime = TotalTime;
                     else
                     {
                         IsCounting = false;
-                        IsFinnished = true;
+                        IsFinished = true;
                     }
                 }
             }
