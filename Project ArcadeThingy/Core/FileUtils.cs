@@ -46,7 +46,7 @@ namespace Project_ArcadeThingy
         {
             StreamWriter mWriter = new StreamWriter("..//..//..//..//Content//" + MarioFileName);
 
-            mWriter.WriteLine("Super,4,974,101,21,8");
+            mWriter.WriteLine("Super,4,961,91,291,120");
 
             for (int i = 1; i < _Objects.Count; ++i)
             {

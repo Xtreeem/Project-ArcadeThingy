@@ -7,7 +7,7 @@ namespace Project_ArcadeThingy
     {
         PlatformGame TestGame;
         GameTimer mTimer;
-        double mTotalTime = 65.0 * 1;
+        double mTotalTime = 60.0 * 5;
         Vector2 mTimerPosition;
 
         public GameScene()

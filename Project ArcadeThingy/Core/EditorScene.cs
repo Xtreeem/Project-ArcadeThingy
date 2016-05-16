@@ -68,13 +68,13 @@ namespace Project_ArcadeThingy
                 var currSize = new Vector2(Math.Max(((mouseX - mStartPosition.X) / mTileSize), 2),
                                                       Math.Max(((mouseY - mStartPosition.Y) / mTileSize), 1));
                 var currPos = new Vector2(mStartPlatPos.X - mStartPlatPos.X % mTileSize + (currSize.X / 2 * mTileSize), mStartPlatPos.Y - mStartPlatPos.Y % mTileSize + (currSize.Y / 2 * mTileSize));
-                if (mPlacingShrooms)
+                if (mState == EditorState.Shrooms)
                 {
                     currSize.Y = 1;
                     currPos.Y = mStartPlatPos.Y - mStartPlatPos.Y % mTileSize + currSize.Y / 2;
                     mSoonObject = new PF_Platform_Shroom(currPos, currSize, mWorld, mShroomType);
                 }
-                else
+                else if(mState == EditorState.Super)
                     mSoonObject = new PF_Platform_Super(currPos, currSize, mWorld, mSuperType);
             }
         }
