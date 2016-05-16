@@ -320,7 +320,7 @@ namespace Project_ArcadeThingy
             if (mWallStickGraceTimer > 0)
             {
                 mWallStickPossible = true;
-                mBody.LinearVelocity = new Vector2 (-mWallStickGoingInVelocity.X/2, mWallStickGoingInVelocity.Y);
+                mBody.LinearVelocity = new Vector2(-mWallStickGoingInVelocity.X / 2, mWallStickGoingInVelocity.Y);
             }
         }
 
@@ -362,33 +362,61 @@ namespace Project_ArcadeThingy
         {
             if (_Other.Body.UserData is PF_Platform_Base && mJumpGraceTimer <= 0)
             {
-                switch (_C.Direction())
-                {
-                    case CollisionDirection.Right:
-                        mWallJumpDirection = CollisionDirection.Right;
-                        mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.Body.UserData as PF_Platform_Base);
-                        break;
-                    case CollisionDirection.Left:
-                        mWallJumpDirection = CollisionDirection.Left;
-                        mWallStickGoingInVelocity = mBody.LinearVelocity;
-                        StickToWall(_Other.Body.UserData as PF_Platform_Base);
-                        break;
-                    case CollisionDirection.Bottom:
-                        break;
-                    case CollisionDirection.Top:
-                        {
-                            Landed();
-                            mPlatform = (_Other.Body.UserData as PF_Platform_Base);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                return CollisionWithPlatform(_Other.Body.UserData as PF_Platform_Base, _C);
+            }
+            else if (_Other.Body.UserData is PF_Character)
+            {
+
+            }
+
+
+            return true;
+        }
+        protected virtual bool CollisionWithPlatform(PF_Platform_Base _Platform, Contact _C)
+        {
+            switch (_C.Direction())
+            {
+                case CollisionDirection.Right:
+                    mWallJumpDirection = CollisionDirection.Right;
+                    mWallStickGoingInVelocity = mBody.LinearVelocity;
+                    StickToWall(_Platform);
+                    break;
+                case CollisionDirection.Left:
+                    mWallJumpDirection = CollisionDirection.Left;
+                    mWallStickGoingInVelocity = mBody.LinearVelocity;
+                    StickToWall(_Platform);
+                    break;
+                case CollisionDirection.Bottom:
+                    break;
+                case CollisionDirection.Top:
+                        Landed();
+                        mPlatform = (_Platform);
+                    break;
+                default:
+                    break;
             }
             return true;
         }
-
+        protected virtual bool CollisionWithCharacter(PF_Character _OtherGuy, Contact _C)
+        {
+            switch (_C.Direction())
+            {
+                case CollisionDirection.Right:
+                    break;
+                case CollisionDirection.Left:
+                    break;
+                case CollisionDirection.Bottom:
+                    DropCoins(2, 350, 350, false);
+                    break;
+                case CollisionDirection.Top:
+                    mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, 0);
+                    mBody.ApplyLinearVelocity(new Vector2(0, 550));
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
 
 
 
