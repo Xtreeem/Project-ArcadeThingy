@@ -8,13 +8,13 @@ namespace Project_ArcadeThingy
         PlatformGame TestGame;
         GameTimer mTimer;
         double mTotalTime = 60.0 * 5;
-        Texture2D mUI;
+        Vector2 mTimerPosition;
 
         public GameScene()
         {
             TestGame = new PlatformGame(new Rectangle(0, 0, SceneManager.Width, SceneManager.Height));
             mTimer = new GameTimer();
-            mUI = ContentManager.Platformer_UI;
+            mTimerPosition = TestGame.mPlatObjects[0].Body.Position;
         }
 
         public override bool HandleTransition(GameTime _GT)
@@ -37,8 +37,7 @@ namespace Project_ArcadeThingy
         public override void Draw(SpriteBatch _SB)
         {
             TestGame.Draw(_SB);
-            _SB.Draw(mUI, new Vector2(400, 150), Color.White);
-            mTimer.Draw(_SB, ContentManager.Font, new Vector2(400, 150), Color.Black);
+            mTimer.Draw(_SB, ContentManager.Font, mTimerPosition, Color.Black);
         }
     }
 }

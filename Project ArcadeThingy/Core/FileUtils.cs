@@ -10,17 +10,18 @@ namespace Project_ArcadeThingy
         private static string MarioFileName = "MarioMap.txt";
         private static string mShroom = "Shroom";
         private static string mSuper = "Super";
+        private static string mCoin = "Coin";
 
         private static string VectorToString(Vector2 _VectorToWrite)
         {
             return ((int)_VectorToWrite.X).ToString() + "," + ((int)_VectorToWrite.Y).ToString();
         }
 
-        public static List<PF_Platform_Base> GetPlatforms(World _World)
+        public static List<PF_GameObj> GetPlatforms(World _World)
         {
-            List<PF_Platform_Base> result = new List<PF_Platform_Base>();
+            List<PF_GameObj> result = new List<PF_GameObj>();
 
-            StreamReader reader = new StreamReader(MarioFileName);
+            StreamReader reader = new StreamReader("..//..//..//..//Content//" + MarioFileName);
             while (!reader.EndOfStream)
             {
                 string[] line = reader.ReadLine().Split(',');
@@ -30,31 +31,37 @@ namespace Project_ArcadeThingy
                 Vector2 size = new Vector2(int.Parse(line[4]), int.Parse(line[5]));
 
                 if (name == mShroom)
-                    result.Add(new PF_Platform_Shroom(size, position, _World, (Platform_Type_Shroom)type));
+                    result.Add(new PF_Platform_Shroom(position, size / PF_Platform_Base.TILE_SIZE, _World, (Platform_Type_Shroom)type));
                 else if (name == mSuper)
-                    result.Add(new PF_Platform_Super(size, position, _World, (Platform_Type_Super)type));
+                    result.Add(new PF_Platform_Super(position, size / PF_Platform_Base.TILE_SIZE, _World, (Platform_Type_Super)type));
+                else if (name == mCoin)
+                    result.Add(new PF_PowerUps_Coin(_World, position, size, 0, BodyType.Static));
             }
 
             reader.Close();
             return result;
         }
 
-        public static void SavePlatforms(List<PF_Platform_Base> _Platforms)
+        public static void SavePlatforms(List<PF_GameObj> _Objects)
         {
-            StreamWriter mWriter = new StreamWriter(MarioFileName);
+            StreamWriter mWriter = new StreamWriter("..//..//..//..//Content//" + MarioFileName);
 
-            for (int i = 0; i < _Platforms.Count; ++i)
+            mWriter.WriteLine("Super,4,961,91,291,120");
+
+            for (int i = 1; i < _Objects.Count; ++i)
             {
-                PF_Platform_Base platform = _Platforms[i];
+                PF_GameObj obj = _Objects[i];
                 string line = "";
 
-                if (platform is PF_Platform_Shroom)
-                    line = mShroom + ',' + (int)(platform as PF_Platform_Shroom).Type + ',';
-                else if (platform is PF_Platform_Super)
-                    line = mSuper + ',' + (platform as PF_Platform_Super).Type + ',';
+                if (obj is PF_Platform_Shroom)
+                    line = mShroom + ',' + (int)(obj as PF_Platform_Shroom).Type + ',';
+                else if (obj is PF_Platform_Super)
+                    line = mSuper + ',' + (int)(obj as PF_Platform_Super).Type + ',';
+                else if (obj is PF_PowerUps_Coin)
+                    line = mCoin + ',' + 0 + ',';
 
-                line += VectorToString(platform.Body.Position) + ',';
-                line += VectorToString(platform.Body.Size);
+                line += VectorToString(obj.Body.Position) + ',';
+                line += VectorToString(obj.Body.Size);
 
                 mWriter.WriteLine(line);
             }
