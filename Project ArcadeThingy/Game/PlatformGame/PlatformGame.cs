@@ -8,23 +8,24 @@ namespace Project_ArcadeThingy
 {
     public class PlatformGame
     {
-        const int MAX_COINS = 10;
+        const int MAX_COINS = 20;
+        public const int MAX_PLAYER_COINS = 100;
+
+        public int PlayerOneCoins { get { return ControllerOne.CoinCount; } }
+        public int PlayerTwoCoins { get { return ControllerTwo.CoinCount; } }
 
         World mWorld = new World(new Vector2(0, 9.8f));
 
         PF_PlayerController ControllerOne = new PF_PlayerController(1);
         PF_PlayerController ControllerTwo = new PF_PlayerController(2);
-        public Rectangle Bounds { get { return mBounds; } }
-        protected Rectangle mBounds;
 
         public List<PF_GameObj> mObjects = new List<PF_GameObj>();
         public List<PF_GameObj> mSpawners = new List<PF_GameObj>();
         public List<PF_GameObj> mCoins = new List<PF_GameObj>();
 
-        public PlatformGame(Rectangle _Bounds)
+        public PlatformGame()
         {
             AudioManager.PlaySong(Songs.First);
-            mBounds = _Bounds;
 
             AddRange(FileUtils.GetPlatforms(mWorld));
 

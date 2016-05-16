@@ -21,13 +21,12 @@ namespace Project_ArcadeThingy
         PF_GameObj mObject;
         PF_GameObj mSoonObject;
         bool mCreatingPlatform = false;
-        bool mPlacingShrooms = true;
         bool mShowGrid = false;
         Vector2 mStartPosition;
         Vector2 mStartPlatPos;
         Platform_Type_Shroom mShroomType;
         Platform_Type_Super mSuperType;
-        EditorState mState;
+        new EditorState mState;
 
         public EditorScene()
         {
@@ -74,7 +73,7 @@ namespace Project_ArcadeThingy
                     currPos.Y = mStartPlatPos.Y - mStartPlatPos.Y % mTileSize + currSize.Y / 2;
                     mSoonObject = new PF_Platform_Shroom(currPos, currSize, mWorld, mShroomType);
                 }
-                else if(mState == EditorState.Super)
+                else if (mState == EditorState.Super)
                     mSoonObject = new PF_Platform_Super(currPos, currSize, mWorld, mSuperType);
             }
         }

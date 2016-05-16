@@ -50,6 +50,7 @@ namespace Project_ArcadeThingy
             for (int i = 0; i < _Amount; i++)
             {
                 tCoin = new PF_PowerUps_Coin(mWorld, mBody.Position, new Vector2(32, 32), _CollisionImmunityTimer, BodyType.Dynamic);
+                tCoin.Body.Restitution = 0.8f;
                 CreatedObject(tCoin);
                 if (i % 2 == 0)
                 {

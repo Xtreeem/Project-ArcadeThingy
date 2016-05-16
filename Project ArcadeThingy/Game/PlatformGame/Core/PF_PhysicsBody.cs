@@ -27,6 +27,7 @@ namespace Project_ArcadeThingy
         public Category CollisionCategories { set { mBody.CollisionCategories = value; } }
 
         public bool IsUserDataNull { get { return mBody.UserData == null; } }
+        public float Restitution { get { return mBody.Restitution; } set { mBody.Restitution = value; } }
 
         public PF_PhysicsBody(World _World, Vector2 _Position, Vector2 _Size, float _density, bool _Circle = false, object _Owner = null)
         {

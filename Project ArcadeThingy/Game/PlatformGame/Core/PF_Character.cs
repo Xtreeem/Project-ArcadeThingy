@@ -370,9 +370,9 @@ namespace Project_ArcadeThingy
                 return CollisionWithCharacter(_Other.Body.UserData as PF_Character, _C);
             }
 
-
             return true;
         }
+
         protected virtual bool CollisionWithPlatform(PF_Platform_Base _Platform, Contact _C)
         {
             switch (_C.Direction())
@@ -390,8 +390,8 @@ namespace Project_ArcadeThingy
                 case CollisionDirection.Bottom:
                     break;
                 case CollisionDirection.Top:
-                        Landed();
-                        mPlatform = (_Platform);
+                    Landed();
+                    mPlatform = (_Platform);
                     break;
                 default:
                     break;
@@ -407,7 +407,12 @@ namespace Project_ArcadeThingy
                 case CollisionDirection.Left:
                     break;
                 case CollisionDirection.Bottom:
-                    DropCoins(2, 350, 350, 1.5,false);
+                    if (Controller.CoinCount > 0)
+                    {
+                        int CoinsDropped = Controller.CoinCount / 10;
+                        DropCoins(CoinsDropped, 350, 350, 1.5, false);
+                        Controller.RemoveCoins(CoinsDropped);
+                    }
                     break;
                 case CollisionDirection.Top:
                     mBody.LinearVelocity = new Vector2(mBody.LinearVelocity.X, 0);

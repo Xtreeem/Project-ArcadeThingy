@@ -27,6 +27,7 @@ namespace Project_ArcadeThingy
         public override void PickUpEffect(PF_Character _Claimant)
         {
             mBody.CollisionEnabled = false;
+            _Claimant.Controller.AddCoins(1);
             AudioManager.PlayEffect(SoundEffectName.Pickup_Coin);
             DeleteThisObject();
         }
