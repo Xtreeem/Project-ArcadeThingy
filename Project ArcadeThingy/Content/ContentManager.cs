@@ -12,8 +12,12 @@ namespace Project_ArcadeThingy
         public static Texture2D MenuBackground { get; private set; }
         public static Texture2D Platformer_UI { get; private set; }
         public static Texture2D PlatformSheet { get; private set; }
-        public static Texture2D Platformer_Character_Smiley { get;  private set; }
-        public static Texture2D Platformer_PowerUps_Coin { get;  private set; }
+        public static List<Texture2D> Platformer_Character_Smiley { get; private set; } = new List<Texture2D>();
+        public static Texture2D Platformer_PowerUps_Coin { get; private set; }
+        public static Texture2D GetRandomSmiley()
+        {
+            return Platformer_Character_Smiley[Utilities.Random.Next(0, Platformer_Character_Smiley.Count)];
+        }
 
         public static void Load(Microsoft.Xna.Framework.Content.ContentManager _Content)
         {
@@ -32,8 +36,9 @@ namespace Project_ArcadeThingy
             Platformer_UI = _Content.Load<Texture2D>("Platformer\\UI");
 
             PlatformSheet = _Content.Load<Texture2D>("Platform\\PlatformTextures16");
-            Platformer_Character_Smiley = _Content.Load<Texture2D>("Platformer\\Characters\\Smiley");
+            for (int i = 1; i <= 7; i++)
+                Platformer_Character_Smiley.Add(_Content.Load<Texture2D>("Platformer\\Characters\\Smiley" + i));
             Platformer_PowerUps_Coin = _Content.Load<Texture2D>("Platformer\\PowerUps\\CoinSpriteSheet");
-        } 
+        }
     }
 }
